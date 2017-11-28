@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15911F457A4ADFBD1F234989 /* Pods_Soundprints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */; };
 		E2F1DD841FCDEDE8000CC2F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DD831FCDEDE8000CC2F1 /* AppDelegate.swift */; };
 		E2F1DD861FCDEDE8000CC2F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DD851FCDEDE8000CC2F1 /* ViewController.swift */; };
 		E2F1DD891FCDEDE8000CC2F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD871FCDEDE8000CC2F1 /* Main.storyboard */; };
@@ -15,6 +16,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Soundprints.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.release.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.release.xcconfig"; sourceTree = "<group>"; };
+		C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.debug.xcconfig"; sourceTree = "<group>"; };
 		E2F1DD801FCDEDE8000CC2F1 /* Soundprints.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Soundprints.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1DD831FCDEDE8000CC2F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2F1DD851FCDEDE8000CC2F1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,17 +33,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15911F457A4ADFBD1F234989 /* Pods_Soundprints.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8034D3EFCE6C8D8F1C3A3332 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E2F1DD771FCDEDE8000CC2F1 = {
 			isa = PBXGroup;
 			children = (
 				E2F1DD821FCDEDE8000CC2F1 /* Soundprints */,
 				E2F1DD811FCDEDE8000CC2F1 /* Products */,
+				F88CCA193456D6B1235DE805 /* Pods */,
+				8034D3EFCE6C8D8F1C3A3332 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +79,15 @@
 			path = Soundprints;
 			sourceTree = "<group>";
 		};
+		F88CCA193456D6B1235DE805 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */,
+				34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +95,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2F1DD921FCDEDE8000CC2F1 /* Build configuration list for PBXNativeTarget "Soundprints" */;
 			buildPhases = (
+				4727002642415EAA3807D409 /* [CP] Check Pods Manifest.lock */,
 				E2F1DD7C1FCDEDE8000CC2F1 /* Sources */,
 				E2F1DD7D1FCDEDE8000CC2F1 /* Frameworks */,
 				E2F1DD7E1FCDEDE8000CC2F1 /* Resources */,
+				437EA3ED3004EAC6D00BB796 /* [CP] Embed Pods Frameworks */,
+				3DBC1469BA8A1FA6699CB20C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -130,6 +157,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3DBC1469BA8A1FA6699CB20C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		437EA3ED3004EAC6D00BB796 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4727002642415EAA3807D409 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E2F1DD7C1FCDEDE8000CC2F1 /* Sources */ = {
@@ -272,6 +347,7 @@
 		};
 		E2F1DD931FCDEDE8000CC2F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -287,6 +363,7 @@
 		};
 		E2F1DD941FCDEDE8000CC2F1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
