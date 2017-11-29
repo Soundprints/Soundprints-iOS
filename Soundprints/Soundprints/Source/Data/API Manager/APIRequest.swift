@@ -12,7 +12,7 @@ class APIRequest {
     // MARK: - Properties for configuring the request
     
     /// API Endpoint to use - one of the endpoints listed below. Defaults to login endpoint
-    var endpoint = Endpoint.user
+    var endpoint = Endpoint.sound
     
     /// Request method - GET, POST, ... Defaults to GET
     var method = Method.GET
@@ -83,14 +83,19 @@ extension APIRequest {
         case soundResourceURL(id: String)
         case soundUpload
         
+        case custom
+        
         // MARK: - Configuration for specific endpoint
         
         /// API Endpoint paths
         private var suffix: String {
             switch self {
+                
             case .sound: return "sounds"
             case .soundResourceURL(let id): return "sounds/\(id)/resourceUrl"
             case .soundUpload: return "sounds/upload"
+                
+            case .custom: return ""
             }
         }
         

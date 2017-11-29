@@ -196,7 +196,7 @@ extension APIManager {
     enum AuthProvider {
         case facebook
         
-        func toString() {
+        func toString() -> String {
             switch self {
             case .facebook: return "facebook"
             }
