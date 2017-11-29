@@ -25,6 +25,7 @@
 		97426333E55AB17D559F9A28BFEC2FD7 /* Pods-Soundprints-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Soundprints-acknowledgements.plist"; sourceTree = "<group>"; };
 		A168AF64A8F9ECA1AF7D786DA439C945 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF1F0E0FE8236927262DB19B0F651AB1 /* Pods-Soundprints-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Soundprints-acknowledgements.markdown"; sourceTree = "<group>"; };
+		E3F3DEAC62E89F9ABAA5BE6404D5548E /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = dynamic/Mapbox.framework; sourceTree = "<group>"; };
 		E5E2B2E5A452CE22EA8897A23B2BCE4C /* Pods-Soundprints-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Soundprints-umbrella.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -40,6 +41,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3433746FBB20361F7C06EA7E60ED2F4A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E3F3DEAC62E89F9ABAA5BE6404D5548E /* Mapbox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3B6AD4FFE66908FCA51F294DF844D59F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C622644E73922BB231E29AB8457EFB83 /* Mapbox-iOS-SDK */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		57B4C928608980BA72C81129D7C7ED71 /* Pods-Soundprints */ = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +88,7 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				3B6AD4FFE66908FCA51F294DF844D59F /* Pods */,
 				F8A526CEE019EA400BD749BC3D7871A9 /* Products */,
 				7820C52EDABD986867854FF28A58DC14 /* Targets Support Files */,
 			);
@@ -82,6 +100,15 @@
 				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C622644E73922BB231E29AB8457EFB83 /* Mapbox-iOS-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				3433746FBB20361F7C06EA7E60ED2F4A /* Frameworks */,
+			);
+			name = "Mapbox-iOS-SDK";
+			path = "Mapbox-iOS-SDK";
 			sourceTree = "<group>";
 		};
 		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {

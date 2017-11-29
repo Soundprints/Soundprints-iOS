@@ -3,5 +3,6 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'Soundprints' do
+    pod 'Mapbox-iOS-SDK', '~> 3.7'
 end
 
