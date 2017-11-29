@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		15911F457A4ADFBD1F234989 /* Pods_Soundprints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */; };
+		E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B344361FCEBA8F001FC5FD /* R.generated.swift */; };
 		E2F1DDA21FCEA367000CC2F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD971FCEA367000CC2F1 /* Assets.xcassets */; };
 		E2F1DDA31FCEA367000CC2F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DD9B1FCEA367000CC2F1 /* AppDelegate.swift */; };
 		E2F1DDA41FCEA367000CC2F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD9F1FCEA367000CC2F1 /* LaunchScreen.storyboard */; };
@@ -21,6 +22,7 @@
 		108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Soundprints.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.release.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.release.xcconfig"; sourceTree = "<group>"; };
 		C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.debug.xcconfig"; sourceTree = "<group>"; };
+		E2B344361FCEBA8F001FC5FD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		E2F1DD801FCDEDE8000CC2F1 /* Soundprints.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Soundprints.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1DD971FCEA367000CC2F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2F1DD9B1FCEA367000CC2F1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				E2F1DD971FCEA367000CC2F1 /* Assets.xcassets */,
+				E2B344361FCEBA8F001FC5FD /* R.generated.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -156,12 +159,13 @@
 			buildConfigurationList = E2F1DD921FCDEDE8000CC2F1 /* Build configuration list for PBXNativeTarget "Soundprints" */;
 			buildPhases = (
 				4727002642415EAA3807D409 /* [CP] Check Pods Manifest.lock */,
+				E2B344351FCEB9AF001FC5FD /* R.swift */,
 				E2F1DD7C1FCDEDE8000CC2F1 /* Sources */,
 				E2F1DD7D1FCDEDE8000CC2F1 /* Frameworks */,
 				E2F1DD7E1FCDEDE8000CC2F1 /* Resources */,
 				437EA3ED3004EAC6D00BB796 /* [CP] Embed Pods Frameworks */,
 				3DBC1469BA8A1FA6699CB20C /* [CP] Copy Pods Resources */,
-				E2F1DDB11FCEB80C000CC2F1 /* ShellScript */,
+				E2F1DDB11FCEB80C000CC2F1 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -266,13 +270,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		E2F1DDB11FCEB80C000CC2F1 /* ShellScript */ = {
+		E2B344351FCEB9AF001FC5FD /* R.swift */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = R.swift;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/Soundprints/Resources\"";
+		};
+		E2F1DDB11FCEB80C000CC2F1 /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,6 +308,7 @@
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
 				E2F1DDA31FCEA367000CC2F1 /* AppDelegate.swift in Sources */,
 				E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */,
+				E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
