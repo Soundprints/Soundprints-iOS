@@ -15,6 +15,8 @@
 		E2F1DDA61FCEA367000CC2F1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DDA11FCEA367000CC2F1 /* Info.plist */; };
 		E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDA71FCEA3BF000CC2F1 /* BaseViewController.swift */; };
 		E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDA91FCEA3DA000CC2F1 /* InitialViewController.swift */; };
+		E2F1DDAE1FCEB5A2000CC2F1 /* MainMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDAD1FCEB5A2000CC2F1 /* MainMapViewController.swift */; };
+		E2F1DDB01FCEB5B5000CC2F1 /* MainMap.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DDAF1FCEB5B5000CC2F1 /* MainMap.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		E2F1DDA11FCEA367000CC2F1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2F1DDA71FCEA3BF000CC2F1 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		E2F1DDA91FCEA3DA000CC2F1 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		E2F1DDAD1FCEB5A2000CC2F1 /* MainMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewController.swift; sourceTree = "<group>"; };
+		E2F1DDAF1FCEB5B5000CC2F1 /* MainMap.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainMap.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,7 @@
 		E2F1DD9D1FCEA367000CC2F1 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				E2F1DDAC1FCEB56A000CC2F1 /* Main Map */,
 				E2F1DD9E1FCEA367000CC2F1 /* Main */,
 			);
 			path = "User Interface";
@@ -137,6 +142,15 @@
 				E2F1DDA91FCEA3DA000CC2F1 /* InitialViewController.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		E2F1DDAC1FCEB56A000CC2F1 /* Main Map */ = {
+			isa = PBXGroup;
+			children = (
+				E2F1DDAD1FCEB5A2000CC2F1 /* MainMapViewController.swift */,
+				E2F1DDAF1FCEB5B5000CC2F1 /* MainMap.storyboard */,
+			);
+			path = "Main Map";
 			sourceTree = "<group>";
 		};
 		F88CCA193456D6B1235DE805 /* Pods */ = {
@@ -211,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2F1DDA61FCEA367000CC2F1 /* Info.plist in Resources */,
+				E2F1DDB01FCEB5B5000CC2F1 /* MainMap.storyboard in Resources */,
 				E2F1DDA51FCEA367000CC2F1 /* Main.storyboard in Resources */,
 				E2F1DDA21FCEA367000CC2F1 /* Assets.xcassets in Resources */,
 				E2F1DDA41FCEA367000CC2F1 /* LaunchScreen.storyboard in Resources */,
@@ -272,6 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2F1DDAE1FCEB5A2000CC2F1 /* MainMapViewController.swift in Sources */,
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
 				E2F1DDA31FCEA367000CC2F1 /* AppDelegate.swift in Sources */,
 				E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */,
