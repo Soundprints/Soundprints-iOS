@@ -5,5 +5,7 @@ use_frameworks!
 target 'Soundprints' do
 	pod 'Mapbox-iOS-SDK', '~> 3.7'
 	pod 'R.swift'
+	pod 'Fabric'
+	pod 'Crashlytics'
 end
 

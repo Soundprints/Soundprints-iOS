@@ -1,18 +1,25 @@
 PODS:
+  - Crashlytics (3.9.3):
+    - Fabric (~> 1.7.2)
+  - Fabric (1.7.2)
   - Mapbox-iOS-SDK (3.7.0)
   - R.swift (4.0.0):
     - R.swift.Library (~> 4.0.0)
   - R.swift.Library (4.0.0)
 
 DEPENDENCIES:
+  - Crashlytics
+  - Fabric
   - Mapbox-iOS-SDK (~> 3.7)
   - R.swift
 
 SPEC CHECKSUMS:
+  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
+  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   Mapbox-iOS-SDK: 699818d30e1ed4985d3efc6a06c40b90907c586d
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
 
-PODFILE CHECKSUM: 7dd352878a6cf336f87f08e0a59f98da4d3f518b
+PODFILE CHECKSUM: f133f25f78b8b6abce03d25361b24c25ad8f0e05
 
 COCOAPODS: 1.2.1
