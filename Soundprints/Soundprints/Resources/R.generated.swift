@@ -40,8 +40,37 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.image` struct is generated, and contains static references to 0 images.
+  /// This `R.image` struct is generated, and contains static references to 4 images.
   struct image {
+    /// Image `annotation-in-range-icon`.
+    static let annotationInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-in-range-icon")
+    /// Image `annotation-not-in-range-icon`.
+    static let annotationNotInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-not-in-range-icon")
+    /// Image `play-icon`.
+    static let playIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon")
+    /// Image `sample-profile-image`.
+    static let sampleProfileImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "sample-profile-image")
+    
+    /// `UIImage(named: "annotation-in-range-icon", bundle: ..., traitCollection: ...)`
+    static func annotationInRangeIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.annotationInRangeIcon, compatibleWith: traitCollection)
+    }
+    
+    /// `UIImage(named: "annotation-not-in-range-icon", bundle: ..., traitCollection: ...)`
+    static func annotationNotInRangeIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.annotationNotInRangeIcon, compatibleWith: traitCollection)
+    }
+    
+    /// `UIImage(named: "play-icon", bundle: ..., traitCollection: ...)`
+    static func playIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.playIcon, compatibleWith: traitCollection)
+    }
+    
+    /// `UIImage(named: "sample-profile-image", bundle: ..., traitCollection: ...)`
+    static func sampleProfileImage(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.sampleProfileImage, compatibleWith: traitCollection)
+    }
+    
     fileprivate init() {}
   }
   
@@ -60,10 +89,12 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.storyboard` struct is generated, and contains static references to 2 storyboards.
+  /// This `R.storyboard` struct is generated, and contains static references to 3 storyboards.
   struct storyboard {
     /// Storyboard `LaunchScreen`.
     static let launchScreen = _R.storyboard.launchScreen()
+    /// Storyboard `MainMap`.
+    static let mainMap = _R.storyboard.mainMap()
     /// Storyboard `Main`.
     static let main = _R.storyboard.main()
     
@@ -77,6 +108,11 @@ struct R: Rswift.Validatable {
       return UIKit.UIStoryboard(resource: R.storyboard.main)
     }
     
+    /// `UIStoryboard(name: "MainMap", bundle: ...)`
+    static func mainMap(_: Void = ()) -> UIKit.UIStoryboard {
+      return UIKit.UIStoryboard(resource: R.storyboard.mainMap)
+    }
+    
     fileprivate init() {}
   }
   
@@ -87,7 +123,7 @@ struct R: Rswift.Validatable {
   
   fileprivate struct intern: Rswift.Validatable {
     fileprivate static func validate() throws {
-      // There are no resources to validate
+      try _R.validate()
     }
     
     fileprivate init() {}
@@ -98,12 +134,21 @@ struct R: Rswift.Validatable {
   fileprivate init() {}
 }
 
-struct _R {
+struct _R: Rswift.Validatable {
+  static func validate() throws {
+    try storyboard.validate()
+  }
+  
   struct nib {
     fileprivate init() {}
   }
   
-  struct storyboard {
+  struct storyboard: Rswift.Validatable {
+    static func validate() throws {
+      try main.validate()
+      try mainMap.validate()
+    }
+    
     struct launchScreen: Rswift.StoryboardResourceWithInitialControllerType {
       typealias InitialController = UIKit.UIViewController
       
@@ -113,11 +158,36 @@ struct _R {
       fileprivate init() {}
     }
     
-    struct main: Rswift.StoryboardResourceWithInitialControllerType {
+    struct main: Rswift.StoryboardResourceWithInitialControllerType, Rswift.Validatable {
       typealias InitialController = InitialViewController
       
       let bundle = R.hostingBundle
+      let initialViewController = StoryboardViewControllerResource<InitialViewController>(identifier: "InitialViewController")
       let name = "Main"
+      
+      func initialViewController(_: Void = ()) -> InitialViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: initialViewController)
+      }
+      
+      static func validate() throws {
+        if _R.storyboard.main().initialViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'initialViewController' could not be loaded from storyboard 'Main' as 'InitialViewController'.") }
+      }
+      
+      fileprivate init() {}
+    }
+    
+    struct mainMap: Rswift.StoryboardResourceType, Rswift.Validatable {
+      let bundle = R.hostingBundle
+      let mainMapViewController = StoryboardViewControllerResource<MainMapViewController>(identifier: "MainMapViewController")
+      let name = "MainMap"
+      
+      func mainMapViewController(_: Void = ()) -> MainMapViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: mainMapViewController)
+      }
+      
+      static func validate() throws {
+        if _R.storyboard.mainMap().mainMapViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'mainMapViewController' could not be loaded from storyboard 'MainMap' as 'MainMapViewController'.") }
+      }
       
       fileprivate init() {}
     }

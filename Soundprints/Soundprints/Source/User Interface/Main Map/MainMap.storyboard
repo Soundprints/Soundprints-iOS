@@ -13,7 +13,7 @@
         <!--Main Map View Controller-->
         <scene sceneID="xdd-Kj-wMq">
             <objects>
-                <viewController id="3cC-5y-1ia" customClass="MainMapViewController" customModule="Soundprints" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainMapViewController" id="3cC-5y-1ia" customClass="MainMapViewController" customModule="Soundprints" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XRl-e4-tlD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
