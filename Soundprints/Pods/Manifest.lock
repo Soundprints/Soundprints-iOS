@@ -1,12 +1,18 @@
 PODS:
   - Mapbox-iOS-SDK (3.7.0)
+  - R.swift (4.0.0):
+    - R.swift.Library (~> 4.0.0)
+  - R.swift.Library (4.0.0)
 
 DEPENDENCIES:
   - Mapbox-iOS-SDK (~> 3.7)
+  - R.swift
 
 SPEC CHECKSUMS:
   Mapbox-iOS-SDK: 699818d30e1ed4985d3efc6a06c40b90907c586d
+  R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
+  R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
 
-PODFILE CHECKSUM: c4e7da30c0d309e7905d51437b709a32b004964d
+PODFILE CHECKSUM: 7dd352878a6cf336f87f08e0a59f98da4d3f518b
 
 COCOAPODS: 1.2.1
