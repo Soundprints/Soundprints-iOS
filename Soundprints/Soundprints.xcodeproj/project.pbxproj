@@ -15,6 +15,8 @@
 		E2EBF58F1FCEF3BD00AAFBC1 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF58B1FCEF3BD00AAFBC1 /* APIResponse.swift */; };
 		E2EBF5901FCEF3BD00AAFBC1 /* APIResponseTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF58C1FCEF3BD00AAFBC1 /* APIResponseTools.swift */; };
 		E2EBF5931FCEF40E00AAFBC1 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5921FCEF40E00AAFBC1 /* Globals.swift */; };
+		E2EBF5961FCFFBAF00AAFBC1 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5951FCFFBAF00AAFBC1 /* Sound.swift */; };
+		E2EBF5991FCFFC5300AAFBC1 /* APIJSONTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5981FCFFC5300AAFBC1 /* APIJSONTools.swift */; };
 		E2F1DDA21FCEA367000CC2F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD971FCEA367000CC2F1 /* Assets.xcassets */; };
 		E2F1DDA31FCEA367000CC2F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DD9B1FCEA367000CC2F1 /* AppDelegate.swift */; };
 		E2F1DDA41FCEA367000CC2F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD9F1FCEA367000CC2F1 /* LaunchScreen.storyboard */; };
@@ -35,6 +37,8 @@
 		E2EBF58B1FCEF3BD00AAFBC1 /* APIResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		E2EBF58C1FCEF3BD00AAFBC1 /* APIResponseTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResponseTools.swift; sourceTree = "<group>"; };
 		E2EBF5921FCEF40E00AAFBC1 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		E2EBF5951FCFFBAF00AAFBC1 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		E2EBF5981FCFFC5300AAFBC1 /* APIJSONTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIJSONTools.swift; sourceTree = "<group>"; };
 		E2F1DD801FCDEDE8000CC2F1 /* Soundprints.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Soundprints.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1DD971FCEA367000CC2F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2F1DD9B1FCEA367000CC2F1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +87,22 @@
 				E2EBF5921FCEF40E00AAFBC1 /* Globals.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		E2EBF5941FCFFBA400AAFBC1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E2EBF5951FCFFBAF00AAFBC1 /* Sound.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E2EBF5971FCFFC4100AAFBC1 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				E2EBF5981FCFFC5300AAFBC1 /* APIJSONTools.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		E2F1DD771FCDEDE8000CC2F1 = {
@@ -136,6 +156,7 @@
 		E2F1DD991FCEA367000CC2F1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				E2EBF5971FCFFC4100AAFBC1 /* Data */,
 				E2EBF5911FCEF40300AAFBC1 /* Application */,
 			);
 			path = Tools;
@@ -152,6 +173,7 @@
 		E2F1DD9C1FCEA367000CC2F1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				E2EBF5941FCFFBA400AAFBC1 /* Models */,
 				E2EBF5861FCEF34100AAFBC1 /* API Manager */,
 			);
 			path = Data;
@@ -340,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
+				E2EBF5961FCFFBAF00AAFBC1 /* Sound.swift in Sources */,
 				E2F1DDA31FCEA367000CC2F1 /* AppDelegate.swift in Sources */,
 				E2EBF5881FCEF35500AAFBC1 /* APIManager.swift in Sources */,
 				E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */,
@@ -348,6 +371,7 @@
 				E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */,
 				E2EBF5901FCEF3BD00AAFBC1 /* APIResponseTools.swift in Sources */,
 				E2EBF5931FCEF40E00AAFBC1 /* Globals.swift in Sources */,
+				E2EBF5991FCFFC5300AAFBC1 /* APIJSONTools.swift in Sources */,
 				E2EBF58E1FCEF3BD00AAFBC1 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
