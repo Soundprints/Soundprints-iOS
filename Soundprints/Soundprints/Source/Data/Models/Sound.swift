@@ -18,6 +18,8 @@ class Sound {
     private(set) var latitude: Double?
     private(set) var longitude: Double?
     private(set) var userId: String?
+    private(set) var userDisplayName: String?
+    private(set) var userProfileImageUrl: String?
     private(set) var duration: Double?
     private var resourceURL: ResourceURL?
     
@@ -56,7 +58,12 @@ class Sound {
             latitude = locationWrapper.double(key: "lat")
             longitude = locationWrapper.double(key: "lon")
         }
-        userId = wrapper.string(key: "userId")
+        if let userDescriptor = wrapper.descriptor(key: "user") {
+            let userWrapper = APIJSONTools.DictionaryWrapper(dictionary: userDescriptor)
+            userId = userWrapper.string(key: "id")
+            userDisplayName = userWrapper.string(key: "displayName")
+            userProfileImageUrl = userWrapper.string(key: "profileImageUrl")
+        }
         duration = wrapper.double(key: "duration")
     }
     
