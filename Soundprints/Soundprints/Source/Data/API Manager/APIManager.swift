@@ -6,6 +6,8 @@
 
 
 import Foundation
+import FacebookLogin
+import FacebookCore
 
 class APIManager {
     
@@ -143,26 +145,23 @@ class APIManager {
         
         switch provider {
         case .facebook:
-            // TODO: Implement access token refresh for Facebook
-            break
+            if let _ = AccessToken.current {
+                refreshInProgress = true
+                AccessToken.refreshCurrentToken { token, error in
+                    if let token = token {
+                        self.accessToken = token.authenticationToken
+                        self.refreshInProgress = false
+                        self.flushPendingRequests()
+                    } else {
+                        self.accessToken = nil
+                        self.refreshInProgress = false
+                        self.clearPendingRequests()
+                    }
+                }
+            } else {
+                clearPendingRequests()
+            }
         }
-        
-//        if let currentUser = Auth.auth().currentUser {
-//            refreshInProgress = true
-//            currentUser.getIDTokenForcingRefresh(true, completion: { (token, error) in
-//                if let token = token {
-//                    self.accessToken = token
-//                    self.refreshInProgress = false
-//                    self.flushPendingRequests()
-//                } else {
-//                    self.accessToken = nil
-//                    self.refreshInProgress = false
-//                    self.clearPendingRequests()
-//                }
-//            })
-//        } else {
-//            self.clearPendingRequests()
-//        }
     }
     
     /// Cancels all pending requests and invalidates the current accessToken.
