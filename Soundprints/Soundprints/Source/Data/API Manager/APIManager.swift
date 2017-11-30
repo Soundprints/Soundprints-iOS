@@ -134,7 +134,7 @@ class APIManager {
     }
     
     ///
-    /// Fetches a new access token from Firebase and flushes the remaining requests
+    /// Fetches a new access token from current provider and flushes the remaining requests
     /// When an access token cannot be retreived it completes all requests with failedToSign
     fileprivate class func refreshAccessToken() {
         guard refreshInProgress == false else {

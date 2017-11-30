@@ -44,11 +44,6 @@ class APIRequest {
         self.endpoint = endpoint
         self.method = method
         injectDefaultHeaders()
-        
-        // Due to the fact that Firebase return the token in a comletion block this can't be done in an initializer
-        // if endpoint.requiresAuthentication {
-        //     injectAuthenticationHeader()
-        // }
     }
     
     private func injectDefaultHeaders() {
