@@ -8,6 +8,7 @@
 
 import UIKit
 import Mapbox
+import Kingfisher
 
 class MainMapViewController: BaseViewController {
     
@@ -198,6 +199,9 @@ private extension MainMapViewController {
             }
             
             // TODO: Set profile image
+            if let profileImageUrl = sound.userProfileImageUrl {
+                profileImageView?.kf.setImage(with: URL(string: profileImageUrl))
+            }
         }
         
     }
