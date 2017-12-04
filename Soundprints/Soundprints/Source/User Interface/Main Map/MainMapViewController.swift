@@ -22,6 +22,9 @@ class MainMapViewController: BaseViewController {
     
     private var lastSoundFetchLocation: CLLocation?
     
+    private var shouldUpdateZoomLevel: Bool = false
+    private var minimumVisibleMeters: Double = 3000
+    
     // MARK: - Constants
     
     private static let soundFetchDistanceTreshold: Double = 100
@@ -34,12 +37,39 @@ class MainMapViewController: BaseViewController {
         initializeMap()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let userLocation = mapView?.userLocation {
+            setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
+        } else {
+            shouldUpdateZoomLevel = true
+        }
+    }
+    
     // MARK: - Map
     
     private func initializeMap() {
         mapView?.delegate = self
         mapView?.showsUserLocation = true
-        mapView?.setZoomLevel(15, animated: false)
+    }
+    
+    private func setZoomLevelToMinimumVisibleMeters(_ meters: Double, onLatitude latitude: Double, animated: Bool) {
+        guard let mapView = mapView else {
+            return
+        }
+        
+        // Now we have to calculate the zoom level so that at least 'meters' meters are in the smaller dimension of the map.
+        // How to do this can be found here: http://wiki.openstreetmap.org/wiki/Zoom_levels
+        let mapViewMinimumDimension = mapView.bounds.width < mapView.bounds.height ? Double(mapView.bounds.width) : Double(mapView.bounds.height)
+        let distancePerPixel = meters/mapViewMinimumDimension
+        let earthCircumference = 40075000.0
+        let latitudeInRadians = latitude * (.pi/180)
+        // Subtract 7 instead of 8, because Mapbox's implementation works with 512x512 pixel tiles and the zoom level from 
+        // the link above is true for 256x256 pixel tiles. This means that the zoom level will be off by one and we simply subtract one more.
+        let zoomLevel = log2((earthCircumference*cos(latitudeInRadians))/distancePerPixel) - 9
+        
+        mapView.setZoomLevel(zoomLevel, animated: animated)
     }
     
     // MARK: - Sounds
@@ -60,8 +90,51 @@ class MainMapViewController: BaseViewController {
             mapView?.removeAnnotations(existingAnnotations)
         }
         
-        let newAnnotations = sounds.flatMap { SoundAnnotation(sound: $0) }
+        let newAnnotations: [SoundAnnotation] = sounds.flatMap { sound in
+            let annotation = SoundAnnotation(sound: sound)
+            if let latitude = sound.latitude, let longitude = sound.longitude {
+                annotation?.distance = distanceInKilometers(fromLatitude: latitude, andLongitude: longitude, to: mapView?.userLocation?.location)
+            }
+            return annotation
+        }
         mapView?.addAnnotations(newAnnotations)
+    }
+    
+    private func updateVisibleAnnotationDistances() {
+        guard let userCLLocation = mapView?.userLocation?.location else {
+            return
+        }
+        
+        var annotationsToRefresh: [SoundAnnotation] = []
+        mapView?.visibleAnnotations?.forEach({ annotation in
+            if let soundAnnotation = annotation as? SoundAnnotation {
+                let oldDistanceString = soundAnnotation.distanceString
+                let newDistance = distanceInKilometers(fromLatitude: soundAnnotation.coordinate.latitude, andLongitude: soundAnnotation.coordinate.longitude, to: userCLLocation)
+                soundAnnotation.distance = newDistance
+                if soundAnnotation.distanceString != oldDistanceString {
+                    annotationsToRefresh.append(soundAnnotation)
+                }
+            }
+        })
+        
+        print("refreshing annotations: \(annotationsToRefresh.debugDescription)")
+        
+        mapView?.removeAnnotations(annotationsToRefresh)
+        mapView?.addAnnotations(annotationsToRefresh)
+    }
+    
+    private func distanceInKilometers(from: CLLocation?, to: CLLocation?) -> Double? {
+        guard let from = from, let to = to else {
+            return nil
+        }
+        return to.distance(from: from)/1000.0
+    }
+    
+    private func distanceInKilometers(fromLatitude latitude: Double, andLongitude longitude: Double, to: CLLocation?) -> Double? {
+        guard let to = to else {
+            return nil
+        }
+        return to.distance(from: CLLocation(latitude: latitude, longitude: longitude))/1000.0
     }
 
 }
@@ -73,6 +146,20 @@ private extension MainMapViewController {
     class SoundAnnotation: MGLPointAnnotation {
         
         weak var sound: Sound?
+        /// Distance in kilometers
+        var distance: Double?
+        var distanceString: String? {
+            guard let distance = distance else {
+                return nil
+            }
+            let roundedKilometers = Double(round(distance*10)/10)
+            if roundedKilometers < 0.1 {
+                let meters = Int(round(distance*1000.0))
+                return String(format: "%dm", meters)
+            } else {
+                return String(format: "%.1fkm", roundedKilometers)
+            }
+        }
         
         init?(sound: Sound) {
             guard let latitude = sound.latitude, let longitude = sound.longitude else {
@@ -93,9 +180,35 @@ private extension MainMapViewController {
     
 }
 
-// MARK: - SoundAnnotationView
+// MARK: - Custom annotation views
 
 private extension MainMapViewController {
+    
+    class UserAnnotationView: MGLUserLocationAnnotationView {
+        
+        var userPositionImageView: UIImageView?
+        
+        required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+        }
+        
+        init(reuseIdentifier: String?, frame: CGRect) {
+            super.init(reuseIdentifier: reuseIdentifier)
+            
+            let bounds = CGRect(origin: .zero, size: frame.size)
+            
+            self.frame = frame
+            backgroundColor = .clear
+            
+            let userPositionImageView = UIImageView(frame: bounds)
+            userPositionImageView.image = R.image.userLocationIcon()
+            
+            addSubview(userPositionImageView)
+            
+            self.userPositionImageView = userPositionImageView
+        }
+        
+    }
     
     class SoundAnnotationView: MGLAnnotationView {
         
@@ -110,10 +223,9 @@ private extension MainMapViewController {
             }
         }
         
-        /// Distance in kilometers
-        var distance: Double = 0 {
+        var distanceString: String = "" {
             didSet {
-                distanceLabel?.text = "\(distance)km"
+                distanceLabel?.text = distanceString
             }
         }
         
@@ -198,9 +310,11 @@ private extension MainMapViewController {
                 return
             }
             
-            // TODO: Set profile image
             if let profileImageUrl = sound.userProfileImageUrl {
                 profileImageView?.kf.setImage(with: URL(string: profileImageUrl))
+            }
+            if let distanceString = soundAnnotation.distanceString {
+                self.distanceString = distanceString
             }
         }
         
@@ -217,36 +331,54 @@ extension MainMapViewController: MGLMapViewDelegate {
             return
         }
         
-        print("updated user location: \(userCLLocation.coordinate)")
-        print("self map view: \(self.mapView)")
-        print("map view: \(mapView)")
-        
         mapView.setCenter(userLocation.coordinate, animated: false)
         
-        if lastSoundFetchLocation?.distance(from: userCLLocation) ?? CLLocationDistanceMax > MainMapViewController.soundFetchDistanceTreshold {
+        if shouldUpdateZoomLevel {
+            setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
+            shouldUpdateZoomLevel = false
+        }
+        
+        if distanceInKilometers(from: userCLLocation, to: lastSoundFetchLocation) ?? CLLocationDistanceMax > MainMapViewController.soundFetchDistanceTreshold {
+            lastSoundFetchLocation = userCLLocation
             // TODO: Change radius to real radius of the map. For now it is hardcoded to 1000m.
             updateSounds(arroundCoordinate: userCLLocation.coordinate, withRadius: 1000)
+        } else {
+            updateVisibleAnnotationDistances()
         }
     }
     
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
         
-        guard let soundAnnotation = annotation as? SoundAnnotation else {
-            return nil
-        }
-        
-        let annotationViewSize = CGSize(width: 100, height: 110)
-        let reuseIdentifier = "reusableSoundprintsAnnotationView"
-        
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? SoundAnnotationView
-        
-        if annotationView == nil {
-            annotationView = SoundAnnotationView(reuseIdentifier: reuseIdentifier, frame: CGRect(origin: .zero, size: annotationViewSize))
-            annotationView?.state = .notInRange
+        if let soundAnnotation = annotation as? SoundAnnotation {
+            let annotationViewSize = CGSize(width: 100, height: 110)
+            let reuseIdentifier = "reusableSoundprintsAnnotationView"
+            
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? SoundAnnotationView
+            
+            if annotationView == nil {
+                annotationView = SoundAnnotationView(reuseIdentifier: reuseIdentifier, frame: CGRect(origin: .zero, size: annotationViewSize))
+                annotationView?.state = .notInRange
+            }
             annotationView?.injectProperties(fromSoundAnnotation: soundAnnotation)
+            
+            print("in viewFor annotation")
+            
+            return annotationView
+            
+        } else if annotation is MGLUserLocation {
+            let annotationViewSize = CGSize(width: 46, height: 53)
+            let reuseIdentifier = "reusableUserAnnotationView"
+            
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? UserAnnotationView
+            
+            if annotationView == nil {
+                annotationView = UserAnnotationView(reuseIdentifier: reuseIdentifier, frame: CGRect(origin: .zero, size: annotationViewSize))
+            }
+            
+            return annotationView
         }
         
-        return annotationView
+        return nil
     }
     
 }
