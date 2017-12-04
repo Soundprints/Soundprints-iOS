@@ -18,6 +18,7 @@ class LoginViewController: BaseViewController {
         switch AuthenticationManager.provider {
         case .facebook:
             let facebookLogin = R.storyboard.login.facebookLoginViewController()!
+            facebookLogin.delegate = self
             providerLoginContentControllerView?.setViewController(controller: facebookLogin, animationStyle: .none)
         }
     }
