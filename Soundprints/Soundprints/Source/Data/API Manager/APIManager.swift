@@ -112,8 +112,6 @@ class APIManager {
     
     // MARK: - Request signing
     
-    fileprivate static var accessToken: String?
-    fileprivate static var provider: AuthProvider = .facebook
     fileprivate static var refreshInProgress: Bool = false
     
     ///
@@ -124,9 +122,9 @@ class APIManager {
     ///
     /// - Returns: A boolean value indicating if the request is signed
     fileprivate class func signRequest(_ request: APIRequest?) -> Bool {
-        if let accessToken = accessToken {
+        if let accessToken = AuthenticationManager.accessToken {
             request?.headers["Authorization"] = "Bearer \(accessToken)"
-            request?.headers["Provider"] = provider.toString()
+            request?.headers["Provider"] = AuthenticationManager.provider.toString()
             return true
         } else {
             return false
@@ -141,34 +139,23 @@ class APIManager {
             return
         }
         
-        self.accessToken = nil
-        
-        switch provider {
-        case .facebook:
-            if let _ = AccessToken.current {
-                refreshInProgress = true
-                AccessToken.refreshCurrentToken { token, error in
-                    if let token = token {
-                        self.accessToken = token.authenticationToken
-                        self.refreshInProgress = false
-                        self.flushPendingRequests()
-                    } else {
-                        self.accessToken = nil
-                        self.refreshInProgress = false
-                        self.clearPendingRequests()
-                    }
-                }
+        refreshInProgress = true
+        AuthenticationManager.refreshAccessToken { token, error in
+            if token != nil {
+                self.flushPendingRequests()
             } else {
-                clearPendingRequests()
+                self.clearPendingRequests()
             }
+            self.refreshInProgress = false
         }
+        
     }
     
     /// Cancels all pending requests and invalidates the current accessToken.
     /// Use this when logging out the user. Failure to call this will result in unexpected behaviour
     class func clearAccessToken() {
         clearPendingRequests()
-        self.accessToken = nil
+        AuthenticationManager.clearAccessToken()
     }
     
 }
@@ -188,19 +175,5 @@ extension APIManager {
             self.callback = callback
         }
     }
-}
-
-extension APIManager {
-    
-    enum AuthProvider {
-        case facebook
-        
-        func toString() -> String {
-            switch self {
-            case .facebook: return "facebook"
-            }
-        }
-    }
-    
 }
 
