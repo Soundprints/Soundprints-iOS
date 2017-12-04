@@ -8,5 +8,6 @@ target 'Soundprints' do
 	pod 'Fabric'
 	pod 'Crashlytics'
 	pod 'FacebookLogin'
+    pod 'Kingfisher', '~> 4.0'
 end
 

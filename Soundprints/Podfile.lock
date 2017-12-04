@@ -20,6 +20,7 @@ PODS:
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.28.0):
     - FBSDKCoreKit
+  - Kingfisher (4.3.1)
   - Mapbox-iOS-SDK (3.7.0)
   - R.swift (4.0.0):
     - R.swift.Library (~> 4.0.0)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - FacebookLogin
+  - Kingfisher (~> 4.0)
   - Mapbox-iOS-SDK (~> 3.7)
   - R.swift
 
@@ -40,10 +42,11 @@ SPEC CHECKSUMS:
   FacebookLogin: 0af839ea858faef99550d16596b87b4a8e8906e6
   FBSDKCoreKit: ca961e279113f691fd83dc634c0bbad9d4e3f370
   FBSDKLoginKit: b077381c27d800f21661757e8140cf2c80a91e4a
+  Kingfisher: 75541c4b62f02e1fde6f9772303de3d9ebe8f5b3
   Mapbox-iOS-SDK: 699818d30e1ed4985d3efc6a06c40b90907c586d
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
 
-PODFILE CHECKSUM: 8a9c25ec21cd36b4c10180572c0cf2fa4426bb57
+PODFILE CHECKSUM: 1c5dc3990b70814d2dcc4cfcf6a64e7cfb55869c
 
 COCOAPODS: 1.2.1
