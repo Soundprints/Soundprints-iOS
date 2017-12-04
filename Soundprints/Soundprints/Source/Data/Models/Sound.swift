@@ -73,7 +73,7 @@ class Sound {
 
 extension Sound {
     
-    static func fetchSounds(around latitude: Double, and longitude: Double, withMinDistance minDistance: Double? = nil, andMaxDistance maxDistance: Double, fromOnlyLastDay onlyLastDay: Bool = false, limit: Int?, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
+    static func fetchSounds(around latitude: Double, and longitude: Double, withMinDistance minDistance: Double? = nil, andMaxDistance maxDistance: Double, fromOnlyLastDay onlyLastDay: Bool = false, limit: Int? = nil, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
         let request = APIRequest(endpoint: .sound, method: .GET)
         request.queryParameters["lat"] = latitude
         request.queryParameters["lon"] = longitude

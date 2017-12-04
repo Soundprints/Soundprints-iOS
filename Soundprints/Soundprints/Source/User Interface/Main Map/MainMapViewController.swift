@@ -15,6 +15,16 @@ class MainMapViewController: BaseViewController {
     
     @IBOutlet private weak var mapView: MGLMapView?
     
+    // MARK: - Variables
+    
+    private var sounds: [Sound] = []
+    
+    private var lastSoundFetchLocation: CLLocation?
+    
+    // MARK: - Constants
+    
+    private static let soundFetchDistanceTreshold: Double = 100
+    
     // MARK: - View controller lifecycle
     
     override func viewDidLoad() {
@@ -28,16 +38,29 @@ class MainMapViewController: BaseViewController {
     private func initializeMap() {
         mapView?.delegate = self
         mapView?.showsUserLocation = true
+        mapView?.setZoomLevel(15, animated: false)
+    }
+    
+    // MARK: - Sounds
+    
+    private func updateSounds(arroundCoordinate coordinate: CLLocationCoordinate2D, withRadius radius: Double) {
+        Sound.fetchSounds(around: coordinate.latitude, and: coordinate.longitude, andMaxDistance: radius) { sounds, error in
+            if error == nil, let sounds = sounds {
+                self.sounds = sounds
+                self.refreshSoundAnnotations()
+            } else {
+                // TODO: Handle error
+            }
+        }
+    }
+    
+    private func refreshSoundAnnotations() {
+        if let existingAnnotations = mapView?.annotations {
+            mapView?.removeAnnotations(existingAnnotations)
+        }
         
-        // TODO: Remove these mocked annotations
-        
-        let annotation1 = MGLPointAnnotation()
-        annotation1.coordinate = CLLocationCoordinate2D(latitude: 46.052577, longitude: 14.510292)
-        
-        let annotation2 = MGLPointAnnotation()
-        annotation2.coordinate = CLLocationCoordinate2D(latitude: 46.052063, longitude: 14.512116)
-        
-        mapView?.addAnnotations([annotation1, annotation2])
+        let newAnnotations = sounds.flatMap { SoundAnnotation(sound: $0) }
+        mapView?.addAnnotations(newAnnotations)
     }
 
 }
@@ -48,7 +71,22 @@ private extension MainMapViewController {
     
     class SoundAnnotation: MGLPointAnnotation {
         
-        // TODO: Add data that is needed here
+        weak var sound: Sound?
+        
+        init?(sound: Sound) {
+            guard let latitude = sound.latitude, let longitude = sound.longitude else {
+                return nil
+            }
+            
+            super.init()
+            
+            self.sound = sound
+            self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
         
     }
     
@@ -141,7 +179,7 @@ private extension MainMapViewController {
             updateContent(withState: state)
         }
         
-        private func updateContent(withState state: State) {
+        func updateContent(withState state: State) {
             switch state {
             case .notInRange:
                 backgroundImageView?.image = R.image.annotationNotInRangeIcon()
@@ -154,6 +192,14 @@ private extension MainMapViewController {
             }
         }
         
+        func injectProperties(fromSoundAnnotation soundAnnotation: SoundAnnotation) {
+            guard let sound = soundAnnotation.sound else {
+                return
+            }
+            
+            // TODO: Set profile image
+        }
+        
     }
     
 }
@@ -163,15 +209,27 @@ private extension MainMapViewController {
 extension MainMapViewController: MGLMapViewDelegate {
     
     func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
-        guard let userLocation = userLocation else {
+        guard let userLocation = userLocation, let userCLLocation = userLocation.location else {
             return
         }
         
-        mapView.setCenter(userLocation.coordinate, animated: true)
-        mapView.setZoomLevel(15, animated: true)
+        print("updated user location: \(userCLLocation.coordinate)")
+        print("self map view: \(self.mapView)")
+        print("map view: \(mapView)")
+        
+        mapView.setCenter(userLocation.coordinate, animated: false)
+        
+        if lastSoundFetchLocation?.distance(from: userCLLocation) ?? CLLocationDistanceMax > MainMapViewController.soundFetchDistanceTreshold {
+            // TODO: Change radius to real radius of the map. For now it is hardcoded to 1000m.
+            updateSounds(arroundCoordinate: userCLLocation.coordinate, withRadius: 1000)
+        }
     }
     
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
+        
+        guard let soundAnnotation = annotation as? SoundAnnotation else {
+            return nil
+        }
         
         let annotationViewSize = CGSize(width: 100, height: 110)
         let reuseIdentifier = "reusableSoundprintsAnnotationView"
@@ -181,10 +239,8 @@ extension MainMapViewController: MGLMapViewDelegate {
         if annotationView == nil {
             annotationView = SoundAnnotationView(reuseIdentifier: reuseIdentifier, frame: CGRect(origin: .zero, size: annotationViewSize))
             annotationView?.state = .notInRange
+            annotationView?.injectProperties(fromSoundAnnotation: soundAnnotation)
         }
-        
-        annotationView?.distance = 0.5
-        annotationView?.profileImage = R.image.sampleProfileImage()
         
         return annotationView
     }
