@@ -28,6 +28,7 @@ class MainMapViewController: BaseViewController {
     // MARK: - Constants
     
     private static let soundFetchDistanceTreshold: Double = 100
+    private static var inRangeMetersTreshold: Double = 1500
     
     // MARK: - View controller lifecycle
     
@@ -100,7 +101,7 @@ class MainMapViewController: BaseViewController {
         mapView?.addAnnotations(newAnnotations)
     }
     
-    private func updateVisibleAnnotationDistances() {
+    private func updateVisibleAnnotationViewsIfNecessary() {
         guard let userCLLocation = mapView?.userLocation?.location else {
             return
         }
@@ -109,9 +110,12 @@ class MainMapViewController: BaseViewController {
         mapView?.visibleAnnotations?.forEach({ annotation in
             if let soundAnnotation = annotation as? SoundAnnotation {
                 let oldDistanceString = soundAnnotation.distanceString
+                let oldInRange = soundAnnotation.inRange
+                
                 let newDistance = distanceInKilometers(fromLatitude: soundAnnotation.coordinate.latitude, andLongitude: soundAnnotation.coordinate.longitude, to: userCLLocation)
                 soundAnnotation.distance = newDistance
-                if soundAnnotation.distanceString != oldDistanceString {
+                
+                if soundAnnotation.distanceString != oldDistanceString || soundAnnotation.inRange != oldInRange {
                     annotationsToRefresh.append(soundAnnotation)
                 }
             }
@@ -159,6 +163,12 @@ private extension MainMapViewController {
             } else {
                 return String(format: "%.1fkm", roundedKilometers)
             }
+        }
+        var inRange: Bool {
+            guard let distance = distance else {
+                return false
+            }
+            return distance*1000.0 <= MainMapViewController.inRangeMetersTreshold
         }
         
         init?(sound: Sound) {
@@ -313,6 +323,7 @@ private extension MainMapViewController {
             if let profileImageUrl = sound.userProfileImageUrl {
                 profileImageView?.kf.setImage(with: URL(string: profileImageUrl))
             }
+            state = soundAnnotation.inRange ? .inRange : .notInRange
             if let distanceString = soundAnnotation.distanceString {
                 self.distanceString = distanceString
             }
@@ -343,7 +354,7 @@ extension MainMapViewController: MGLMapViewDelegate {
             // TODO: Change radius to real radius of the map. For now it is hardcoded to 1000m.
             updateSounds(arroundCoordinate: userCLLocation.coordinate, withRadius: 1000)
         } else {
-            updateVisibleAnnotationDistances()
+            updateVisibleAnnotationViewsIfNecessary()
         }
     }
     
@@ -357,7 +368,6 @@ extension MainMapViewController: MGLMapViewDelegate {
             
             if annotationView == nil {
                 annotationView = SoundAnnotationView(reuseIdentifier: reuseIdentifier, frame: CGRect(origin: .zero, size: annotationViewSize))
-                annotationView?.state = .notInRange
             }
             annotationView?.injectProperties(fromSoundAnnotation: soundAnnotation)
             
