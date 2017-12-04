@@ -173,6 +173,33 @@ extension APIRequest {
                         }
                         first = false
                         
+                    } else if let double = value as? Double {
+                        
+                        if first {
+                            toReturn += String(format: "%@=%f", key, double)
+                        } else {
+                            toReturn += String(format: "&%@=%f", key, double)
+                        }
+                        first = false
+                        
+                    } else if let int = value as? Int {
+                        
+                        if first {
+                            toReturn += String(format: "%@=%d", key, int)
+                        } else {
+                            toReturn += String(format: "&%@=%d", key, int)
+                        }
+                        first = false
+                        
+                    } else if let float = value as? Float {
+                        
+                        if first {
+                            toReturn += String(format: "%@=%f", key, float)
+                        } else {
+                            toReturn += String(format: "&%@=%f", key, float)
+                        }
+                        first = false
+                        
                     } else {
                         print("Unknown parameter type")
                     }

@@ -19,10 +19,14 @@ class InitialViewController: BaseViewController {
     }
     
     private func handleRoutingFromViewDidAppear() {
-        // TODO: Add logic for checking whether the user is authenticated or should he be routed to the login screen
-        
-        let controller = R.storyboard.mainMap.mainMapViewController()!
-        present(controller, animated: true, completion: nil)
+    
+        if AuthenticationManager.isLoggedIn {
+            let controller = R.storyboard.mainMap.mainMapViewController()!
+            present(controller, animated: true, completion: nil)
+        } else {
+            let login = R.storyboard.login.loginViewController()!
+            present(login, animated: true, completion: nil)
+        }
     }
     
 }

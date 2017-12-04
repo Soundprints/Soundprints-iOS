@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		15911F457A4ADFBD1F234989 /* Pods_Soundprints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */; };
 		E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B344361FCEBA8F001FC5FD /* R.generated.swift */; };
+		E2E551041FD54AC800BAE27E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551031FD54AC800BAE27E /* LoginViewController.swift */; };
+		E2E551061FD54ADF00BAE27E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E551051FD54ADF00BAE27E /* Login.storyboard */; };
+		E2E551091FD56A2E00BAE27E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */; };
+		E2E5510B1FD56FC500BAE27E /* FacebookLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510A1FD56FC500BAE27E /* FacebookLoginViewController.swift */; };
+		E2E5510E1FD570E000BAE27E /* ContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */; };
+		E2E551101FD5746900BAE27E /* ProviderLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510F1FD5746900BAE27E /* ProviderLoginViewController.swift */; };
 		E2EBF5881FCEF35500AAFBC1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5871FCEF35500AAFBC1 /* APIManager.swift */; };
 		E2EBF58D1FCEF3BD00AAFBC1 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5891FCEF3BC00AAFBC1 /* APIRequest.swift */; };
 		E2EBF58E1FCEF3BD00AAFBC1 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF58A1FCEF3BD00AAFBC1 /* APIError.swift */; };
@@ -33,6 +39,12 @@
 		34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.release.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.release.xcconfig"; sourceTree = "<group>"; };
 		C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.debug.xcconfig"; sourceTree = "<group>"; };
 		E2B344361FCEBA8F001FC5FD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		E2E551031FD54AC800BAE27E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		E2E551051FD54ADF00BAE27E /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		E2E5510A1FD56FC500BAE27E /* FacebookLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookLoginViewController.swift; sourceTree = "<group>"; };
+		E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentControllerView.swift; sourceTree = "<group>"; };
+		E2E5510F1FD5746900BAE27E /* ProviderLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderLoginViewController.swift; sourceTree = "<group>"; };
 		E2EBF5871FCEF35500AAFBC1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		E2EBF5891FCEF3BC00AAFBC1 /* APIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		E2EBF58A1FCEF3BD00AAFBC1 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -71,6 +83,33 @@
 				108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E2E551021FD54AAB00BAE27E /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				E2E551031FD54AC800BAE27E /* LoginViewController.swift */,
+				E2E5510A1FD56FC500BAE27E /* FacebookLoginViewController.swift */,
+				E2E551051FD54ADF00BAE27E /* Login.storyboard */,
+				E2E5510F1FD5746900BAE27E /* ProviderLoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		E2E551071FD56A2200BAE27E /* Authentication Manager */ = {
+			isa = PBXGroup;
+			children = (
+				E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */,
+			);
+			path = "Authentication Manager";
+			sourceTree = "<group>";
+		};
+		E2E5510C1FD570E000BAE27E /* User Interface */ = {
+			isa = PBXGroup;
+			children = (
+				E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */,
+			);
+			path = "User Interface";
 			sourceTree = "<group>";
 		};
 		E2EBF5861FCEF34100AAFBC1 /* API Manager */ = {
@@ -160,6 +199,7 @@
 		E2F1DD991FCEA367000CC2F1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				E2E5510C1FD570E000BAE27E /* User Interface */,
 				E2EBF5971FCFFC4100AAFBC1 /* Data */,
 				E2EBF5911FCEF40300AAFBC1 /* Application */,
 			);
@@ -177,6 +217,7 @@
 		E2F1DD9C1FCEA367000CC2F1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				E2E551071FD56A2200BAE27E /* Authentication Manager */,
 				E2EBF5941FCFFBA400AAFBC1 /* Models */,
 				E2EBF5861FCEF34100AAFBC1 /* API Manager */,
 			);
@@ -187,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				E2F1DDAC1FCEB56A000CC2F1 /* Main Map */,
+				E2E551021FD54AAB00BAE27E /* Login */,
 				E2F1DD9E1FCEA367000CC2F1 /* Main */,
 			);
 			path = "User Interface";
@@ -289,6 +331,7 @@
 				E2F1DDB01FCEB5B5000CC2F1 /* MainMap.storyboard in Resources */,
 				E2F1DDA51FCEA367000CC2F1 /* Main.storyboard in Resources */,
 				E2F1DDA21FCEA367000CC2F1 /* Assets.xcassets in Resources */,
+				E2E551061FD54ADF00BAE27E /* Login.storyboard in Resources */,
 				E2F1DDA41FCEA367000CC2F1 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,8 +420,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2F1DDAE1FCEB5A2000CC2F1 /* MainMapViewController.swift in Sources */,
+				E2E5510E1FD570E000BAE27E /* ContentControllerView.swift in Sources */,
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
+				E2E551101FD5746900BAE27E /* ProviderLoginViewController.swift in Sources */,
 				E2EBF5961FCFFBAF00AAFBC1 /* Sound.swift in Sources */,
+				E2E5510B1FD56FC500BAE27E /* FacebookLoginViewController.swift in Sources */,
 				E2F1DDA31FCEA367000CC2F1 /* AppDelegate.swift in Sources */,
 				E2EBF5881FCEF35500AAFBC1 /* APIManager.swift in Sources */,
 				E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */,
@@ -386,8 +432,10 @@
 				E2EBF58F1FCEF3BD00AAFBC1 /* APIResponse.swift in Sources */,
 				E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */,
 				E2EBF5901FCEF3BD00AAFBC1 /* APIResponseTools.swift in Sources */,
+				E2E551091FD56A2E00BAE27E /* AuthenticationManager.swift in Sources */,
 				E2EBF5931FCEF40E00AAFBC1 /* Globals.swift in Sources */,
 				E2EBF5991FCFFC5300AAFBC1 /* APIJSONTools.swift in Sources */,
+				E2E551041FD54AC800BAE27E /* LoginViewController.swift in Sources */,
 				E2EBF58E1FCEF3BD00AAFBC1 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,6 +561,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kamino.Soundprints;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEV DEBUG";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -529,6 +578,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kamino.Soundprints;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEV;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

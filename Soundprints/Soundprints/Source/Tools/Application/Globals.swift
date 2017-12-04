@@ -18,7 +18,7 @@ class Globals {
         
         var baseURL: String {
             switch self {
-            case .development: return "35.198.82.110:8080/api"
+            case .development: return "http://35.198.82.110:8080/api"
             case .production: return ""
             }
         }

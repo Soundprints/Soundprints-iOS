@@ -89,10 +89,12 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.storyboard` struct is generated, and contains static references to 3 storyboards.
+  /// This `R.storyboard` struct is generated, and contains static references to 4 storyboards.
   struct storyboard {
     /// Storyboard `LaunchScreen`.
     static let launchScreen = _R.storyboard.launchScreen()
+    /// Storyboard `Login`.
+    static let login = _R.storyboard.login()
     /// Storyboard `MainMap`.
     static let mainMap = _R.storyboard.mainMap()
     /// Storyboard `Main`.
@@ -101,6 +103,11 @@ struct R: Rswift.Validatable {
     /// `UIStoryboard(name: "LaunchScreen", bundle: ...)`
     static func launchScreen(_: Void = ()) -> UIKit.UIStoryboard {
       return UIKit.UIStoryboard(resource: R.storyboard.launchScreen)
+    }
+    
+    /// `UIStoryboard(name: "Login", bundle: ...)`
+    static func login(_: Void = ()) -> UIKit.UIStoryboard {
+      return UIKit.UIStoryboard(resource: R.storyboard.login)
     }
     
     /// `UIStoryboard(name: "Main", bundle: ...)`
@@ -146,6 +153,7 @@ struct _R: Rswift.Validatable {
   struct storyboard: Rswift.Validatable {
     static func validate() throws {
       try main.validate()
+      try login.validate()
       try mainMap.validate()
     }
     
@@ -154,6 +162,28 @@ struct _R: Rswift.Validatable {
       
       let bundle = R.hostingBundle
       let name = "LaunchScreen"
+      
+      fileprivate init() {}
+    }
+    
+    struct login: Rswift.StoryboardResourceType, Rswift.Validatable {
+      let bundle = R.hostingBundle
+      let facebookLoginViewController = StoryboardViewControllerResource<FacebookLoginViewController>(identifier: "FacebookLoginViewController")
+      let loginViewController = StoryboardViewControllerResource<LoginViewController>(identifier: "LoginViewController")
+      let name = "Login"
+      
+      func facebookLoginViewController(_: Void = ()) -> FacebookLoginViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: facebookLoginViewController)
+      }
+      
+      func loginViewController(_: Void = ()) -> LoginViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: loginViewController)
+      }
+      
+      static func validate() throws {
+        if _R.storyboard.login().facebookLoginViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'facebookLoginViewController' could not be loaded from storyboard 'Login' as 'FacebookLoginViewController'.") }
+        if _R.storyboard.login().loginViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'loginViewController' could not be loaded from storyboard 'Login' as 'LoginViewController'.") }
+      }
       
       fileprivate init() {}
     }
