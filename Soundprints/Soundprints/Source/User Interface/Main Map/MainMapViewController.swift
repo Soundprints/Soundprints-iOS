@@ -19,17 +19,19 @@ class MainMapViewController: BaseViewController {
     
     // MARK: - Variables
     
+    static var inRangeMetersTreshold: Double = 1500
+    
     private var sounds: [Sound] = []
     private var lastSoundFetchLocation: CLLocation?
     
     private lazy var headingLocationManager: CLLocationManager = CLLocationManager()
     
     private var shouldUpdateZoomLevel: Bool = false
-    private var minimumVisibleMeters: Double = 3000
+    private var minimumVisibleMeters: Double {
+        return MainMapViewController.inRangeMetersTreshold * (4/3) * 2
+    }
     
-    private var proximityRingOuterView: UIView?
-    private var proximityRingMiddleView: UIView?
-    private var proximityRingInnerView: UIView?
+    private var proximityRingsView: ProximityRingsView?
     
     /// Variable that extracts the subview of type GLKView from the mapView.
     private var mapGLKView: UIView? {
@@ -37,11 +39,8 @@ class MainMapViewController: BaseViewController {
     }
     
     // MARK: - Constants
-    
-    private static let proximityRingsColor = UIColor(red: 99/255, green: 182/255, blue: 255/255, alpha: 1)
-    
+
     private static let soundFetchDistanceTreshold: Double = 100
-    static var inRangeMetersTreshold: Double = 1500
     
     // MARK: - View controller lifecycle
     
@@ -49,7 +48,7 @@ class MainMapViewController: BaseViewController {
         super.viewDidLoad()
         
         initializeMap()
-        initializeProximityRings()
+        initializeProximityRingsView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,7 +72,7 @@ class MainMapViewController: BaseViewController {
             shouldUpdateZoomLevel = true
         }
         
-        updateProximityRingsFrames()
+        updateProximityRingsFrame()
     }
     
     // MARK: - Map
@@ -155,6 +154,33 @@ class MainMapViewController: BaseViewController {
         mapView?.addAnnotations(annotationsToRefresh)
     }
     
+    // MARK: - Proximity rings
+    
+    private func initializeProximityRingsView() {
+        proximityRingsView = ProximityRingsView()
+        proximityRingsView?.innerRingDistanceInMeters = Int(MainMapViewController.inRangeMetersTreshold/3)
+    }
+    
+    private func updateProximityRingsFrame() {
+        guard let mapGLKView = mapGLKView else {
+            return
+        }
+        
+        // If the proximity rings view is not yet added to the view hierarchy add it.
+        // It will be added to the subview of type GLKView of the mapView, since this is the only way
+        // for the proximity rings view to be shown behind the map annotations.
+        if let proximityRingsView = proximityRingsView, proximityRingsView.superview == nil {
+            mapGLKView.insertSubview(proximityRingsView, at: 0)
+        }
+        
+        let smallerDimensionValue = mapGLKView.bounds.width <= mapGLKView.bounds.height ? mapGLKView.bounds.width : mapGLKView.bounds.height
+        let proximityRingsViewDimension = 3/4 * smallerDimensionValue
+        
+        proximityRingsView?.frame.size = CGSize(width: proximityRingsViewDimension, height: proximityRingsViewDimension)
+        proximityRingsView?.center = mapGLKView.center
+
+    }
+    
     // MARK: - Heading updating
     
     private func startUpdatingHeading() {
@@ -166,76 +192,6 @@ class MainMapViewController: BaseViewController {
     private func stopUpdatingHeading() {
         headingLocationManager.stopUpdatingHeading()
     }
-    
-    // MARK: - Proximity rings
-    
-    private func initializeProximityRings() {
-        let borderWidth: CGFloat = 0.4
-        
-        proximityRingOuterView = UIView()
-        proximityRingOuterView?.backgroundColor = MainMapViewController.proximityRingsColor.withAlphaComponent(0.3)
-        proximityRingOuterView?.layer.borderColor = UIColor.white.cgColor
-        proximityRingOuterView?.layer.borderWidth = borderWidth
-        
-        proximityRingMiddleView = UIView()
-        proximityRingMiddleView?.backgroundColor = MainMapViewController.proximityRingsColor.withAlphaComponent(0.3)
-        proximityRingMiddleView?.layer.borderColor = UIColor.white.cgColor
-        proximityRingMiddleView?.layer.borderWidth = borderWidth
-        
-        proximityRingInnerView = UIView()
-        proximityRingInnerView?.backgroundColor = MainMapViewController.proximityRingsColor.withAlphaComponent(1)
-        proximityRingInnerView?.layer.borderColor = UIColor.white.cgColor
-        proximityRingInnerView?.layer.borderWidth = borderWidth
-        
-        updateProximityRingsFrames()
-    }
-    
-    private func updateProximityRingsFrames() {
-        
-        guard let mapGLKView = mapGLKView else {
-            return
-        }
-        
-        // If the proximity rings are not yet added to the view hierarchy add them.
-        // They will be added to the subview of type GLKView of the mapView, since this is the only way
-        // for the proximity rings to be shown behind the map annotations.
-        if let proximityRingInnerView = proximityRingInnerView, proximityRingInnerView.superview == nil {
-            mapGLKView.insertSubview(proximityRingInnerView, at: 0)
-        }
-        if let proximityRingMiddleView = proximityRingMiddleView, proximityRingMiddleView.superview == nil {
-            mapGLKView.insertSubview(proximityRingMiddleView, at: 0)
-        }
-        if let proximityRingOuterView = proximityRingOuterView, proximityRingOuterView.superview == nil {
-            mapGLKView.insertSubview(proximityRingOuterView, at: 0)
-        }
-        
-        let smallerDimensionValue = mapGLKView.bounds.width <= mapGLKView.bounds.height ? mapGLKView.bounds.width : mapGLKView.bounds.height 
-        
-        let outerViewDimension: CGFloat = 3/4 * smallerDimensionValue
-        proximityRingOuterView?.center = mapGLKView.center
-        proximityRingOuterView?.frame.size.height = outerViewDimension
-        proximityRingOuterView?.frame.size.width = outerViewDimension
-        
-        let middleViewDimension: CGFloat = 1/2 * smallerDimensionValue
-        proximityRingMiddleView?.center = mapGLKView.center
-        proximityRingMiddleView?.frame.size.height = middleViewDimension
-        proximityRingMiddleView?.frame.size.width = middleViewDimension
-        
-        let innerViewDimension: CGFloat = 1/4 * smallerDimensionValue
-        proximityRingInnerView?.center = mapGLKView.center
-        proximityRingInnerView?.frame.size.height = innerViewDimension
-        proximityRingInnerView?.frame.size.width = innerViewDimension
-        
-        if let proximityRingOuterView = proximityRingOuterView {
-            proximityRingOuterView.layer.cornerRadius = proximityRingOuterView.bounds.height/2 
-        }
-        if let proximityRingMiddleView = proximityRingMiddleView {
-            proximityRingMiddleView.layer.cornerRadius = proximityRingMiddleView.bounds.height/2
-        }
-        if let proximityRingInnerView = proximityRingInnerView {
-            proximityRingInnerView.layer.cornerRadius = proximityRingInnerView.bounds.height/2
-        }
-    } 
     
     // MARK: - Convenince
     
@@ -284,14 +240,8 @@ extension MainMapViewController: MGLMapViewDelegate {
         // Each time an annotation is added to the map, make sure that the proximity ring views are behind the annotations.
         // So simply send each proximity ring view to the back.
         if annotationViews.isEmpty == false, let mapGLKView = mapGLKView {
-            if let proximityRingInnerView = proximityRingInnerView {
-                mapGLKView.sendSubview(toBack: proximityRingInnerView)
-            }
-            if let proximityRingMiddleView = proximityRingMiddleView {
-                mapGLKView.sendSubview(toBack: proximityRingMiddleView)
-            }
-            if let proximityRingOuterView = proximityRingOuterView {
-                mapGLKView.sendSubview(toBack: proximityRingOuterView)
+            if let proximityRingsView = proximityRingsView {
+                mapGLKView.sendSubview(toBack: proximityRingsView)
             }
         }
     }
