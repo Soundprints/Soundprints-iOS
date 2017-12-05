@@ -10,6 +10,8 @@ import UIKit
 
 class ProximityRingsView: UIView {
     
+    // MARK: - Properties
+    
     var innerRingDistanceInMeters: Int = 500 {
         didSet {
             innerArcTextView?.text = "\(innerRingDistanceInMeters)m"
@@ -24,23 +26,27 @@ class ProximityRingsView: UIView {
     private var innerArcTextView: CoreTextArcView?
     private var middleArcTextView: CoreTextArcView?
     
+    // MARK: - Constants
+    
     private static let proximityRingsColor = UIColor(red: 99/255, green: 182/255, blue: 255/255, alpha: 1)
     
-    init() {
-        super.init(frame: .zero)
+    // MARK: - Initializers
+    
+    convenience init() {
+        self.init(frame: .zero)
         
         initializeProximityRings()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    // MARK: - View lifecycle
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
         updateProximityRingsFrames()
     }
+    
+    // MARK: - Initialization
     
     private func initializeProximityRings() {
         let borderWidth: CGFloat = 0.4
@@ -83,6 +89,8 @@ class ProximityRingsView: UIView {
         
         updateProximityRingsFrames()
     }
+    
+    // MARK: - Frames updating
     
     private func updateProximityRingsFrames() {
         let smallerDimensionValue = bounds.width <= bounds.height ? bounds.width : bounds.height
