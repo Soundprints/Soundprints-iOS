@@ -15,6 +15,9 @@
 		E2E5510B1FD56FC500BAE27E /* FacebookLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510A1FD56FC500BAE27E /* FacebookLoginViewController.swift */; };
 		E2E5510E1FD570E000BAE27E /* ContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */; };
 		E2E551101FD5746900BAE27E /* ProviderLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510F1FD5746900BAE27E /* ProviderLoginViewController.swift */; };
+		E2E551151FD6B82E00BAE27E /* UserAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551141FD6B82E00BAE27E /* UserAnnotationView.swift */; };
+		E2E551171FD6B85700BAE27E /* SoundAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551161FD6B85700BAE27E /* SoundAnnotationView.swift */; };
+		E2E551191FD6B88E00BAE27E /* SoundAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551181FD6B88E00BAE27E /* SoundAnnotation.swift */; };
 		E2EBF5881FCEF35500AAFBC1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5871FCEF35500AAFBC1 /* APIManager.swift */; };
 		E2EBF58D1FCEF3BD00AAFBC1 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5891FCEF3BC00AAFBC1 /* APIRequest.swift */; };
 		E2EBF58E1FCEF3BD00AAFBC1 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF58A1FCEF3BD00AAFBC1 /* APIError.swift */; };
@@ -45,6 +48,9 @@
 		E2E5510A1FD56FC500BAE27E /* FacebookLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookLoginViewController.swift; sourceTree = "<group>"; };
 		E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentControllerView.swift; sourceTree = "<group>"; };
 		E2E5510F1FD5746900BAE27E /* ProviderLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderLoginViewController.swift; sourceTree = "<group>"; };
+		E2E551141FD6B82E00BAE27E /* UserAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnnotationView.swift; sourceTree = "<group>"; };
+		E2E551161FD6B85700BAE27E /* SoundAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundAnnotationView.swift; sourceTree = "<group>"; };
+		E2E551181FD6B88E00BAE27E /* SoundAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundAnnotation.swift; sourceTree = "<group>"; };
 		E2EBF5871FCEF35500AAFBC1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		E2EBF5891FCEF3BC00AAFBC1 /* APIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		E2EBF58A1FCEF3BD00AAFBC1 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -88,10 +94,9 @@
 		E2E551021FD54AAB00BAE27E /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				E2E5511A1FD6BDB700BAE27E /* Providers */,
 				E2E551031FD54AC800BAE27E /* LoginViewController.swift */,
-				E2E5510A1FD56FC500BAE27E /* FacebookLoginViewController.swift */,
 				E2E551051FD54ADF00BAE27E /* Login.storyboard */,
-				E2E5510F1FD5746900BAE27E /* ProviderLoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -110,6 +115,49 @@
 				E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */,
 			);
 			path = "User Interface";
+			sourceTree = "<group>";
+		};
+		E2E551111FD6B7E900BAE27E /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				E2E551131FD6B80400BAE27E /* Models */,
+				E2E551121FD6B7FE00BAE27E /* Views */,
+			);
+			path = Annotations;
+			sourceTree = "<group>";
+		};
+		E2E551121FD6B7FE00BAE27E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E2E551141FD6B82E00BAE27E /* UserAnnotationView.swift */,
+				E2E551161FD6B85700BAE27E /* SoundAnnotationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E2E551131FD6B80400BAE27E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E2E551181FD6B88E00BAE27E /* SoundAnnotation.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E2E5511A1FD6BDB700BAE27E /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				E2E5511B1FD6BDCE00BAE27E /* Facebook */,
+				E2E5510F1FD5746900BAE27E /* ProviderLoginViewController.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		E2E5511B1FD6BDCE00BAE27E /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				E2E5510A1FD56FC500BAE27E /* FacebookLoginViewController.swift */,
+			);
+			path = Facebook;
 			sourceTree = "<group>";
 		};
 		E2EBF5861FCEF34100AAFBC1 /* API Manager */ = {
@@ -248,6 +296,7 @@
 		E2F1DDAC1FCEB56A000CC2F1 /* Main Map */ = {
 			isa = PBXGroup;
 			children = (
+				E2E551111FD6B7E900BAE27E /* Annotations */,
 				E2F1DDAD1FCEB5A2000CC2F1 /* MainMapViewController.swift */,
 				E2F1DDAF1FCEB5B5000CC2F1 /* MainMap.storyboard */,
 			);
@@ -422,6 +471,7 @@
 				E2F1DDAE1FCEB5A2000CC2F1 /* MainMapViewController.swift in Sources */,
 				E2E5510E1FD570E000BAE27E /* ContentControllerView.swift in Sources */,
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
+				E2E551171FD6B85700BAE27E /* SoundAnnotationView.swift in Sources */,
 				E2E551101FD5746900BAE27E /* ProviderLoginViewController.swift in Sources */,
 				E2EBF5961FCFFBAF00AAFBC1 /* Sound.swift in Sources */,
 				E2E5510B1FD56FC500BAE27E /* FacebookLoginViewController.swift in Sources */,
@@ -430,8 +480,10 @@
 				E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */,
 				E2EBF58D1FCEF3BD00AAFBC1 /* APIRequest.swift in Sources */,
 				E2EBF58F1FCEF3BD00AAFBC1 /* APIResponse.swift in Sources */,
+				E2E551191FD6B88E00BAE27E /* SoundAnnotation.swift in Sources */,
 				E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */,
 				E2EBF5901FCEF3BD00AAFBC1 /* APIResponseTools.swift in Sources */,
+				E2E551151FD6B82E00BAE27E /* UserAnnotationView.swift in Sources */,
 				E2E551091FD56A2E00BAE27E /* AuthenticationManager.swift in Sources */,
 				E2EBF5931FCEF40E00AAFBC1 /* Globals.swift in Sources */,
 				E2EBF5991FCFFC5300AAFBC1 /* APIJSONTools.swift in Sources */,
