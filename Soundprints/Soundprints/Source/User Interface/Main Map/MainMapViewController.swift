@@ -66,8 +66,9 @@ class MainMapViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if let userLocation = mapView?.userLocation {
+        if let mapView = mapView, let userLocation = mapView.userLocation {
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
+            mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
         } else {
             shouldUpdateZoomLevel = true
         }
@@ -226,12 +227,11 @@ extension MainMapViewController: MGLMapViewDelegate {
             return
         }
         
-        mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
-        
         if shouldUpdateZoomLevel {
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
             shouldUpdateZoomLevel = false
         }
+        mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
         
         if distanceInKilometers(from: userCLLocation, to: lastSoundFetchLocation) ?? CLLocationDistanceMax > MainMapViewController.soundFetchDistanceTreshold {
             lastSoundFetchLocation = userCLLocation
