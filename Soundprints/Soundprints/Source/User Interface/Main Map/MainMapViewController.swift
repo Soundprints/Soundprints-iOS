@@ -80,6 +80,12 @@ class MainMapViewController: BaseViewController {
     private func initializeMap() {
         mapView?.delegate = self
         mapView?.showsUserLocation = true
+        mapView?.allowsRotating = false
+        mapView?.allowsTilting = false
+        mapView?.allowsZooming = false
+        mapView?.allowsScrolling = false
+        mapView?.showsUserHeadingIndicator = false
+        mapView?.compassView.image = nil
     }
     
     private func setZoomLevelToMinimumVisibleMeters(_ meters: Double, onLatitude latitude: Double, animated: Bool) {
@@ -144,7 +150,7 @@ class MainMapViewController: BaseViewController {
                 let newDistance = distanceInKilometers(fromLatitude: soundAnnotation.coordinate.latitude, andLongitude: soundAnnotation.coordinate.longitude, to: userCLLocation)
                 soundAnnotation.distance = newDistance
                 
-                if soundAnnotation.distanceString != oldDistanceString || soundAnnotation.inRange != oldInRange {
+                if soundAnnotation.inRange == false && (soundAnnotation.distanceString != oldDistanceString || soundAnnotation.inRange != oldInRange) {
                     annotationsToRefresh.append(soundAnnotation)
                 }
             }
