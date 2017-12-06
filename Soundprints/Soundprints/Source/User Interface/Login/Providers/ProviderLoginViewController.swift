@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - ProviderLoginViewControllerDelegate
+
 protocol ProviderLoginViewControllerDelegate: class {
     
     func providerLoginViewController(_ sender: BaseViewController, didCompleteLoginWithSuccess success: Bool)
@@ -15,7 +17,11 @@ protocol ProviderLoginViewControllerDelegate: class {
     
 }
 
+// MARK: - ProviderLoginViewController
+
 class ProviderLoginViewController: BaseViewController {
+    
+    // MARK: - Properties
 
     weak var delegate: ProviderLoginViewControllerDelegate?
 

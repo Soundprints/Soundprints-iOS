@@ -28,6 +28,7 @@ class MainMapViewController: BaseViewController {
     
     private var shouldUpdateZoomLevel: Bool = false
     private var minimumVisibleMeters: Double {
+        // The proximity rings size is 3/4 of the smaller dimension and the proximity rings size is equivalent to 'inRangeMetersTreshold'.
         return MainMapViewController.inRangeMetersTreshold * (4/3) * 2
     }
     
@@ -66,6 +67,10 @@ class MainMapViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        // Zoom level should be set the the views are layed out, so try to do it here if we have the location.
+        // If not, it should be done in the next 'didUpdate userLocation' function. We do this by setting shouldUpdateZoomLevel to true.
+        // Along with the zoom level, the center should be also set, but it must be set after the initial zoom level is set, 
+        // otherwise it wont work.
         if let mapView = mapView, let userLocation = mapView.userLocation {
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
             mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
@@ -73,7 +78,7 @@ class MainMapViewController: BaseViewController {
             shouldUpdateZoomLevel = true
         }
         
-        updateProximityRingsFrame()
+        updateProximityRingsFrames()
     }
     
     // MARK: - Map
@@ -168,7 +173,7 @@ class MainMapViewController: BaseViewController {
         proximityRingsView?.innerRingDistanceInMeters = Int(MainMapViewController.inRangeMetersTreshold/3)
     }
     
-    private func updateProximityRingsFrame() {
+    private func updateProximityRingsFrames() {
         guard let mapGLKView = mapGLKView else {
             return
         }
@@ -228,6 +233,7 @@ extension MainMapViewController: MGLMapViewDelegate {
         }
         
         if shouldUpdateZoomLevel {
+            // Zoom level could not be updated during 'viewDidLayoutSubviews' (indicated by the 'shouldUpdateZoomLevel' property), so we have to do it here
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
             shouldUpdateZoomLevel = false
         }
@@ -245,16 +251,16 @@ extension MainMapViewController: MGLMapViewDelegate {
     func mapView(_ mapView: MGLMapView, didAdd annotationViews: [MGLAnnotationView]) {
         // Each time an annotation is added to the map, make sure that the proximity ring views are behind the annotations.
         // So simply send each proximity ring view to the back.
-        if annotationViews.isEmpty == false, let mapGLKView = mapGLKView {
-            if let proximityRingsView = proximityRingsView {
-                mapGLKView.sendSubview(toBack: proximityRingsView)
-            }
+        if annotationViews.isEmpty == false, let mapGLKView = mapGLKView, let proximityRingsView = proximityRingsView {
+            mapGLKView.sendSubview(toBack: proximityRingsView)
         }
     }
     
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
         
         if let soundAnnotation = annotation as? SoundAnnotation {
+            
+            // TODO: Change this so it wont be hardcoded. It should probably be relative to the map size.
             let annotationViewSize = CGSize(width: 100, height: 110)
             let reuseIdentifier = "reusableSoundprintsAnnotationView"
             
@@ -268,6 +274,8 @@ extension MainMapViewController: MGLMapViewDelegate {
             return annotationView
             
         } else if annotation is MGLUserLocation {
+            
+            // TODO: Change this so it wont be hardcoded. It should probably be relative to the map size.
             let annotationViewSize = CGSize(width: 46, height: 53)
             let reuseIdentifier = "reusableUserAnnotationView"
             
@@ -290,6 +298,9 @@ extension MainMapViewController: MGLMapViewDelegate {
 extension MainMapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        // We want the direction of the map to change based on the device heading. This means that the map will rotate with the user.
+        // If possible use the true north heading (valid if positive), otherwise use the magnetic north heading, which should be good
+        // enough, if the true heading is not available for some reason.
         mapView?.direction = newHeading.trueHeading >= 0 ? newHeading.trueHeading : newHeading.magneticHeading
     }
 

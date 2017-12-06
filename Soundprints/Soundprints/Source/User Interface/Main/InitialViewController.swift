@@ -18,6 +18,8 @@ class InitialViewController: BaseViewController {
         handleRoutingFromViewDidAppear()
     }
     
+    // MARK: - Routing
+    
     private func handleRoutingFromViewDidAppear() {
     
         if AuthenticationManager.isLoggedIn {

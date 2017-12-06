@@ -40,7 +40,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.image` struct is generated, and contains static references to 5 images.
+  /// This `R.image` struct is generated, and contains static references to 4 images.
   struct image {
     /// Image `annotation-in-range-icon`.
     static let annotationInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-in-range-icon")
@@ -48,8 +48,6 @@ struct R: Rswift.Validatable {
     static let annotationNotInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-not-in-range-icon")
     /// Image `play-icon`.
     static let playIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon")
-    /// Image `sample-profile-image`.
-    static let sampleProfileImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "sample-profile-image")
     /// Image `user-location-icon`.
     static let userLocationIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "user-location-icon")
     
@@ -66,11 +64,6 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "play-icon", bundle: ..., traitCollection: ...)`
     static func playIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.playIcon, compatibleWith: traitCollection)
-    }
-    
-    /// `UIImage(named: "sample-profile-image", bundle: ..., traitCollection: ...)`
-    static func sampleProfileImage(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.sampleProfileImage, compatibleWith: traitCollection)
     }
     
     /// `UIImage(named: "user-location-icon", bundle: ..., traitCollection: ...)`

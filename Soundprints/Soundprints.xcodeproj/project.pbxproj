@@ -43,6 +43,7 @@
 		108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Soundprints.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.release.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.release.xcconfig"; sourceTree = "<group>"; };
 		C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.debug.xcconfig"; sourceTree = "<group>"; };
+		E210147E1FD7F2AE005AAE9F /* Soundprints-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Soundprints-Bridging-Header.h"; sourceTree = "<group>"; };
 		E2B344361FCEBA8F001FC5FD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		E2E551031FD54AC800BAE27E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2E551051FD54ADF00BAE27E /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
@@ -53,7 +54,6 @@
 		E2E551141FD6B82E00BAE27E /* UserAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnnotationView.swift; sourceTree = "<group>"; };
 		E2E551161FD6B85700BAE27E /* SoundAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundAnnotationView.swift; sourceTree = "<group>"; };
 		E2E551181FD6B88E00BAE27E /* SoundAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundAnnotation.swift; sourceTree = "<group>"; };
-		E2E5511D1FD6D8C900BAE27E /* Soundprints-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Soundprints-Bridging-Header.h"; sourceTree = "<group>"; };
 		E2E5511E1FD6D8C900BAE27E /* CoreTextArcView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreTextArcView.m; sourceTree = "<group>"; };
 		E2E551201FD6D8E300BAE27E /* CoreTextArcView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreTextArcView.h; sourceTree = "<group>"; };
 		E2E551221FD6DB0100BAE27E /* ProximityRingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityRingsView.swift; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 		E2F1DD9A1FCEA367000CC2F1 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				E2E5511D1FD6D8C900BAE27E /* Soundprints-Bridging-Header.h */,
+				E210147E1FD7F2AE005AAE9F /* Soundprints-Bridging-Header.h */,
 				E2F1DD9B1FCEA367000CC2F1 /* AppDelegate.swift */,
 			);
 			path = Main;

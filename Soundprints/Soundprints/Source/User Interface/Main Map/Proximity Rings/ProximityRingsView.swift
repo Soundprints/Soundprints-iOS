@@ -14,9 +14,16 @@ class ProximityRingsView: UIView {
     
     var innerRingDistanceInMeters: Int = 500 {
         didSet {
-            innerArcTextView?.text = "\(innerRingDistanceInMeters)m"
-            middleArcTextView?.text = "\(2*innerRingDistanceInMeters)m"
+            innerArcTextView?.text = innerArcText
+            middleArcTextView?.text = middleArcText
         }
+    }
+    
+    private var innerArcText: String {
+        return "\(innerRingDistanceInMeters)m"
+    }
+    private var middleArcText: String {
+        return "\(2*innerRingDistanceInMeters)m"
     }
     
     private var proximityRingOuterView: UIView?
@@ -70,13 +77,13 @@ class ProximityRingsView: UIView {
         innerArcTextView?.font = UIFont.systemFont(ofSize: 14)
         innerArcTextView?.color = .white
         innerArcTextView?.backgroundColor = .clear
-        innerArcTextView?.text = "\(innerRingDistanceInMeters)m"
+        innerArcTextView?.text = innerArcText
         
         middleArcTextView = CoreTextArcView(frame: .zero)
         middleArcTextView?.font = UIFont.systemFont(ofSize: 14)
         middleArcTextView?.color = .white
         middleArcTextView?.backgroundColor = .clear
-        middleArcTextView?.text = "\(2*innerRingDistanceInMeters)m"
+        middleArcTextView?.text = middleArcText
         
         addSubview(proximityRingOuterView!)
         addSubview(proximityRingMiddleView!)
@@ -84,8 +91,6 @@ class ProximityRingsView: UIView {
         
         addSubview(innerArcTextView!)
         addSubview(middleArcTextView!)
-        
-        middleArcTextView?.setNeedsDisplay()
         
         updateProximityRingsFrames()
     }
@@ -111,19 +116,29 @@ class ProximityRingsView: UIView {
         proximityRingInnerView?.center = center
         proximityRingInnerView?.layer.cornerRadius = innerViewDimension/2
         
+        // The arc text views are positioned in the following way:
+        // - frame: Simply take the frame of the bigger ring so we have enough space
+        // - center: Center of the superview
+        // - radius: Half of the ring (coincident to the arc text view) size
+        // - arcSize: Inner arc size is arbitrarily set and the middle arc size is computed as (innerArcSize/2) * (middleText.length/innerText.length)
+        // - shiftV: It turns out that the text is not properly positioned without the vertical shift, so we have to shift it for half of the radius
+        // - transform: Since the angle of where in the circle should the text be displayed can't be set, we simply apply a rotating transform for -PI/2 
+        
         let innerArcSize: CGFloat = 40
+        let arcTextOffsetFromRing: CGFloat = 2
+        
         innerArcTextView?.frame.size = CGSize(width: middleViewDimension, height: middleViewDimension)
         innerArcTextView?.center = center
         innerArcTextView?.radius = innerViewDimension/2
         innerArcTextView?.arcSize = innerArcSize
-        innerArcTextView?.shiftV = innerViewDimension/4 + 2        
+        innerArcTextView?.shiftV = innerViewDimension/4 + arcTextOffsetFromRing        
         innerArcTextView?.transform = CGAffineTransform(rotationAngle: -.pi/2)
         
         middleArcTextView?.frame.size = CGSize(width: outerViewDimension, height: outerViewDimension)
         middleArcTextView?.center = center
         middleArcTextView?.radius = middleViewDimension/2
-        middleArcTextView?.arcSize = (innerArcSize/2) * 1.25
-        middleArcTextView?.shiftV = middleViewDimension/4 + 2        
+        middleArcTextView?.arcSize = (innerArcSize/2) * (CGFloat(middleArcText.count)/CGFloat(innerArcText.count))
+        middleArcTextView?.shiftV = middleViewDimension/4 + arcTextOffsetFromRing
         middleArcTextView?.transform = CGAffineTransform(rotationAngle: -.pi/2)
     } 
     

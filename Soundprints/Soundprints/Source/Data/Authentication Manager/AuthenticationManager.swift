@@ -12,6 +12,8 @@ import FacebookCore
 
 class AuthenticationManager {
     
+    // MARK: - Properties
+    
     static var accessToken: String?
     static var provider: AuthProvider = .facebook
     
@@ -21,6 +23,8 @@ class AuthenticationManager {
         }
     }
     
+    // MARK: - Access token
+    
     class func refreshAccessToken(callback: @escaping ((_ token: String?, _ error: Error?) -> Void)) {
         
         accessToken = nil
@@ -29,11 +33,7 @@ class AuthenticationManager {
         case .facebook:
             if let _ = AccessToken.current {
                 AccessToken.refreshCurrentToken { token, error in
-                    if let token = token {
-                        self.accessToken = token.authenticationToken
-                    } else {
-                        self.accessToken = nil
-                    }
+                    self.accessToken = token?.authenticationToken
                     callback(self.accessToken, error)
                 }
             } else {
@@ -48,9 +48,12 @@ class AuthenticationManager {
     
 }
 
+// MARK: - AuthProvider
+
 extension AuthenticationManager {
     
     enum AuthProvider {
+        
         case facebook
         
         func toString() -> String {

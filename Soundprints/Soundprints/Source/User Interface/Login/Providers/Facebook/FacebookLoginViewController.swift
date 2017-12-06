@@ -11,9 +11,17 @@ import FacebookLogin
 
 class FacebookLoginViewController: ProviderLoginViewController {
     
+    // MARK: - View controller lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initializeFacebookLoginButton()
+    }
+    
+    // MARK: - Facebook login button
+    
+    private func initializeFacebookLoginButton() {
         // TODO: Improve the positioning
         let loginButton = LoginButton(readPermissions: [.publicProfile, .email])
         loginButton.center = view.center
@@ -22,6 +30,8 @@ class FacebookLoginViewController: ProviderLoginViewController {
     }
 
 }
+
+// MARK: - LoginButtonDelegate
 
 extension FacebookLoginViewController: LoginButtonDelegate {
     
