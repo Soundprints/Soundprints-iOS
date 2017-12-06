@@ -8,7 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		15911F457A4ADFBD1F234989 /* Pods_Soundprints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */; };
+		E21014811FD7FB7C005AAE9F /* SoundsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014801FD7FB7C005AAE9F /* SoundsListViewController.swift */; };
+		E21014831FD7FB87005AAE9F /* SoundsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21014821FD7FB87005AAE9F /* SoundsList.storyboard */; };
+		E21014861FD80F02005AAE9F /* SoundsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014851FD80F02005AAE9F /* SoundsListCell.swift */; };
+		E21014891FD81405005AAE9F /* SingleTimeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014881FD81405005AAE9F /* SingleTimeValue.swift */; };
+		E210148B1FD8161C005AAE9F /* TimeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E210148A1FD8161C005AAE9F /* TimeValue.swift */; };
 		E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B344361FCEBA8F001FC5FD /* R.generated.swift */; };
+		E2D61EED1FD8234500A6AA85 /* SingleDistanceValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEC1FD8234500A6AA85 /* SingleDistanceValue.swift */; };
 		E2E551041FD54AC800BAE27E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551031FD54AC800BAE27E /* LoginViewController.swift */; };
 		E2E551061FD54ADF00BAE27E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E551051FD54ADF00BAE27E /* Login.storyboard */; };
 		E2E551091FD56A2E00BAE27E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */; };
@@ -44,7 +50,13 @@
 		34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.release.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.release.xcconfig"; sourceTree = "<group>"; };
 		C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.debug.xcconfig"; sourceTree = "<group>"; };
 		E210147E1FD7F2AE005AAE9F /* Soundprints-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Soundprints-Bridging-Header.h"; sourceTree = "<group>"; };
+		E21014801FD7FB7C005AAE9F /* SoundsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsListViewController.swift; sourceTree = "<group>"; };
+		E21014821FD7FB87005AAE9F /* SoundsList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SoundsList.storyboard; sourceTree = "<group>"; };
+		E21014851FD80F02005AAE9F /* SoundsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsListCell.swift; sourceTree = "<group>"; };
+		E21014881FD81405005AAE9F /* SingleTimeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTimeValue.swift; sourceTree = "<group>"; };
+		E210148A1FD8161C005AAE9F /* TimeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeValue.swift; sourceTree = "<group>"; };
 		E2B344361FCEBA8F001FC5FD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		E2D61EEC1FD8234500A6AA85 /* SingleDistanceValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDistanceValue.swift; sourceTree = "<group>"; };
 		E2E551031FD54AC800BAE27E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2E551051FD54ADF00BAE27E /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
@@ -95,6 +107,41 @@
 				108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E210147F1FD7FB66005AAE9F /* Sounds List */ = {
+			isa = PBXGroup;
+			children = (
+				E21014841FD80EEE005AAE9F /* Cells */,
+				E21014801FD7FB7C005AAE9F /* SoundsListViewController.swift */,
+				E21014821FD7FB87005AAE9F /* SoundsList.storyboard */,
+			);
+			path = "Sounds List";
+			sourceTree = "<group>";
+		};
+		E21014841FD80EEE005AAE9F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E21014851FD80F02005AAE9F /* SoundsListCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		E21014871FD813FC005AAE9F /* Time Value */ = {
+			isa = PBXGroup;
+			children = (
+				E21014881FD81405005AAE9F /* SingleTimeValue.swift */,
+				E210148A1FD8161C005AAE9F /* TimeValue.swift */,
+			);
+			path = "Time Value";
+			sourceTree = "<group>";
+		};
+		E2D61EEB1FD8230900A6AA85 /* Distance Value */ = {
+			isa = PBXGroup;
+			children = (
+				E2D61EEC1FD8234500A6AA85 /* SingleDistanceValue.swift */,
+			);
+			path = "Distance Value";
 			sourceTree = "<group>";
 		};
 		E2E551021FD54AAB00BAE27E /* Login */ = {
@@ -271,6 +318,8 @@
 		E2F1DD991FCEA367000CC2F1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				E2D61EEB1FD8230900A6AA85 /* Distance Value */,
+				E21014871FD813FC005AAE9F /* Time Value */,
 				E2E5510C1FD570E000BAE27E /* User Interface */,
 				E2EBF5971FCFFC4100AAFBC1 /* Data */,
 				E2EBF5911FCEF40300AAFBC1 /* Application */,
@@ -300,6 +349,7 @@
 		E2F1DD9D1FCEA367000CC2F1 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				E210147F1FD7FB66005AAE9F /* Sounds List */,
 				E2F1DDAC1FCEB56A000CC2F1 /* Main Map */,
 				E2E551021FD54AAB00BAE27E /* Login */,
 				E2F1DD9E1FCEA367000CC2F1 /* Main */,
@@ -408,6 +458,7 @@
 				E2F1DDA51FCEA367000CC2F1 /* Main.storyboard in Resources */,
 				E2F1DDA21FCEA367000CC2F1 /* Assets.xcassets in Resources */,
 				E2E551061FD54ADF00BAE27E /* Login.storyboard in Resources */,
+				E21014831FD7FB87005AAE9F /* SoundsList.storyboard in Resources */,
 				E2F1DDA41FCEA367000CC2F1 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,6 +550,7 @@
 				E2E5510E1FD570E000BAE27E /* ContentControllerView.swift in Sources */,
 				E2E551231FD6DB0100BAE27E /* ProximityRingsView.swift in Sources */,
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
+				E21014891FD81405005AAE9F /* SingleTimeValue.swift in Sources */,
 				E2E5511F1FD6D8C900BAE27E /* CoreTextArcView.m in Sources */,
 				E2E551171FD6B85700BAE27E /* SoundAnnotationView.swift in Sources */,
 				E2E551101FD5746900BAE27E /* ProviderLoginViewController.swift in Sources */,
@@ -508,9 +560,13 @@
 				E2EBF5881FCEF35500AAFBC1 /* APIManager.swift in Sources */,
 				E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */,
 				E2EBF58D1FCEF3BD00AAFBC1 /* APIRequest.swift in Sources */,
+				E21014861FD80F02005AAE9F /* SoundsListCell.swift in Sources */,
 				E2EBF58F1FCEF3BD00AAFBC1 /* APIResponse.swift in Sources */,
+				E210148B1FD8161C005AAE9F /* TimeValue.swift in Sources */,
 				E2E551191FD6B88E00BAE27E /* SoundAnnotation.swift in Sources */,
+				E2D61EED1FD8234500A6AA85 /* SingleDistanceValue.swift in Sources */,
 				E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */,
+				E21014811FD7FB7C005AAE9F /* SoundsListViewController.swift in Sources */,
 				E2EBF5901FCEF3BD00AAFBC1 /* APIResponseTools.swift in Sources */,
 				E2E551151FD6B82E00BAE27E /* UserAnnotationView.swift in Sources */,
 				E2E551091FD56A2E00BAE27E /* AuthenticationManager.swift in Sources */,

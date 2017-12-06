@@ -20,7 +20,9 @@ class Sound {
     private(set) var userId: String?
     private(set) var userDisplayName: String?
     private(set) var userProfileImageUrl: String?
-    private(set) var duration: Double?
+    private(set) var duration: TimeInterval?
+    private(set) var initialDistance: SingleDistanceValue?
+    private(set) var submissionDate: Date?
     private var resourceURL: ResourceURL?
     
     // MARK: - Initializers
@@ -32,6 +34,32 @@ class Sound {
     }
     
     // MARK: - Resource URL
+    
+    func timeSinceSubmissionDisplayString() -> String? {
+        guard let submissionDate = submissionDate else {
+            return nil
+        }
+        
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.year, .month, .day, .hour, .minute]
+        formatter.unitsStyle = .abbreviated
+        formatter.maximumUnitCount = 1
+        
+        return formatter.string(from: Date().timeIntervalSince(submissionDate))
+    }
+    
+    func durationDisplayString() -> String? {
+        guard let duration = duration else {
+            return nil
+        }
+        
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .day]
+        formatter.maximumUnitCount = 3
+        formatter.unitsStyle = duration < 60 ? .full : .abbreviated
+        
+        return formatter.string(from: duration)
+    }
     
     func getResourceURL(callback: @escaping ((_ url: URL?, _ error: APIError?) -> Void)) {
         if let resourceURL = resourceURL, resourceURL.isValid {
@@ -65,6 +93,16 @@ class Sound {
             userProfileImageUrl = userWrapper.string(key: "profileImageUrl")
         }
         duration = wrapper.double(key: "duration")
+        if let distanceMeters = wrapper.double(key: "distance") {
+            initialDistance = SingleDistanceValue.from(meters: distanceMeters)
+        } else {
+            initialDistance = nil
+        }
+        if let submissionDateInterval = wrapper.double(key: "submissionDate") {
+            submissionDate = Date(timeIntervalSince1970: submissionDateInterval)
+        } else {
+            submissionDate = nil
+        }
     }
     
 }

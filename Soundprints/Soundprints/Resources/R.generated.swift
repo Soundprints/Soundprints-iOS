@@ -40,12 +40,14 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.image` struct is generated, and contains static references to 4 images.
+  /// This `R.image` struct is generated, and contains static references to 5 images.
   struct image {
     /// Image `annotation-in-range-icon`.
     static let annotationInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-in-range-icon")
     /// Image `annotation-not-in-range-icon`.
     static let annotationNotInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-not-in-range-icon")
+    /// Image `play-icon-blue`.
+    static let playIconBlue = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon-blue")
     /// Image `play-icon`.
     static let playIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon")
     /// Image `user-location-icon`.
@@ -66,6 +68,11 @@ struct R: Rswift.Validatable {
       return UIKit.UIImage(resource: R.image.playIcon, compatibleWith: traitCollection)
     }
     
+    /// `UIImage(named: "play-icon-blue", bundle: ..., traitCollection: ...)`
+    static func playIconBlue(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.playIconBlue, compatibleWith: traitCollection)
+    }
+    
     /// `UIImage(named: "user-location-icon", bundle: ..., traitCollection: ...)`
     static func userLocationIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.userLocationIcon, compatibleWith: traitCollection)
@@ -79,8 +86,11 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.reuseIdentifier` struct is generated, and contains static references to 0 reuse identifiers.
+  /// This `R.reuseIdentifier` struct is generated, and contains static references to 1 reuse identifiers.
   struct reuseIdentifier {
+    /// Reuse identifier `SoundsListCell`.
+    static let soundsListCell: Rswift.ReuseIdentifier<SoundsListCell> = Rswift.ReuseIdentifier(identifier: "SoundsListCell")
+    
     fileprivate init() {}
   }
   
@@ -89,7 +99,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.storyboard` struct is generated, and contains static references to 4 storyboards.
+  /// This `R.storyboard` struct is generated, and contains static references to 5 storyboards.
   struct storyboard {
     /// Storyboard `LaunchScreen`.
     static let launchScreen = _R.storyboard.launchScreen()
@@ -99,6 +109,8 @@ struct R: Rswift.Validatable {
     static let mainMap = _R.storyboard.mainMap()
     /// Storyboard `Main`.
     static let main = _R.storyboard.main()
+    /// Storyboard `SoundsList`.
+    static let soundsList = _R.storyboard.soundsList()
     
     /// `UIStoryboard(name: "LaunchScreen", bundle: ...)`
     static func launchScreen(_: Void = ()) -> UIKit.UIStoryboard {
@@ -118,6 +130,11 @@ struct R: Rswift.Validatable {
     /// `UIStoryboard(name: "MainMap", bundle: ...)`
     static func mainMap(_: Void = ()) -> UIKit.UIStoryboard {
       return UIKit.UIStoryboard(resource: R.storyboard.mainMap)
+    }
+    
+    /// `UIStoryboard(name: "SoundsList", bundle: ...)`
+    static func soundsList(_: Void = ()) -> UIKit.UIStoryboard {
+      return UIKit.UIStoryboard(resource: R.storyboard.soundsList)
     }
     
     fileprivate init() {}
@@ -155,6 +172,7 @@ struct _R: Rswift.Validatable {
       try main.validate()
       try login.validate()
       try mainMap.validate()
+      try soundsList.validate()
     }
     
     struct launchScreen: Rswift.StoryboardResourceWithInitialControllerType {
@@ -217,6 +235,23 @@ struct _R: Rswift.Validatable {
       
       static func validate() throws {
         if _R.storyboard.mainMap().mainMapViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'mainMapViewController' could not be loaded from storyboard 'MainMap' as 'MainMapViewController'.") }
+      }
+      
+      fileprivate init() {}
+    }
+    
+    struct soundsList: Rswift.StoryboardResourceType, Rswift.Validatable {
+      let bundle = R.hostingBundle
+      let name = "SoundsList"
+      let soundsListViewController = StoryboardViewControllerResource<SoundsListViewController>(identifier: "SoundsListViewController")
+      
+      func soundsListViewController(_: Void = ()) -> SoundsListViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: soundsListViewController)
+      }
+      
+      static func validate() throws {
+        if UIKit.UIImage(named: "play-icon-blue") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'play-icon-blue' is used in storyboard 'SoundsList', but couldn't be loaded.") }
+        if _R.storyboard.soundsList().soundsListViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'soundsListViewController' could not be loaded from storyboard 'SoundsList' as 'SoundsListViewController'.") }
       }
       
       fileprivate init() {}
