@@ -33,28 +33,61 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WqY-Pj-pIx">
                                 <rect key="frame" x="0.0" y="547" width="375" height="120"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAM-cY-126">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8F2-t8-8p9" userLabel="Record Button">
+                                        <rect key="frame" x="137" y="10" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="record-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="t67-0X-Z4P" userLabel="Record Image View">
+                                        <rect key="frame" x="137" y="10" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="t67-0X-Z4P" secondAttribute="height" multiplier="1:1" id="RAG-ce-dNc"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAM-cY-126" userLabel="Sounds List Button">
                                         <rect key="frame" x="-5" y="34.5" width="90" height="91"/>
                                         <connections>
                                             <action selector="soundsListButtonPressed:" destination="3cC-5y-1ia" eventType="touchUpInside" id="Ndg-3g-ibv"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sounds-list-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="WgR-Yb-w1s">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sounds-list-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="WgR-Yb-w1s" userLabel="Sounds List Image View">
                                         <rect key="frame" x="10" y="50" width="60" height="60"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="Mds-3N-D19"/>
                                             <constraint firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="height" multiplier="1:1" id="RTb-tu-vCf"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7dh-U1-cSI" userLabel="Filter Button">
+                                        <rect key="frame" x="142" y="14" width="90" height="91"/>
+                                        <connections>
+                                            <action selector="filterButtonPressed:" destination="3cC-5y-1ia" eventType="touchUpInside" id="1gs-ko-WUn"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="filter-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="T77-94-uVa" userLabel="Filter Image View">
+                                        <rect key="frame" x="157" y="30" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="T77-94-uVa" secondAttribute="height" multiplier="1:1" id="ped-R3-Vk5"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="7dh-U1-cSI" firstAttribute="centerY" secondItem="T77-94-uVa" secondAttribute="centerY" id="0YA-Y4-kSq"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="height" secondItem="WgR-Yb-w1s" secondAttribute="height" multiplier="1.5" constant="1" id="9Dx-fA-ZbF"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="width" multiplier="1.5" id="AfJ-h3-bbM"/>
+                                    <constraint firstItem="7dh-U1-cSI" firstAttribute="height" secondItem="T77-94-uVa" secondAttribute="height" multiplier="1.5" constant="1" id="CBL-9L-xeE"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="centerX" secondItem="WgR-Yb-w1s" secondAttribute="centerX" id="D4s-mP-n6l"/>
+                                    <constraint firstItem="T77-94-uVa" firstAttribute="bottom" secondItem="WgR-Yb-w1s" secondAttribute="bottom" id="E1R-2o-U7O"/>
+                                    <constraint firstItem="7dh-U1-cSI" firstAttribute="centerX" secondItem="T77-94-uVa" secondAttribute="centerX" id="Hms-de-Icg"/>
+                                    <constraint firstAttribute="trailing" secondItem="T77-94-uVa" secondAttribute="trailing" constant="20" id="LcE-31-fpf"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="centerY" secondItem="WgR-Yb-w1s" secondAttribute="centerY" id="NP9-1f-MTV"/>
+                                    <constraint firstAttribute="bottom" secondItem="t67-0X-Z4P" secondAttribute="bottom" constant="20" id="ONN-mM-jXX"/>
                                     <constraint firstItem="WgR-Yb-w1s" firstAttribute="leading" secondItem="WqY-Pj-pIx" secondAttribute="leading" constant="20" id="RrI-9Q-Nba"/>
-                                    <constraint firstAttribute="bottom" secondItem="WgR-Yb-w1s" secondAttribute="bottom" constant="20" id="f7y-Er-CUx"/>
+                                    <constraint firstItem="t67-0X-Z4P" firstAttribute="centerX" secondItem="WqY-Pj-pIx" secondAttribute="centerX" id="Vzr-hl-QpN"/>
+                                    <constraint firstItem="T77-94-uVa" firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="width" id="ecf-IE-I3b"/>
+                                    <constraint firstAttribute="bottom" secondItem="WgR-Yb-w1s" secondAttribute="bottom" constant="10" id="f7y-Er-CUx"/>
+                                    <constraint firstItem="WgR-Yb-w1s" firstAttribute="width" secondItem="t67-0X-Z4P" secondAttribute="width" multiplier="0.75" id="kkC-ms-Ceb"/>
+                                    <constraint firstItem="T77-94-uVa" firstAttribute="width" secondItem="T77-94-uVa" secondAttribute="height" multiplier="1:1" id="w31-rA-O2j"/>
+                                    <constraint firstItem="7dh-U1-cSI" firstAttribute="width" secondItem="T77-94-uVa" secondAttribute="width" multiplier="1.5" id="x3Z-hR-HVI"/>
+                                    <constraint firstItem="t67-0X-Z4P" firstAttribute="width" secondItem="WqY-Pj-pIx" secondAttribute="width" multiplier="0.25" id="yhj-1z-u3N"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="REZ-9P-kgw" customClass="InteractionLockingContentControllerView" customModule="Soundprints" customModuleProvider="target">
@@ -98,6 +131,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="filter-button-icon" width="313" height="313"/>
+        <image name="record-button-icon" width="420" height="420"/>
         <image name="sounds-list-button-icon" width="313" height="313"/>
         <image name="white-gradient" width="1440" height="928"/>
     </resources>

@@ -214,6 +214,10 @@ class MainMapViewController: BaseViewController {
         setContentControllerViewController(withMenuContent: .soundsList)
     }
     
+    @IBAction func filterButtonPressed(_ sender: Any) {
+        setContentControllerViewController(withMenuContent: .filter)
+    }
+    
     // MARK: - Convenince
     
     private func distanceInKilometers(from: CLLocation?, to: CLLocation?) -> Double? {
@@ -344,7 +348,7 @@ private extension MainMapViewController {
             contentControllerView?.setViewController(controller: soundsList, animationStyle: .fade)
         case .filter:
             // TODO: Implement and integrate the filter screen
-            break
+            return
         }
         
         menuContainerView?.kamino.animateHiden(hidden: true, duration: MainMapViewController.menuHidingAnimationDuration)

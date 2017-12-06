@@ -40,16 +40,20 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.image` struct is generated, and contains static references to 8 images.
+  /// This `R.image` struct is generated, and contains static references to 10 images.
   struct image {
     /// Image `annotation-in-range-icon`.
     static let annotationInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-in-range-icon")
     /// Image `annotation-not-in-range-icon`.
     static let annotationNotInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-not-in-range-icon")
+    /// Image `filter-button-icon`.
+    static let filterButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "filter-button-icon")
     /// Image `play-icon-blue`.
     static let playIconBlue = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon-blue")
     /// Image `play-icon`.
     static let playIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon")
+    /// Image `record-button-icon`.
+    static let recordButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "record-button-icon")
     /// Image `sounds-list-button-icon`.
     static let soundsListButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "sounds-list-button-icon")
     /// Image `sounds-list-close-button-icon`.
@@ -69,6 +73,11 @@ struct R: Rswift.Validatable {
       return UIKit.UIImage(resource: R.image.annotationNotInRangeIcon, compatibleWith: traitCollection)
     }
     
+    /// `UIImage(named: "filter-button-icon", bundle: ..., traitCollection: ...)`
+    static func filterButtonIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.filterButtonIcon, compatibleWith: traitCollection)
+    }
+    
     /// `UIImage(named: "play-icon", bundle: ..., traitCollection: ...)`
     static func playIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.playIcon, compatibleWith: traitCollection)
@@ -77,6 +86,11 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "play-icon-blue", bundle: ..., traitCollection: ...)`
     static func playIconBlue(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.playIconBlue, compatibleWith: traitCollection)
+    }
+    
+    /// `UIImage(named: "record-button-icon", bundle: ..., traitCollection: ...)`
+    static func recordButtonIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.recordButtonIcon, compatibleWith: traitCollection)
     }
     
     /// `UIImage(named: "sounds-list-button-icon", bundle: ..., traitCollection: ...)`
@@ -255,8 +269,10 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
-        if UIKit.UIImage(named: "sounds-list-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'sounds-list-button-icon' is used in storyboard 'MainMap', but couldn't be loaded.") }
         if UIKit.UIImage(named: "white-gradient") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'white-gradient' is used in storyboard 'MainMap', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "filter-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'filter-button-icon' is used in storyboard 'MainMap', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "record-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'record-button-icon' is used in storyboard 'MainMap', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "sounds-list-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'sounds-list-button-icon' is used in storyboard 'MainMap', but couldn't be loaded.") }
         if _R.storyboard.mainMap().mainMapViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'mainMapViewController' could not be loaded from storyboard 'MainMap' as 'MainMapViewController'.") }
       }
       
