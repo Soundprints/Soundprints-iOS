@@ -40,7 +40,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.image` struct is generated, and contains static references to 5 images.
+  /// This `R.image` struct is generated, and contains static references to 8 images.
   struct image {
     /// Image `annotation-in-range-icon`.
     static let annotationInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-in-range-icon")
@@ -50,8 +50,14 @@ struct R: Rswift.Validatable {
     static let playIconBlue = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon-blue")
     /// Image `play-icon`.
     static let playIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon")
+    /// Image `sounds-list-button-icon`.
+    static let soundsListButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "sounds-list-button-icon")
+    /// Image `sounds-list-close-button-icon`.
+    static let soundsListCloseButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "sounds-list-close-button-icon")
     /// Image `user-location-icon`.
     static let userLocationIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "user-location-icon")
+    /// Image `white-gradient`.
+    static let whiteGradient = Rswift.ImageResource(bundle: R.hostingBundle, name: "white-gradient")
     
     /// `UIImage(named: "annotation-in-range-icon", bundle: ..., traitCollection: ...)`
     static func annotationInRangeIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
@@ -73,9 +79,24 @@ struct R: Rswift.Validatable {
       return UIKit.UIImage(resource: R.image.playIconBlue, compatibleWith: traitCollection)
     }
     
+    /// `UIImage(named: "sounds-list-button-icon", bundle: ..., traitCollection: ...)`
+    static func soundsListButtonIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.soundsListButtonIcon, compatibleWith: traitCollection)
+    }
+    
+    /// `UIImage(named: "sounds-list-close-button-icon", bundle: ..., traitCollection: ...)`
+    static func soundsListCloseButtonIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.soundsListCloseButtonIcon, compatibleWith: traitCollection)
+    }
+    
     /// `UIImage(named: "user-location-icon", bundle: ..., traitCollection: ...)`
     static func userLocationIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.userLocationIcon, compatibleWith: traitCollection)
+    }
+    
+    /// `UIImage(named: "white-gradient", bundle: ..., traitCollection: ...)`
+    static func whiteGradient(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.whiteGradient, compatibleWith: traitCollection)
     }
     
     fileprivate init() {}
@@ -234,6 +255,7 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
+        if UIKit.UIImage(named: "sounds-list-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'sounds-list-button-icon' is used in storyboard 'MainMap', but couldn't be loaded.") }
         if _R.storyboard.mainMap().mainMapViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'mainMapViewController' could not be loaded from storyboard 'MainMap' as 'MainMapViewController'.") }
       }
       
@@ -250,7 +272,9 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
+        if UIKit.UIImage(named: "sounds-list-close-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'sounds-list-close-button-icon' is used in storyboard 'SoundsList', but couldn't be loaded.") }
         if UIKit.UIImage(named: "play-icon-blue") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'play-icon-blue' is used in storyboard 'SoundsList', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "white-gradient") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'white-gradient' is used in storyboard 'SoundsList', but couldn't be loaded.") }
         if _R.storyboard.soundsList().soundsListViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'soundsListViewController' could not be loaded from storyboard 'SoundsList' as 'SoundsListViewController'.") }
       }
       

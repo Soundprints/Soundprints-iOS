@@ -38,6 +38,14 @@ class SoundsListCell: UITableViewCell {
         }
     }
     
+    // MARK: - UIView lifecycle
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        updateFramesAndBorders()
+    }
+    
     // MARK: - Content updating
     
     private func updateContent(withSound sound: Sound?) {
@@ -49,9 +57,9 @@ class SoundsListCell: UITableViewCell {
         userDisplayNameLabel?.text = sound?.userDisplayName
         durationAndDistanceLabel?.text = {
             guard let distanceValue = sound?.initialDistance else {
-                return sound?.durationDisplayString()
+                return sound?.durationDisplayString(forceShortUnitStyle: false)
             }
-            guard let durationString = sound?.durationDisplayString() else {
+            guard let durationString = sound?.durationDisplayString(forceShortUnitStyle: true) else {
                 return sound?.initialDistance?.displayString()
             }
             return "\(durationString), \(distanceValue.displayString())"
@@ -62,6 +70,15 @@ class SoundsListCell: UITableViewCell {
             }
             return "left \(submissionIntervalString) ago"
         }()
+    }
+    
+    private func updateFramesAndBorders() {
+        profileImageView?.clipsToBounds = true
+        if let profileImageView = profileImageView {
+            profileImageView.layer.cornerRadius = profileImageView.bounds.height/2
+        }
+        contentContainerView?.clipsToBounds = true
+        contentContainerView?.layer.cornerRadius = 4
     }
     
     // MARK: - Actions

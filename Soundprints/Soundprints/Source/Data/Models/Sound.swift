@@ -48,15 +48,15 @@ class Sound {
         return formatter.string(from: Date().timeIntervalSince(submissionDate))
     }
     
-    func durationDisplayString() -> String? {
+    func durationDisplayString(forceShortUnitStyle: Bool) -> String? {
         guard let duration = duration else {
             return nil
         }
         
         let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute, .day]
+        formatter.allowedUnits = [.hour, .minute, .second]
         formatter.maximumUnitCount = 3
-        formatter.unitsStyle = duration < 60 ? .full : .abbreviated
+        formatter.unitsStyle = (forceShortUnitStyle || duration >= 60) ? .abbreviated : .full
         
         return formatter.string(from: duration)
     }

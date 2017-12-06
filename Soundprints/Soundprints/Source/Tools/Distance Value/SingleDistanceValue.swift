@@ -44,7 +44,7 @@ struct SingleDistanceValue {
             }
         }()
         let unitString = unit.toString()
-        return String(format: "%\(decimalPoints > 0 ? ".\(decimalPoints)" : "")f\(unitString)", value)
+        return String(format: "%.\(decimalPoints)f\(unitString)", value)
     }
     
 }

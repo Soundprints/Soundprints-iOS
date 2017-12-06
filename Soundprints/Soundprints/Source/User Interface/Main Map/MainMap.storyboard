@@ -6,11 +6,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main Map View Controller-->
+        <!--Parent View Controller-->
         <scene sceneID="xdd-Kj-wMq">
             <objects>
                 <viewController storyboardIdentifier="MainMapViewController" id="3cC-5y-1ia" customClass="MainMapViewController" customModule="Soundprints" customModuleProvider="target" sceneMemberID="viewController">
@@ -25,17 +27,60 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="styleURL__" value="mapbox://styles/mapbox/dark-v9"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WqY-Pj-pIx">
+                                <rect key="frame" x="0.0" y="547" width="375" height="120"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAM-cY-126">
+                                        <rect key="frame" x="-5" y="34.5" width="90" height="91"/>
+                                        <connections>
+                                            <action selector="soundsListButtonPressed:" destination="3cC-5y-1ia" eventType="touchUpInside" id="Ndg-3g-ibv"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sounds-list-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="WgR-Yb-w1s">
+                                        <rect key="frame" x="10" y="50" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="Mds-3N-D19"/>
+                                            <constraint firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="height" multiplier="1:1" id="RTb-tu-vCf"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="yAM-cY-126" firstAttribute="height" secondItem="WgR-Yb-w1s" secondAttribute="height" multiplier="1.5" constant="1" id="9Dx-fA-ZbF"/>
+                                    <constraint firstItem="yAM-cY-126" firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="width" multiplier="1.5" id="AfJ-h3-bbM"/>
+                                    <constraint firstItem="yAM-cY-126" firstAttribute="centerX" secondItem="WgR-Yb-w1s" secondAttribute="centerX" id="D4s-mP-n6l"/>
+                                    <constraint firstItem="yAM-cY-126" firstAttribute="centerY" secondItem="WgR-Yb-w1s" secondAttribute="centerY" id="NP9-1f-MTV"/>
+                                    <constraint firstItem="WgR-Yb-w1s" firstAttribute="leading" secondItem="WqY-Pj-pIx" secondAttribute="leading" constant="10" id="RrI-9Q-Nba"/>
+                                    <constraint firstAttribute="height" constant="120" id="d2h-3J-A5j"/>
+                                    <constraint firstAttribute="bottom" secondItem="WgR-Yb-w1s" secondAttribute="bottom" constant="10" id="f7y-Er-CUx"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="REZ-9P-kgw" customClass="InteractionLockingContentControllerView" customModule="Soundprints" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="parentViewController" destination="3cC-5y-1ia" id="Lip-6v-iyp"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="5RC-g4-1Oo" firstAttribute="trailing" secondItem="1Mo-FC-jp9" secondAttribute="trailing" id="68T-Tg-02x"/>
+                            <constraint firstItem="5RC-g4-1Oo" firstAttribute="bottom" secondItem="REZ-9P-kgw" secondAttribute="bottom" id="6uq-Ls-Xfy"/>
                             <constraint firstItem="5RC-g4-1Oo" firstAttribute="bottom" secondItem="1Mo-FC-jp9" secondAttribute="bottom" id="D0C-SZ-ZEr"/>
                             <constraint firstItem="1Mo-FC-jp9" firstAttribute="leading" secondItem="5RC-g4-1Oo" secondAttribute="leading" id="EHl-Z6-gR6"/>
+                            <constraint firstItem="5RC-g4-1Oo" firstAttribute="trailing" secondItem="REZ-9P-kgw" secondAttribute="trailing" id="Iru-ic-ANh"/>
                             <constraint firstItem="1Mo-FC-jp9" firstAttribute="top" secondItem="5RC-g4-1Oo" secondAttribute="top" id="LDF-e9-eZ4"/>
+                            <constraint firstItem="REZ-9P-kgw" firstAttribute="leading" secondItem="5RC-g4-1Oo" secondAttribute="leading" id="MZM-0Z-99b"/>
+                            <constraint firstItem="5RC-g4-1Oo" firstAttribute="trailing" secondItem="WqY-Pj-pIx" secondAttribute="trailing" id="OYg-xn-yPG"/>
+                            <constraint firstItem="5RC-g4-1Oo" firstAttribute="bottom" secondItem="WqY-Pj-pIx" secondAttribute="bottom" id="QKC-FN-4Gf"/>
+                            <constraint firstItem="REZ-9P-kgw" firstAttribute="top" secondItem="5RC-g4-1Oo" secondAttribute="top" id="mm0-RH-KLQ"/>
+                            <constraint firstItem="WqY-Pj-pIx" firstAttribute="leading" secondItem="5RC-g4-1Oo" secondAttribute="leading" id="v31-QZ-qpQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5RC-g4-1Oo"/>
                     </view>
                     <connections>
+                        <outlet property="contentControllerView" destination="REZ-9P-kgw" id="W0X-bH-cmg"/>
                         <outlet property="mapView" destination="1Mo-FC-jp9" id="VtH-YF-Etm"/>
                     </connections>
                 </viewController>
@@ -44,4 +89,7 @@
             <point key="canvasLocation" x="1" y="183"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="sounds-list-button-icon" width="313" height="313"/>
+    </resources>
 </document>

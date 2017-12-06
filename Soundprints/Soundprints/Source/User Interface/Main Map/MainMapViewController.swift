@@ -16,6 +16,8 @@ class MainMapViewController: BaseViewController {
     // MARK: - Outlets
     
     @IBOutlet private weak var mapView: MGLMapView?
+    @IBOutlet private weak var contentControllerView: InteractionLockingContentControllerView?
+    
     
     // MARK: - Variables
     
@@ -205,6 +207,16 @@ class MainMapViewController: BaseViewController {
         headingLocationManager.stopUpdatingHeading()
     }
     
+    // MARK: - Actions
+    
+    @IBAction func soundsListButtonPressed(_ sender: Any) {
+        let soundsList = R.storyboard.soundsList.soundsListViewController()!
+        soundsList.sounds = sounds
+        soundsList.delegate = self
+        contentControllerView?.setViewController(controller: soundsList, animationStyle: .fade)
+        contentControllerView?.isUserInteractionEnabled = true
+    }
+    
     // MARK: - Convenince
     
     private func distanceInKilometers(from: CLLocation?, to: CLLocation?) -> Double? {
@@ -304,5 +316,13 @@ extension MainMapViewController: CLLocationManagerDelegate {
         mapView?.direction = newHeading.trueHeading >= 0 ? newHeading.trueHeading : newHeading.magneticHeading
     }
 
+    
+}
+
+extension MainMapViewController: SoundsListViewControllerDelegate {
+    
+    func soundsListViewControllerShouldBeDismissed(sender: SoundsListViewController) {
+        contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
+    }
     
 }
