@@ -256,6 +256,7 @@ struct _R: Rswift.Validatable {
       
       static func validate() throws {
         if UIKit.UIImage(named: "sounds-list-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'sounds-list-button-icon' is used in storyboard 'MainMap', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "white-gradient") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'white-gradient' is used in storyboard 'MainMap', but couldn't be loaded.") }
         if _R.storyboard.mainMap().mainMapViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'mainMapViewController' could not be loaded from storyboard 'MainMap' as 'MainMapViewController'.") }
       }
       
@@ -274,7 +275,6 @@ struct _R: Rswift.Validatable {
       static func validate() throws {
         if UIKit.UIImage(named: "sounds-list-close-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'sounds-list-close-button-icon' is used in storyboard 'SoundsList', but couldn't be loaded.") }
         if UIKit.UIImage(named: "play-icon-blue") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'play-icon-blue' is used in storyboard 'SoundsList', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "white-gradient") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'white-gradient' is used in storyboard 'SoundsList', but couldn't be loaded.") }
         if _R.storyboard.soundsList().soundsListViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'soundsListViewController' could not be loaded from storyboard 'SoundsList' as 'SoundsListViewController'.") }
       }
       

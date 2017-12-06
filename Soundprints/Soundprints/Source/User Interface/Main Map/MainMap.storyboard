@@ -27,6 +27,9 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="styleURL__" value="mapbox://styles/zzzzzzzzzzzzzzzzz/cjav5bcvl0oqk2sqsr17rhsvd"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="white-gradient" translatesAutoresizingMaskIntoConstraints="NO" id="Bup-Wu-JE3">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WqY-Pj-pIx">
                                 <rect key="frame" x="0.0" y="547" width="375" height="120"/>
                                 <subviews>
@@ -39,7 +42,7 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sounds-list-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="WgR-Yb-w1s">
                                         <rect key="frame" x="10" y="50" width="60" height="60"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="Mds-3N-D19"/>
+                                            <constraint firstAttribute="width" constant="80" id="Mds-3N-D19"/>
                                             <constraint firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="height" multiplier="1:1" id="RTb-tu-vCf"/>
                                         </constraints>
                                     </imageView>
@@ -50,9 +53,8 @@
                                     <constraint firstItem="yAM-cY-126" firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="width" multiplier="1.5" id="AfJ-h3-bbM"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="centerX" secondItem="WgR-Yb-w1s" secondAttribute="centerX" id="D4s-mP-n6l"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="centerY" secondItem="WgR-Yb-w1s" secondAttribute="centerY" id="NP9-1f-MTV"/>
-                                    <constraint firstItem="WgR-Yb-w1s" firstAttribute="leading" secondItem="WqY-Pj-pIx" secondAttribute="leading" constant="10" id="RrI-9Q-Nba"/>
-                                    <constraint firstAttribute="height" constant="120" id="d2h-3J-A5j"/>
-                                    <constraint firstAttribute="bottom" secondItem="WgR-Yb-w1s" secondAttribute="bottom" constant="10" id="f7y-Er-CUx"/>
+                                    <constraint firstItem="WgR-Yb-w1s" firstAttribute="leading" secondItem="WqY-Pj-pIx" secondAttribute="leading" constant="20" id="RrI-9Q-Nba"/>
+                                    <constraint firstAttribute="bottom" secondItem="WgR-Yb-w1s" secondAttribute="bottom" constant="20" id="f7y-Er-CUx"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="REZ-9P-kgw" customClass="InteractionLockingContentControllerView" customModule="Soundprints" customModuleProvider="target">
@@ -68,13 +70,18 @@
                             <constraint firstItem="5RC-g4-1Oo" firstAttribute="trailing" secondItem="1Mo-FC-jp9" secondAttribute="trailing" id="68T-Tg-02x"/>
                             <constraint firstItem="5RC-g4-1Oo" firstAttribute="bottom" secondItem="REZ-9P-kgw" secondAttribute="bottom" id="6uq-Ls-Xfy"/>
                             <constraint firstItem="5RC-g4-1Oo" firstAttribute="bottom" secondItem="1Mo-FC-jp9" secondAttribute="bottom" id="D0C-SZ-ZEr"/>
+                            <constraint firstItem="Bup-Wu-JE3" firstAttribute="height" secondItem="WqY-Pj-pIx" secondAttribute="height" id="DwW-fM-666"/>
                             <constraint firstItem="1Mo-FC-jp9" firstAttribute="leading" secondItem="5RC-g4-1Oo" secondAttribute="leading" id="EHl-Z6-gR6"/>
                             <constraint firstItem="5RC-g4-1Oo" firstAttribute="trailing" secondItem="REZ-9P-kgw" secondAttribute="trailing" id="Iru-ic-ANh"/>
                             <constraint firstItem="1Mo-FC-jp9" firstAttribute="top" secondItem="5RC-g4-1Oo" secondAttribute="top" id="LDF-e9-eZ4"/>
                             <constraint firstItem="REZ-9P-kgw" firstAttribute="leading" secondItem="5RC-g4-1Oo" secondAttribute="leading" id="MZM-0Z-99b"/>
                             <constraint firstItem="5RC-g4-1Oo" firstAttribute="trailing" secondItem="WqY-Pj-pIx" secondAttribute="trailing" id="OYg-xn-yPG"/>
                             <constraint firstItem="5RC-g4-1Oo" firstAttribute="bottom" secondItem="WqY-Pj-pIx" secondAttribute="bottom" id="QKC-FN-4Gf"/>
+                            <constraint firstItem="Bup-Wu-JE3" firstAttribute="centerX" secondItem="WqY-Pj-pIx" secondAttribute="centerX" id="ZZh-rR-r2a"/>
+                            <constraint firstItem="Bup-Wu-JE3" firstAttribute="centerY" secondItem="WqY-Pj-pIx" secondAttribute="centerY" id="juh-PN-aog"/>
                             <constraint firstItem="REZ-9P-kgw" firstAttribute="top" secondItem="5RC-g4-1Oo" secondAttribute="top" id="mm0-RH-KLQ"/>
+                            <constraint firstItem="Bup-Wu-JE3" firstAttribute="width" secondItem="WqY-Pj-pIx" secondAttribute="width" id="mpk-VV-Gt4"/>
+                            <constraint firstItem="WqY-Pj-pIx" firstAttribute="height" secondItem="XRl-e4-tlD" secondAttribute="height" multiplier="0.2" id="oxw-Ef-zSu"/>
                             <constraint firstItem="WqY-Pj-pIx" firstAttribute="leading" secondItem="5RC-g4-1Oo" secondAttribute="leading" id="v31-QZ-qpQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5RC-g4-1Oo"/>
@@ -82,6 +89,7 @@
                     <connections>
                         <outlet property="contentControllerView" destination="REZ-9P-kgw" id="W0X-bH-cmg"/>
                         <outlet property="mapView" destination="1Mo-FC-jp9" id="VtH-YF-Etm"/>
+                        <outlet property="menuContainerView" destination="WqY-Pj-pIx" id="6Xn-64-QBR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HNc-MU-5wb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -91,5 +99,6 @@
     </scenes>
     <resources>
         <image name="sounds-list-button-icon" width="313" height="313"/>
+        <image name="white-gradient" width="1440" height="928"/>
     </resources>
 </document>

@@ -143,9 +143,6 @@
                                     <action selector="closeButtonPressed:" destination="AZJ-3w-U4S" eventType="touchUpInside" id="TY2-lD-JcB"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="white-gradient" translatesAutoresizingMaskIntoConstraints="NO" id="0yr-GM-RPZ">
-                                <rect key="frame" x="0.0" y="533" width="375" height="133.5"/>
-                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sounds-list-close-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="Ry2-Ph-4I4">
                                 <rect key="frame" x="137" y="557" width="100" height="100"/>
                                 <constraints>
@@ -160,15 +157,11 @@
                             <constraint firstItem="R3p-dB-EQi" firstAttribute="top" secondItem="Jsa-Ju-bbB" secondAttribute="top" constant="10" id="BKN-po-dWw"/>
                             <constraint firstItem="Ry2-Ph-4I4" firstAttribute="centerX" secondItem="Jsa-Ju-bbB" secondAttribute="centerX" id="L8o-Dc-5gi"/>
                             <constraint firstItem="HSF-5Z-h8g" firstAttribute="height" secondItem="Ry2-Ph-4I4" secondAttribute="height" id="RNK-7Z-1pu"/>
-                            <constraint firstItem="0yr-GM-RPZ" firstAttribute="leading" secondItem="Jsa-Ju-bbB" secondAttribute="leading" id="UX4-H7-3HC"/>
                             <constraint firstItem="R3p-dB-EQi" firstAttribute="leading" secondItem="Jsa-Ju-bbB" secondAttribute="leading" id="X4y-DU-i4U"/>
-                            <constraint firstItem="0yr-GM-RPZ" firstAttribute="bottom" secondItem="Jsa-Ju-bbB" secondAttribute="bottom" id="Ywc-3M-O7F"/>
                             <constraint firstItem="Jsa-Ju-bbB" firstAttribute="bottom" secondItem="Ry2-Ph-4I4" secondAttribute="bottom" constant="10" id="cRc-Dy-130"/>
                             <constraint firstItem="HSF-5Z-h8g" firstAttribute="width" secondItem="Ry2-Ph-4I4" secondAttribute="width" id="fH1-fU-SUl"/>
                             <constraint firstItem="Jsa-Ju-bbB" firstAttribute="bottom" secondItem="R3p-dB-EQi" secondAttribute="bottom" id="gsl-sj-qYh"/>
                             <constraint firstItem="HSF-5Z-h8g" firstAttribute="centerX" secondItem="Ry2-Ph-4I4" secondAttribute="centerX" id="heo-TK-pET"/>
-                            <constraint firstItem="Jsa-Ju-bbB" firstAttribute="trailing" secondItem="0yr-GM-RPZ" secondAttribute="trailing" id="jtJ-4J-rkx"/>
-                            <constraint firstItem="0yr-GM-RPZ" firstAttribute="height" secondItem="dbK-fN-8ix" secondAttribute="height" multiplier="0.2" id="rcf-jH-0Cq"/>
                             <constraint firstItem="HSF-5Z-h8g" firstAttribute="centerY" secondItem="Ry2-Ph-4I4" secondAttribute="centerY" id="zJd-Je-5g5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Jsa-Ju-bbB"/>
@@ -185,6 +178,5 @@
     <resources>
         <image name="play-icon-blue" width="99" height="112"/>
         <image name="sounds-list-close-button-icon" width="420" height="420"/>
-        <image name="white-gradient" width="1440" height="928"/>
     </resources>
 </document>

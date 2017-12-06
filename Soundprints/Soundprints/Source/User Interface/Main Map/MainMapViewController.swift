@@ -16,6 +16,7 @@ class MainMapViewController: BaseViewController {
     // MARK: - Outlets
     
     @IBOutlet private weak var mapView: MGLMapView?
+    @IBOutlet private weak var menuContainerView: UIView?
     @IBOutlet private weak var contentControllerView: InteractionLockingContentControllerView?
     
     
@@ -210,11 +211,7 @@ class MainMapViewController: BaseViewController {
     // MARK: - Actions
     
     @IBAction func soundsListButtonPressed(_ sender: Any) {
-        let soundsList = R.storyboard.soundsList.soundsListViewController()!
-        soundsList.sounds = sounds
-        soundsList.delegate = self
-        contentControllerView?.setViewController(controller: soundsList, animationStyle: .fade)
-        contentControllerView?.isUserInteractionEnabled = true
+        setContentControllerViewController(withMenuContent: .soundsList)
     }
     
     // MARK: - Convenince
@@ -319,10 +316,43 @@ extension MainMapViewController: CLLocationManagerDelegate {
     
 }
 
+// MARK: - SoundsListViewControllerDelegate
+
 extension MainMapViewController: SoundsListViewControllerDelegate {
     
     func soundsListViewControllerShouldBeDismissed(sender: SoundsListViewController) {
+        clearContentController()
+    }
+    
+}
+
+private extension MainMapViewController {
+    
+    static let menuHidingAnimationDuration: Double = 0.4
+    
+    enum MenuContent {
+        case soundsList
+        case filter
+    }
+    
+    func setContentControllerViewController(withMenuContent menuContent: MenuContent) {
+        switch menuContent {
+        case .soundsList:
+            let soundsList = R.storyboard.soundsList.soundsListViewController()!
+            soundsList.sounds = sounds
+            soundsList.delegate = self
+            contentControllerView?.setViewController(controller: soundsList, animationStyle: .fade)
+        case .filter:
+            // TODO: Implement and integrate the filter screen
+            break
+        }
+        
+        menuContainerView?.kamino.animateHiden(hidden: true, duration: MainMapViewController.menuHidingAnimationDuration)
+    }
+    
+    func clearContentController() {
         contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
+        menuContainerView?.kamino.animateHiden(hidden: false, duration: MainMapViewController.menuHidingAnimationDuration)
     }
     
 }
