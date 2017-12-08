@@ -221,11 +221,11 @@ class MainMapViewController: BaseViewController {
     
     // MARK: - Actions
     
-    @IBAction func soundsListButtonPressed(_ sender: Any) {
+    @IBAction private func soundsListButtonPressed(_ sender: Any) {
         setContentControllerViewController(withMenuContent: .soundsList)
     }
     
-    @IBAction func filterButtonPressed(_ sender: Any) {
+    @IBAction private func filterButtonPressed(_ sender: Any) {
         setContentControllerViewController(withMenuContent: .filter)
     }
     

@@ -32,7 +32,7 @@ class SoundsListViewController: BaseViewController {
     
     // MARK: - Actions
     
-    @IBAction func closeButtonPressed(_ sender: Any) {
+    @IBAction private func closeButtonPressed(_ sender: Any) {
         delegate?.soundsListViewControllerShouldBeDismissed(sender: self)
     }
     

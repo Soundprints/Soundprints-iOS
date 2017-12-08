@@ -79,7 +79,7 @@ class SoundsListCell: UITableViewCell {
     
     // MARK: - Actions
     
-    @IBAction func playButtonPressed(_ sender: Any) {
+    @IBAction private func playButtonPressed(_ sender: Any) {
         delegate?.soundListCell(self, requestsToPlaySound: sound)
     }
 
