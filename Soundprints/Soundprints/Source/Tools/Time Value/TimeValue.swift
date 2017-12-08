@@ -20,9 +20,7 @@ struct TimeValue {
         return seconds.interval + minutes.interval + hours.interval
     }
     
-    static var zero: TimeValue {
-        return TimeValue(seconds: SingleTimeValue(value: 0, unit: .second), minutes: SingleTimeValue(value: 0, unit: .minute), hours: SingleTimeValue(value: 0, unit: .hour))
-    }
+    static let zero = TimeValue(seconds: SingleTimeValue(value: 0, unit: .second), minutes: SingleTimeValue(value: 0, unit: .minute), hours: SingleTimeValue(value: 0, unit: .hour))
     
     // MARK: - Instance from interval
     

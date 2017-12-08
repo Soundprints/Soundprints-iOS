@@ -10,6 +10,8 @@ import Foundation
 
 struct SingleDistanceValue {
     
+    // MARK: - Properties
+    
     var value: Double
     var unit: DistanceUnit
     
@@ -24,6 +26,8 @@ struct SingleDistanceValue {
         return value == 0
     }
     
+    // MARK: - Instance from meters
+    
     static func from(meters: Double) -> SingleDistanceValue {
         guard meters >= 0 else {
             return SingleDistanceValue(value: 0, unit: .meters)
@@ -35,6 +39,8 @@ struct SingleDistanceValue {
             return SingleDistanceValue(value: meters/1000, unit: .kilometers)
         }
     }
+    
+    // MARK: - Display string
     
     func displayString() -> String {
         let decimalPoints: Int = {
@@ -48,6 +54,8 @@ struct SingleDistanceValue {
     }
     
 }
+
+// MARK: - DistanceUnit
 
 extension SingleDistanceValue {
     

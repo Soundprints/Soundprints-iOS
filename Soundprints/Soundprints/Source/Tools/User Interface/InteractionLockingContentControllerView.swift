@@ -8,7 +8,10 @@
 
 import UIKit
 
+/// ContentControllerView subclass that makes sure that user interaction is disabled, while no content is set.
 class InteractionLockingContentControllerView: ContentControllerView {
+    
+    // MARK: - Initializers
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,6 +28,8 @@ class InteractionLockingContentControllerView: ContentControllerView {
     private func commonInit() {
         isUserInteractionEnabled = false
     }
+    
+    // MARK: - Content VC controlls
     
     override func setViewController(controller: UIViewController?, animationStyle: ContentControllerView.AnimationStyle) {
         super.setViewController(controller: controller, animationStyle: animationStyle)

@@ -16,6 +16,8 @@ protocol SoundsListCellDelegate: class {
     
 }
 
+// MARK: - SoundsListCell
+
 class SoundsListCell: UITableViewCell {
 
     // MARK: - Outlets
@@ -55,15 +57,7 @@ class SoundsListCell: UITableViewCell {
             profileImageView?.image = nil
         }
         userDisplayNameLabel?.text = sound?.userDisplayName
-        durationAndDistanceLabel?.text = {
-            guard let distanceValue = sound?.initialDistance else {
-                return sound?.durationDisplayString(forceShortUnitStyle: false)
-            }
-            guard let durationString = sound?.durationDisplayString(forceShortUnitStyle: true) else {
-                return sound?.initialDistance?.displayString()
-            }
-            return "\(durationString), \(distanceValue.displayString())"
-        }()
+        durationAndDistanceLabel?.text = sound?.durationAndDistanceDisplayString()
         timestampLabel?.text = {
             guard let submissionIntervalString = sound?.timeSinceSubmissionDisplayString() else {
                 return nil
@@ -71,6 +65,8 @@ class SoundsListCell: UITableViewCell {
             return "left \(submissionIntervalString) ago"
         }()
     }
+    
+    // MARK: - Frames and borders updating
     
     private func updateFramesAndBorders() {
         profileImageView?.clipsToBounds = true
@@ -84,7 +80,7 @@ class SoundsListCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func playButtonPressed(_ sender: Any) {
-        
+        delegate?.soundListCell(self, requestsToPlaySound: sound)
     }
 
 }

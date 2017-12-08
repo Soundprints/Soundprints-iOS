@@ -48,6 +48,18 @@ class Sound {
         return formatter.string(from: Date().timeIntervalSince(submissionDate))
     }
     
+    // MARK: - Display strings
+    
+    func durationAndDistanceDisplayString() -> String? {
+        guard let distanceValue = initialDistance else {
+            return durationDisplayString(forceShortUnitStyle: false)
+        }
+        guard let durationString = durationDisplayString(forceShortUnitStyle: true) else {
+            return initialDistance?.displayString()
+        }
+        return "\(durationString), \(distanceValue.displayString())"
+    }
+    
     func durationDisplayString(forceShortUnitStyle: Bool) -> String? {
         guard let duration = duration else {
             return nil

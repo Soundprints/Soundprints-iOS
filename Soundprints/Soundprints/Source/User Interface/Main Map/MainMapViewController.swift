@@ -330,14 +330,16 @@ extension MainMapViewController: SoundsListViewControllerDelegate {
     
 }
 
+// MARK: - Menu controlls
+
 private extension MainMapViewController {
-    
-    static let menuHidingAnimationDuration: Double = 0.4
     
     enum MenuContent {
         case soundsList
         case filter
     }
+    
+    static let menuHidingAnimationDuration: Double = 0.4
     
     func setContentControllerViewController(withMenuContent menuContent: MenuContent) {
         switch menuContent {

@@ -8,11 +8,15 @@
 
 import UIKit
 
+// MARK: - SoundsListViewControllerDelegate
+
 protocol SoundsListViewControllerDelegate: class {
     
     func soundsListViewControllerShouldBeDismissed(sender: SoundsListViewController)
     
 }
+
+// MARK: - SoundsListViewController
 
 class SoundsListViewController: BaseViewController {
     
