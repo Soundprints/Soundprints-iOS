@@ -83,7 +83,7 @@ class MainMapViewController: BaseViewController {
         // If not, it should be done in the next 'didUpdate userLocation' function. We do this by setting shouldUpdateZoomLevel to true.
         // Along with the zoom level, the center should be also set, but it must be set after the initial zoom level is set, 
         // otherwise it wont work.
-        if let mapView = mapView, let userLocation = mapView.userLocation {
+        if let mapView = mapView, let userLocation = mapView.userLocation, isCoordinateValid(userLocation.coordinate) {
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
             mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
         } else {
@@ -231,6 +231,10 @@ class MainMapViewController: BaseViewController {
     
     // MARK: - Convenince
     
+    private func isCoordinateValid(_ coordinate: CLLocationCoordinate2D) -> Bool {
+        return coordinate.latitude >= -90 && coordinate.latitude <= 90 && coordinate.longitude >= -180 && coordinate.longitude <= 180
+    }
+    
     private func distanceInKilometers(from: CLLocation?, to: CLLocation?) -> Double? {
         guard let from = from, let to = to else {
             return nil
@@ -252,7 +256,7 @@ class MainMapViewController: BaseViewController {
 extension MainMapViewController: MGLMapViewDelegate {
     
     func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
-        guard let userLocation = userLocation, let userCLLocation = userLocation.location else {
+        guard let userLocation = userLocation, let userCLLocation = userLocation.location, isCoordinateValid(userLocation.coordinate) else {
             return
         }
         
