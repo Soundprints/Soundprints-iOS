@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - FilterManageDelegate
+
 protocol FilterManageDelegate: class {
     
     func filterManagerUpdatedFilter(_ filter: Filter)
@@ -80,8 +82,6 @@ extension FilterManager {
         
         var type: SoundprintType
         var age: SoundprintAge
-        
-        typealias FilterType = Filter
         
         fileprivate static var defaultFilters: Filters {
             return Filters(type: .local, age: .allTime)

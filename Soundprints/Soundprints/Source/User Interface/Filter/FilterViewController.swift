@@ -56,17 +56,17 @@ class FilterViewController: BaseViewController {
 
     // MARK: - Actions
     
-    @IBAction func typeFilterValueChanged(_ sender: UISwitch) {
+    @IBAction private func typeFilterValueChanged(_ sender: UISwitch) {
         let newTypeFilterValue: FilterManager.Filters.SoundprintType = sender.isOn ? .premium : .local
         FilterManager.setFilter(newTypeFilterValue)
     }
     
-    @IBAction func ageFilterValueChanged(_ sender: UISwitch) {
+    @IBAction private func ageFilterValueChanged(_ sender: UISwitch) {
         let newTypeFilterValue: FilterManager.Filters.SoundprintAge = sender.isOn ? .allTime : .lastDay
         FilterManager.setFilter(newTypeFilterValue)
     }
     
-    @IBAction func closeButtonPressed(_ sender: Any) {
+    @IBAction private func closeButtonPressed(_ sender: Any) {
         delegate?.filterViewControllerShouldBeDismissed(sender: self)
     }
     
