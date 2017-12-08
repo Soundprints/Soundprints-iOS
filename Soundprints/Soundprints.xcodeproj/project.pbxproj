@@ -176,6 +176,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		E2C409601FDAD77C005F61C5 /* Content Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */,
+				E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */,
+			);
+			path = "Content Controller";
+			sourceTree = "<group>";
+		};
 		E2D61EEB1FD8230900A6AA85 /* Distance Value */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,9 +231,8 @@
 		E2E5510C1FD570E000BAE27E /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				E2C409601FDAD77C005F61C5 /* Content Controller */,
 				E2E5511C1FD6D89800BAE27E /* Arc Text View */,
-				E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */,
-				E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */,
 			);
 			path = "User Interface";
 			sourceTree = "<group>";
@@ -348,7 +356,6 @@
 			children = (
 				E2F1DD961FCEA367000CC2F1 /* Resources */,
 				E2F1DD981FCEA367000CC2F1 /* Source */,
-				E2F1DDA11FCEA367000CC2F1 /* Info.plist */,
 			);
 			path = Soundprints;
 			sourceTree = "<group>";
@@ -392,6 +399,7 @@
 			children = (
 				E210147E1FD7F2AE005AAE9F /* Soundprints-Bridging-Header.h */,
 				E2F1DD9B1FCEA367000CC2F1 /* AppDelegate.swift */,
+				E2F1DDA11FCEA367000CC2F1 /* Info.plist */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -763,7 +771,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4RJ9D66P45;
-				INFOPLIST_FILE = Soundprints/Info.plist;
+				INFOPLIST_FILE = Soundprints/Source/Main/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kamino.Soundprints;
@@ -784,7 +792,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4RJ9D66P45;
-				INFOPLIST_FILE = Soundprints/Info.plist;
+				INFOPLIST_FILE = Soundprints/Source/Main/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kamino.Soundprints;
