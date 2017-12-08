@@ -19,7 +19,6 @@ class MainMapViewController: BaseViewController {
     @IBOutlet private weak var menuContainerView: UIView?
     @IBOutlet private weak var contentControllerView: InteractionLockingContentControllerView?
     
-    
     // MARK: - Variables
     
     static var inRangeMetersTreshold: Double = 1500
@@ -42,6 +41,14 @@ class MainMapViewController: BaseViewController {
         return mapView?.subviews.first(where: { $0 is GLKView })
     }
     
+    private var annotationsHidden = false {
+        didSet {
+            if oldValue != annotationsHidden {
+                refreshSoundAnnotations()
+            }
+        }
+    }
+    
     // MARK: - Constants
 
     private static let soundFetchDistanceTreshold: Double = 100
@@ -57,6 +64,8 @@ class MainMapViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        FilterManager.delegate = self
         
         startUpdatingHeading()
     }
@@ -135,14 +144,16 @@ class MainMapViewController: BaseViewController {
             mapView?.removeAnnotations(existingAnnotations)
         }
         
-        let newAnnotations: [SoundAnnotation] = sounds.flatMap { sound in
-            let annotation = SoundAnnotation(sound: sound)
-            if let latitude = sound.latitude, let longitude = sound.longitude {
-                annotation?.distance = distanceInKilometers(fromLatitude: latitude, andLongitude: longitude, to: mapView?.userLocation?.location)
+        if annotationsHidden == false {
+            let newAnnotations: [SoundAnnotation] = sounds.flatMap { sound in
+                let annotation = SoundAnnotation(sound: sound)
+                if let latitude = sound.latitude, let longitude = sound.longitude {
+                    annotation?.distance = distanceInKilometers(fromLatitude: latitude, andLongitude: longitude, to: mapView?.userLocation?.location)
+                }
+                return annotation
             }
-            return annotation
+            mapView?.addAnnotations(newAnnotations)
         }
-        mapView?.addAnnotations(newAnnotations)
     }
     
     private func updateVisibleAnnotationViewsIfNecessary() {
@@ -330,6 +341,16 @@ extension MainMapViewController: SoundsListViewControllerDelegate {
     
 }
 
+// MARK: - FilterViewControllerDelegate
+
+extension MainMapViewController: FilterViewControllerDelegate {
+    
+    func filterViewControllerShouldBeDismissed(sender: FilterViewController) {
+        clearContentController()
+    }
+    
+}
+
 // MARK: - Menu controlls
 
 private extension MainMapViewController {
@@ -339,7 +360,7 @@ private extension MainMapViewController {
         case filter
     }
     
-    static let menuHidingAnimationDuration: Double = 0.4
+    static let contentHidingAnimationDuration: Double = 0.4
     
     func setContentControllerViewController(withMenuContent menuContent: MenuContent) {
         switch menuContent {
@@ -349,16 +370,32 @@ private extension MainMapViewController {
             soundsList.delegate = self
             contentControllerView?.setViewController(controller: soundsList, animationStyle: .fade)
         case .filter:
-            // TODO: Implement and integrate the filter screen
-            return
+            let filter = R.storyboard.filter.filterViewController()!
+            filter.delegate = self
+            contentControllerView?.setViewController(controller: filter, animationStyle: .fade)
         }
         
-        menuContainerView?.kamino.animateHiden(hidden: true, duration: MainMapViewController.menuHidingAnimationDuration)
+        setMainMapComponentsHidden(true)
     }
     
     func clearContentController() {
         contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
-        menuContainerView?.kamino.animateHiden(hidden: false, duration: MainMapViewController.menuHidingAnimationDuration)
+        
+        setMainMapComponentsHidden(false)
+    }
+    
+    private func setMainMapComponentsHidden(_ hidden: Bool) {
+        menuContainerView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
+        proximityRingsView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
+        annotationsHidden = hidden
+    }
+    
+}
+
+extension MainMapViewController: FilterManageDelegate {
+    
+    func filterManagerUpdatedFilter(_ filter: Filter) {
+        // TODO: Handle updating of filter
     }
     
 }

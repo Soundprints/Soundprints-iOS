@@ -13,6 +13,10 @@
 		E21014861FD80F02005AAE9F /* SoundsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014851FD80F02005AAE9F /* SoundsListCell.swift */; };
 		E21014891FD81405005AAE9F /* SingleTimeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014881FD81405005AAE9F /* SingleTimeValue.swift */; };
 		E210148B1FD8161C005AAE9F /* TimeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E210148A1FD8161C005AAE9F /* TimeValue.swift */; };
+		E25AF4DE1FDA9C5000D7BEA2 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25AF4DD1FDA9C5000D7BEA2 /* FilterManager.swift */; };
+		E2AA86C71FDA863B00C1C262 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2AA86C61FDA863B00C1C262 /* Filter.storyboard */; };
+		E2AA86C91FDA868200C1C262 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86C81FDA868200C1C262 /* FilterViewController.swift */; };
+		E2AA86CC1FDA936600C1C262 /* BorderSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */; };
 		E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B344361FCEBA8F001FC5FD /* R.generated.swift */; };
 		E2D61EED1FD8234500A6AA85 /* SingleDistanceValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEC1FD8234500A6AA85 /* SingleDistanceValue.swift */; };
 		E2D61EEF1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */; };
@@ -58,6 +62,10 @@
 		E21014851FD80F02005AAE9F /* SoundsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsListCell.swift; sourceTree = "<group>"; };
 		E21014881FD81405005AAE9F /* SingleTimeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTimeValue.swift; sourceTree = "<group>"; };
 		E210148A1FD8161C005AAE9F /* TimeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeValue.swift; sourceTree = "<group>"; };
+		E25AF4DD1FDA9C5000D7BEA2 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
+		E2AA86C61FDA863B00C1C262 /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
+		E2AA86C81FDA868200C1C262 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderSwitch.swift; sourceTree = "<group>"; };
 		E2B344361FCEBA8F001FC5FD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		E2D61EEC1FD8234500A6AA85 /* SingleDistanceValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDistanceValue.swift; sourceTree = "<group>"; };
 		E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionLockingContentControllerView.swift; sourceTree = "<group>"; };
@@ -140,6 +148,32 @@
 				E210148A1FD8161C005AAE9F /* TimeValue.swift */,
 			);
 			path = "Time Value";
+			sourceTree = "<group>";
+		};
+		E25AF4DC1FDA9C4600D7BEA2 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				E25AF4DD1FDA9C5000D7BEA2 /* FilterManager.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
+		E2AA86C51FDA862600C1C262 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				E2AA86CA1FDA933C00C1C262 /* Views */,
+				E2AA86C61FDA863B00C1C262 /* Filter.storyboard */,
+				E2AA86C81FDA868200C1C262 /* FilterViewController.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
+		E2AA86CA1FDA933C00C1C262 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E2D61EEB1FD8230900A6AA85 /* Distance Value */ = {
@@ -342,6 +376,7 @@
 		E2F1DD991FCEA367000CC2F1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				E25AF4DC1FDA9C4600D7BEA2 /* Filters */,
 				E2D61EF01FD84EF000A6AA85 /* Kamino Wrappers */,
 				E2D61EEB1FD8230900A6AA85 /* Distance Value */,
 				E21014871FD813FC005AAE9F /* Time Value */,
@@ -374,6 +409,7 @@
 		E2F1DD9D1FCEA367000CC2F1 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				E2AA86C51FDA862600C1C262 /* Filter */,
 				E210147F1FD7FB66005AAE9F /* Sounds List */,
 				E2F1DDAC1FCEB56A000CC2F1 /* Main Map */,
 				E2E551021FD54AAB00BAE27E /* Login */,
@@ -484,6 +520,7 @@
 				E2F1DDA21FCEA367000CC2F1 /* Assets.xcassets in Resources */,
 				E2E551061FD54ADF00BAE27E /* Login.storyboard in Resources */,
 				E21014831FD7FB87005AAE9F /* SoundsList.storyboard in Resources */,
+				E2AA86C71FDA863B00C1C262 /* Filter.storyboard in Resources */,
 				E2F1DDA41FCEA367000CC2F1 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -579,6 +616,7 @@
 				E21014891FD81405005AAE9F /* SingleTimeValue.swift in Sources */,
 				E2E5511F1FD6D8C900BAE27E /* CoreTextArcView.m in Sources */,
 				E2E551171FD6B85700BAE27E /* SoundAnnotationView.swift in Sources */,
+				E2AA86CC1FDA936600C1C262 /* BorderSwitch.swift in Sources */,
 				E2E551101FD5746900BAE27E /* ProviderLoginViewController.swift in Sources */,
 				E2EBF5961FCFFBAF00AAFBC1 /* Sound.swift in Sources */,
 				E2E5510B1FD56FC500BAE27E /* FacebookLoginViewController.swift in Sources */,
@@ -597,9 +635,11 @@
 				E2D61EF31FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift in Sources */,
 				E2D61EEF1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift in Sources */,
 				E2E551151FD6B82E00BAE27E /* UserAnnotationView.swift in Sources */,
+				E2AA86C91FDA868200C1C262 /* FilterViewController.swift in Sources */,
 				E2E551091FD56A2E00BAE27E /* AuthenticationManager.swift in Sources */,
 				E2EBF5931FCEF40E00AAFBC1 /* Globals.swift in Sources */,
 				E2EBF5991FCFFC5300AAFBC1 /* APIJSONTools.swift in Sources */,
+				E25AF4DE1FDA9C5000D7BEA2 /* FilterManager.swift in Sources */,
 				E2E551041FD54AC800BAE27E /* LoginViewController.swift in Sources */,
 				E2EBF58E1FCEF3BD00AAFBC1 /* APIError.swift in Sources */,
 			);

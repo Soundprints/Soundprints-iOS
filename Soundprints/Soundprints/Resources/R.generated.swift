@@ -134,8 +134,10 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.storyboard` struct is generated, and contains static references to 5 storyboards.
+  /// This `R.storyboard` struct is generated, and contains static references to 6 storyboards.
   struct storyboard {
+    /// Storyboard `Filter`.
+    static let filter = _R.storyboard.filter()
     /// Storyboard `LaunchScreen`.
     static let launchScreen = _R.storyboard.launchScreen()
     /// Storyboard `Login`.
@@ -146,6 +148,11 @@ struct R: Rswift.Validatable {
     static let main = _R.storyboard.main()
     /// Storyboard `SoundsList`.
     static let soundsList = _R.storyboard.soundsList()
+    
+    /// `UIStoryboard(name: "Filter", bundle: ...)`
+    static func filter(_: Void = ()) -> UIKit.UIStoryboard {
+      return UIKit.UIStoryboard(resource: R.storyboard.filter)
+    }
     
     /// `UIStoryboard(name: "LaunchScreen", bundle: ...)`
     static func launchScreen(_: Void = ()) -> UIKit.UIStoryboard {
@@ -206,8 +213,27 @@ struct _R: Rswift.Validatable {
     static func validate() throws {
       try main.validate()
       try login.validate()
+      try filter.validate()
       try mainMap.validate()
       try soundsList.validate()
+    }
+    
+    struct filter: Rswift.StoryboardResourceType, Rswift.Validatable {
+      let bundle = R.hostingBundle
+      let filterViewController = StoryboardViewControllerResource<FilterViewController>(identifier: "FilterViewController")
+      let name = "Filter"
+      
+      func filterViewController(_: Void = ()) -> FilterViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: filterViewController)
+      }
+      
+      static func validate() throws {
+        if UIKit.UIImage(named: "sounds-list-close-button-icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'sounds-list-close-button-icon' is used in storyboard 'Filter', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "white-gradient") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'white-gradient' is used in storyboard 'Filter', but couldn't be loaded.") }
+        if _R.storyboard.filter().filterViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'filterViewController' could not be loaded from storyboard 'Filter' as 'FilterViewController'.") }
+      }
+      
+      fileprivate init() {}
     }
     
     struct launchScreen: Rswift.StoryboardResourceWithInitialControllerType {

@@ -137,13 +137,13 @@
                                     <outlet property="delegate" destination="AZJ-3w-U4S" id="aq8-Lf-Rat"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSF-5Z-h8g">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSF-5Z-h8g" userLabel="Close Button">
                                 <rect key="frame" x="140" y="553.5" width="94" height="93.5"/>
                                 <connections>
                                     <action selector="closeButtonPressed:" destination="AZJ-3w-U4S" eventType="touchUpInside" id="TY2-lD-JcB"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sounds-list-close-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="Ry2-Ph-4I4">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sounds-list-close-button-icon" translatesAutoresizingMaskIntoConstraints="NO" id="Ry2-Ph-4I4" userLabel="Close Button Image View">
                                 <rect key="frame" x="140" y="553.5" width="94" height="93.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Ry2-Ph-4I4" secondAttribute="height" multiplier="1:1" id="6Rp-r8-ACj"/>
