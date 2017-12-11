@@ -126,9 +126,7 @@ class RecorderAndPlayer: NSObject {
         do {
             try session.setCategory(AVAudioSessionCategoryPlayback)
             try session.setActive(true)
-            
-//            let playerItem = AVPlayerItem(asset: AVAsset(url: remoteURL))
-            let playerItem = AVPlayerItem(asset: AVAsset(url: URL(string: "https://storage.googleapis.com/soundprints-sounds-development/recording2.aac")!))
+            let playerItem = AVPlayerItem(asset: AVAsset(url: remoteURL))
             player = AVPlayer(playerItem: playerItem)
             player?.volume = 1
         } catch {
