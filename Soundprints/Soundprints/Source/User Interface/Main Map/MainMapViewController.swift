@@ -18,6 +18,7 @@ class MainMapViewController: BaseViewController {
     @IBOutlet private weak var mapView: MGLMapView?
     @IBOutlet private weak var menuContainerView: UIView?
     @IBOutlet private weak var contentControllerView: InteractionLockingContentControllerView?
+    @IBOutlet private weak var listenView: ListenView?
     
     // MARK: - Variables
     
@@ -60,6 +61,9 @@ class MainMapViewController: BaseViewController {
         
         initializeMap()
         initializeProximityRingsView()
+        
+        listenView?.progress = 0.6
+        listenView?.profileImageView?.kf.setImage(with: URL(string: "https://graph.facebook.com/v2.6/10210215698324312/picture?type=large"))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -391,6 +395,7 @@ private extension MainMapViewController {
     private func setMainMapComponentsHidden(_ hidden: Bool) {
         menuContainerView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
         proximityRingsView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
+        listenView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
         annotationsHidden = hidden
     }
     

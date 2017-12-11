@@ -40,7 +40,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.image` struct is generated, and contains static references to 10 images.
+  /// This `R.image` struct is generated, and contains static references to 11 images.
   struct image {
     /// Image `annotation-in-range-icon`.
     static let annotationInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-in-range-icon")
@@ -48,6 +48,8 @@ struct R: Rswift.Validatable {
     static let annotationNotInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-not-in-range-icon")
     /// Image `filter-button-icon`.
     static let filterButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "filter-button-icon")
+    /// Image `listen-close-button-icon`.
+    static let listenCloseButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "listen-close-button-icon")
     /// Image `play-icon-blue`.
     static let playIconBlue = Rswift.ImageResource(bundle: R.hostingBundle, name: "play-icon-blue")
     /// Image `play-icon`.
@@ -76,6 +78,11 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "filter-button-icon", bundle: ..., traitCollection: ...)`
     static func filterButtonIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.filterButtonIcon, compatibleWith: traitCollection)
+    }
+    
+    /// `UIImage(named: "listen-close-button-icon", bundle: ..., traitCollection: ...)`
+    static func listenCloseButtonIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.listenCloseButtonIcon, compatibleWith: traitCollection)
     }
     
     /// `UIImage(named: "play-icon", bundle: ..., traitCollection: ...)`
