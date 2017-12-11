@@ -11,34 +11,37 @@ import AVFoundation
 
 // MARK: - RecorderDelegate
 
-protocol RecorderDelegate: class {
+protocol RecorderAndPlayerDelegate: class {
     
-    func recorderStoppedPlaying(sender: Recorder)
-    func recorderStoppedRecording(sender: Recorder)
+    func recorderAndPlayer(_ sender: RecorderAndPlayer, updatedPlayingProgress playingProgress: CGFloat)
+    func recorderAndPlayerStoppedPlaying(sender: RecorderAndPlayer)
+    func recorderAndPlayerStoppedRecording(sender: RecorderAndPlayer)
     
 }
 
 // MARK: - Recorder
 
-class Recorder: NSObject {
+class RecorderAndPlayer: NSObject {
     
     // MARK: - Static
     
-    static let shared = Recorder()
+    static let shared = RecorderAndPlayer()
     
     // MARK: - Properties
     
-    weak var delegate: RecorderDelegate?
+    weak var delegate: RecorderAndPlayerDelegate?
     
     private let session = AVAudioSession.sharedInstance()
     
     private let folderManager = FolderManager(folder: .recordings)
     
     private var recorder: AVAudioRecorder?
-    private var player: AVAudioPlayer?
+    private var player: AVPlayer?
     
     private(set) var isRecording: Bool = false
     private(set) var isPlaying: Bool = false
+    
+    private var progressTimer: Timer?
     
     // MARK: - Init
     
@@ -48,8 +51,8 @@ class Recorder: NSObject {
         NotificationCenter.default.addObserver(forName: .AVAudioSessionInterruption, object: nil, queue: nil) { [unowned self] notification in
             print("Audio session interrupted!")
             self.stop()
-            if self.isRecording { self.delegate?.recorderStoppedPlaying(sender: self) }
-            if self.isPlaying { self.delegate?.recorderStoppedRecording(sender: self) }
+            if self.isRecording { self.delegate?.recorderAndPlayerStoppedPlaying(sender: self) }
+            if self.isPlaying { self.delegate?.recorderAndPlayerStoppedRecording(sender: self) }
         }
     }
     
@@ -95,33 +98,62 @@ class Recorder: NSObject {
     
     // MARK: - Playback
     
-    func playFile(path: String) {
-        stop()
+    func playFile(withRemoteURL remoteURL: URL) {
+        if isPlaying {
+            stop()
+        }
+        
+        progressTimer = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(progressTimerFired), userInfo: nil, repeats: true)
         
         isPlaying = true
-        initializePlayer(path: path)
+        initializePlayer(withRemoteURL: remoteURL)
         player?.play()
     }
     
     func stopPlaying() {
+        progressTimer?.invalidate()
+        progressTimer = nil
+        
         isPlaying = false
-        player?.stop()
+        player?.pause()
         player = nil
         try? session.setActive(false)
+        
+        delegate?.recorderAndPlayerStoppedPlaying(sender: self)
     }
     
-    private func initializePlayer(path: String) {
-        let url = URL(fileURLWithPath: path)
-        
+    private func initializePlayer(withRemoteURL remoteURL: URL) {
         do {
             try session.setCategory(AVAudioSessionCategoryPlayback)
             try session.setActive(true)
-            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp4.rawValue)
-            player?.prepareToPlay()
-            player?.delegate = self
             
+//            let playerItem = AVPlayerItem(asset: AVAsset(url: remoteURL))
+            let playerItem = AVPlayerItem(asset: AVAsset(url: URL(string: "https://storage.googleapis.com/soundprints-sounds-development/recording2.aac")!))
+            player = AVPlayer(playerItem: playerItem)
+            player?.volume = 1
         } catch {
             print(error.localizedDescription)
+        }
+    }
+    
+    // MARK: - Timer
+    
+    @objc private func progressTimerFired() {
+        guard isPlaying, let player = player, let playerItem = player.currentItem else {
+            stopPlaying()
+            return
+        }
+        
+        let progress = CGFloat(playerItem.currentTime().seconds/playerItem.duration.seconds)
+        
+        guard progress.isNaN == false else {
+            return
+        }
+        
+        delegate?.recorderAndPlayer(self, updatedPlayingProgress: progress)
+        
+        if progress >= 1 {
+            stopPlaying()
         }
     }
     
@@ -142,24 +174,13 @@ class Recorder: NSObject {
     
 }
 
-// MARK: - AVAudioPlayerDelegate
-
-extension Recorder: AVAudioPlayerDelegate {
-    
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        stopPlaying()
-        delegate?.recorderStoppedPlaying(sender: self)
-    }
-    
-}
-
 // MARK: - AVAudioRecorderDelegate
 
-extension Recorder: AVAudioRecorderDelegate {
+extension RecorderAndPlayer: AVAudioRecorderDelegate {
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         stopRecording()
-        delegate?.recorderStoppedRecording(sender: self)
+        delegate?.recorderAndPlayerStoppedRecording(sender: self)
     }
     
 }

@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - FilterManageDelegate
 
-protocol FilterManageDelegate: class {
+protocol FilterManagerDelegate: class {
     
     func filterManagerUpdatedFilter(_ filter: Filter)
     
@@ -24,7 +24,7 @@ class FilterManager {
     
     private(set) static var filters: Filters = loadFilters()
     
-    static weak var delegate: FilterManageDelegate?
+    static weak var delegate: FilterManagerDelegate?
     
     // MARK: - Filter management
     

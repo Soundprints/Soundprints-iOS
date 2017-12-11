@@ -42,6 +42,8 @@ class MainMapViewController: BaseViewController {
         return mapView?.subviews.first(where: { $0 is GLKView })
     }
     
+    private var currentlyPlayedSoundAnnotation: SoundAnnotation?
+    
     private var annotationsHidden = false {
         didSet {
             if oldValue != annotationsHidden {
@@ -59,10 +61,13 @@ class MainMapViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        listenView?.delegate = self
+        
+        RecorderAndPlayer.shared.delegate = self
+        
         initializeMap()
         initializeProximityRingsView()
         
-        listenView?.progress = 0.6
         listenView?.profileImageView?.kf.setImage(with: URL(string: "https://graph.facebook.com/v2.6/10210215698324312/picture?type=large"))
     }
     
@@ -323,6 +328,14 @@ extension MainMapViewController: MGLMapViewDelegate {
         return nil
     }
     
+    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
+        guard let soundAnnotation = annotation as? SoundAnnotation, let sound = soundAnnotation.sound else {
+            return
+        }
+        
+        playSound(sound)
+    }
+    
 }
 
 // MARK: - Heading CLLocationManagerDelegate
@@ -359,6 +372,42 @@ extension MainMapViewController: FilterViewControllerDelegate {
     
 }
 
+// MARK: - FilterManagerDelegate
+
+extension MainMapViewController: FilterManagerDelegate {
+    
+    func filterManagerUpdatedFilter(_ filter: Filter) {
+        // TODO: Handle updating of filter
+    }
+    
+}
+
+// MARK: - ListenViewDelegate
+
+extension MainMapViewController: ListenViewDelegate {
+    
+    func listenViewShouldClose(sender: ListenView) {
+        stopPlayingCurrentSound()
+    }
+    
+}
+
+extension MainMapViewController: RecorderAndPlayerDelegate {
+    
+    func recorderAndPlayerStoppedPlaying(sender: RecorderAndPlayer) {
+        stopPlayingCurrentSound()
+    }
+    
+    func recorderAndPlayerStoppedRecording(sender: RecorderAndPlayer) {
+        // TODO: 
+    }
+    
+    func recorderAndPlayer(_ sender: RecorderAndPlayer, updatedPlayingProgress playingProgress: CGFloat) {
+        listenView?.progress = playingProgress
+    }
+    
+}
+
 // MARK: - Menu controlls
 
 private extension MainMapViewController {
@@ -383,6 +432,7 @@ private extension MainMapViewController {
             contentControllerView?.setViewController(controller: filter, animationStyle: .fade)
         }
         
+        stopPlayingCurrentSound()
         setMainMapComponentsHidden(true)
     }
     
@@ -395,16 +445,59 @@ private extension MainMapViewController {
     private func setMainMapComponentsHidden(_ hidden: Bool) {
         menuContainerView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
         proximityRingsView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
-        listenView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
+        
+        // The listen view should be only hidden and not shown. So changing its hidden state will happen only when content controller view is shown.
+        if hidden {
+            listenView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.contentHidingAnimationDuration)
+        }
         annotationsHidden = hidden
     }
     
 }
 
-extension MainMapViewController: FilterManageDelegate {
+// MARK: - Sound playing
+
+private extension MainMapViewController {
     
-    func filterManagerUpdatedFilter(_ filter: Filter) {
-        // TODO: Handle updating of filter
+    static let listenViewHiddenAnimationDuration: Double = 1
+    
+    func playSound(_ sound: Sound) {
+        
+        listenView?.progress = 0
+        
+        if let existingAnnotations = mapView?.annotations, let soundAnnotation = existingAnnotations.flatMap({ $0 as? SoundAnnotation }).first(where: { $0.sound === Optional.init(sound) }) {
+            currentlyPlayedSoundAnnotation = soundAnnotation
+            mapView?.removeAnnotation(soundAnnotation)
+        }
+        
+        listenView?.profileImageView?.image = nil
+        listenView?.profileImageView?.kf.setImage(with: sound.userProfileImageUrl)
+        setListenViewHidden(false)
+        
+        sound.getResourceURL { resourceURL, error in
+            if let resourceURL = resourceURL {
+                RecorderAndPlayer.shared.playFile(withRemoteURL: resourceURL)
+            } else {
+                // TODO: Handle error
+                self.setListenViewHidden(true)
+            }
+        }
     }
+    
+    func stopPlayingCurrentSound() {
+        setListenViewHidden(true)
+        
+        if RecorderAndPlayer.shared.isPlaying {
+            RecorderAndPlayer.shared.stopPlaying()
+        }
+        
+        if let currentlyPlayedSoundAnnotation = currentlyPlayedSoundAnnotation {
+            mapView?.addAnnotation(currentlyPlayedSoundAnnotation)
+        }
+    }
+    
+    func setListenViewHidden(_ hidden: Bool) {
+        listenView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.listenViewHiddenAnimationDuration)
+    } 
     
 }

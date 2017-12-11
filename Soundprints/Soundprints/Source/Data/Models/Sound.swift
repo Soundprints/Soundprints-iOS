@@ -19,11 +19,18 @@ class Sound {
     private(set) var longitude: Double?
     private(set) var userId: String?
     private(set) var userDisplayName: String?
-    private(set) var userProfileImageUrl: String?
+    private var userProfileImageUrlString: String?
     private(set) var duration: TimeInterval?
     private(set) var initialDistance: SingleDistanceValue?
     private(set) var submissionDate: Date?
     private var resourceURL: ResourceURL?
+    
+    var userProfileImageUrl: URL? {
+        guard let userProfileImageUrlString = userProfileImageUrlString else {
+            return nil
+        }
+        return URL(string: userProfileImageUrlString)
+    }
     
     // MARK: - Initializers
     
@@ -102,7 +109,7 @@ class Sound {
             let userWrapper = APIJSONTools.DictionaryWrapper(dictionary: userDescriptor)
             userId = userWrapper.string(key: "id")
             userDisplayName = userWrapper.string(key: "displayName")
-            userProfileImageUrl = userWrapper.string(key: "profileImageUrl")
+            userProfileImageUrlString = userWrapper.string(key: "profileImageUrl")
         }
         duration = wrapper.double(key: "duration")
         if let distanceMeters = wrapper.double(key: "distance") {

@@ -109,7 +109,7 @@ class SoundAnnotationView: MGLAnnotationView {
         }
         
         if let profileImageUrl = sound.userProfileImageUrl {
-            profileImageView?.kf.setImage(with: URL(string: profileImageUrl))
+            profileImageView?.kf.setImage(with: profileImageUrl)
         }
         state = soundAnnotation.inRange ? .inRange : .notInRange
         if let distanceString = soundAnnotation.distanceString {

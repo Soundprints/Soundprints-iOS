@@ -52,7 +52,7 @@ class SoundsListCell: UITableViewCell {
     
     private func updateContent(withSound sound: Sound?) {
         if let profileImageUrl = sound?.userProfileImageUrl {
-            profileImageView?.kf.setImage(with: URL(string: profileImageUrl))
+            profileImageView?.kf.setImage(with: profileImageUrl)
         } else {
             profileImageView?.image = nil
         }
