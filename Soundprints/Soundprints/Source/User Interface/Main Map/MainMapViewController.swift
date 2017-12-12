@@ -52,6 +52,15 @@ class MainMapViewController: BaseViewController {
         }
     }
     
+    private var maximumVisibleMapRadius: Double? {
+        guard let visibleCoordinateBounds = mapView?.visibleCoordinateBounds, let currentLocation = mapView?.userLocation?.location else {
+            return nil
+        }
+        
+        let mapCornerLocation = CLLocation(latitude: visibleCoordinateBounds.ne.latitude, longitude: visibleCoordinateBounds.ne.longitude)
+        return mapCornerLocation.distance(from: currentLocation)
+    }
+    
     // MARK: - Constants
 
     private static let soundFetchDistanceTreshold: Double = 100
@@ -278,8 +287,7 @@ extension MainMapViewController: MGLMapViewDelegate {
         
         if distanceInKilometers(from: userCLLocation, to: lastSoundFetchLocation) ?? CLLocationDistanceMax > MainMapViewController.soundFetchDistanceTreshold {
             lastSoundFetchLocation = userCLLocation
-            // TODO: Change radius to real radius of the map. For now it is hardcoded to 1000m.
-            updateSounds(arroundCoordinate: userCLLocation.coordinate, withRadius: 1000)
+            updateSounds(arroundCoordinate: userCLLocation.coordinate, withRadius: maximumVisibleMapRadius ?? 2*minimumVisibleMeters)
         } else {
             updateVisibleAnnotationViewsIfNecessary()
         }
@@ -329,7 +337,7 @@ extension MainMapViewController: MGLMapViewDelegate {
     }
     
     func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
-        guard let soundAnnotation = annotation as? SoundAnnotation, let sound = soundAnnotation.sound else {
+        guard let soundAnnotation = annotation as? SoundAnnotation, let sound = soundAnnotation.sound, soundAnnotation.inRange else {
             return
         }
         
@@ -358,6 +366,11 @@ extension MainMapViewController: SoundsListViewControllerDelegate {
     
     func soundsListViewControllerShouldBeDismissed(sender: SoundsListViewController) {
         clearContentController()
+    }
+    
+    func soundsListViewController(_ sender: SoundsListViewController, requestsToPlaySound soundToPlay: Sound) {
+        clearContentController()
+        playSound(soundToPlay)
     }
     
 }

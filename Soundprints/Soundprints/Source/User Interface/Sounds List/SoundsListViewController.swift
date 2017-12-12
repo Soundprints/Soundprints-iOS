@@ -13,6 +13,7 @@ import UIKit
 protocol SoundsListViewControllerDelegate: class {
     
     func soundsListViewControllerShouldBeDismissed(sender: SoundsListViewController)
+    func soundsListViewController(_ sender: SoundsListViewController, requestsToPlaySound soundToPlay: Sound)
     
 }
 
@@ -50,11 +51,24 @@ extension SoundsListViewController: UITableViewDataSource, UITableViewDelegate {
         if let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.soundsListCell, for: indexPath) {
             let sound = sounds[indexPath.row]
             cell.sound = sound
+            cell.delegate = self
             
             return cell
         }
         
         return UITableViewCell()
+    }
+    
+}
+
+extension SoundsListViewController: SoundsListCellDelegate {
+    
+    func soundListCell(_ sender: SoundsListCell, requestsToPlaySound soundToPlay: Sound?) {
+        guard let soundToPlay = soundToPlay else {
+            return
+        }
+        
+        delegate?.soundsListViewController(self, requestsToPlaySound: soundToPlay)
     }
     
 }
