@@ -337,7 +337,7 @@ extension MainMapViewController: MGLMapViewDelegate {
     }
     
     func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
-        guard let soundAnnotation = annotation as? SoundAnnotation, let sound = soundAnnotation.sound, soundAnnotation.inRange else {
+        guard let soundAnnotation = annotation as? SoundAnnotation, let sound = soundAnnotation.sound, soundAnnotation.inRange, !RecorderAndPlayer.shared.isPlaying, !RecorderAndPlayer.shared.isRecording else {
             return
         }
         
