@@ -48,6 +48,8 @@ class FolderManager {
         }
     }
     
+    // MARK: - Folder creation
+    
     private func createFolder() {
         guard let folderPath = folderPath else {
             print("Error creating folder path.")
@@ -65,6 +67,8 @@ class FolderManager {
             print(error.localizedDescription)
         }
     }
+    
+    // MARK: - Files in folder
     
     func numberOfFilesInFolder() -> Int {
         guard let folderPath = folderPath else {
@@ -99,6 +103,8 @@ class FolderManager {
         }
         return folderPath.appendingPathComponent(folder.fileName + String(number)).path
     }
+    
+    // MARK: - Clear folder
     
     func clearFolder() {
         guard let folderPath = folderPath else {

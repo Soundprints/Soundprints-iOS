@@ -77,15 +77,7 @@ class ListenView: UIView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
-        let center = CGPoint(x: bounds.midX, y: bounds.midY)
-        let radius = bounds.height/2 - progressLineWidth/2
-        let startAngle: CGFloat = -.pi/2
-        let endAngle: CGFloat = progressToUse*2*CGFloat.pi - .pi/2
-        
-        let progressBezierPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
-        progressBezierPath.lineWidth = progressLineWidth
-        progressColor.setStroke()
-        progressBezierPath.stroke()
+        drawProgressCircle()
     }
     
     // MARK: - Initialization
@@ -126,6 +118,20 @@ class ListenView: UIView {
     
     @objc private func closeButtonPressed() {
         delegate?.listenViewShouldClose(sender: self)
+    }
+    
+    // MARK: - Progress Circle Drawing
+    
+    private func drawProgressCircle() {
+        let center = CGPoint(x: bounds.midX, y: bounds.midY)
+        let radius = bounds.height/2 - progressLineWidth/2
+        let startAngle: CGFloat = -.pi/2
+        let endAngle: CGFloat = progressToUse*2*CGFloat.pi - .pi/2
+        
+        let progressBezierPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        progressBezierPath.lineWidth = progressLineWidth
+        progressColor.setStroke()
+        progressBezierPath.stroke()
     }
     
 }

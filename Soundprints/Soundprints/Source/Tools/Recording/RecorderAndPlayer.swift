@@ -134,7 +134,7 @@ class RecorderAndPlayer: NSObject {
         }
     }
     
-    // MARK: - Timer
+    // MARK: - Progress Timer
     
     @objc private func progressTimerFired() {
         guard isPlaying, let player = player, let playerItem = player.currentItem else {

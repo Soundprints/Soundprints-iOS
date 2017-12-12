@@ -76,8 +76,6 @@ class MainMapViewController: BaseViewController {
         
         initializeMap()
         initializeProximityRingsView()
-        
-        listenView?.profileImageView?.kf.setImage(with: URL(string: "https://graph.facebook.com/v2.6/10210215698324312/picture?type=large"))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -404,6 +402,8 @@ extension MainMapViewController: ListenViewDelegate {
     }
     
 }
+
+// MARK: - RecorderAndPlayerDelegate
 
 extension MainMapViewController: RecorderAndPlayerDelegate {
     

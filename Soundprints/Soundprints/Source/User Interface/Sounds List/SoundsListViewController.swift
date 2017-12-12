@@ -61,6 +61,8 @@ extension SoundsListViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+// MARK: - SoundsListCellDelegate
+
 extension SoundsListViewController: SoundsListCellDelegate {
     
     func soundListCell(_ sender: SoundsListCell, requestsToPlaySound soundToPlay: Sound?) {
