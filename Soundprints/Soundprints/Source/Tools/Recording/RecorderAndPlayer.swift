@@ -48,11 +48,12 @@ class RecorderAndPlayer: NSObject {
     override init() {
         super.init()
         
+        // clear recordings folder
+        folderManager.clearFolder()
+        
         NotificationCenter.default.addObserver(forName: .AVAudioSessionInterruption, object: nil, queue: nil) { [unowned self] notification in
             print("Audio session interrupted!")
             self.stop()
-            if self.isRecording { self.delegate?.recorderAndPlayerStoppedPlaying(sender: self) }
-            if self.isPlaying { self.delegate?.recorderAndPlayerStoppedRecording(sender: self) }
         }
     }
     
@@ -68,11 +69,20 @@ class RecorderAndPlayer: NSObject {
     
     /// Stops audio recording, returns path to recorded audio file
     @discardableResult func stopRecording() -> String {
-        let path = recorder?.url.absoluteString ?? ""
+        guard isRecording else {
+            return ""
+        }
+        
+        let path = recorder?.url.path ?? ""
         isRecording = false
         recorder?.stop()
         recorder = nil
-        try? session.setActive(false)
+        
+        if !isPlaying {
+            try? session.setActive(false)
+        }
+        
+        delegate?.recorderAndPlayerStoppedRecording(sender: self)
         return path
     }
     
@@ -99,9 +109,7 @@ class RecorderAndPlayer: NSObject {
     // MARK: - Playback
     
     func playFile(withRemoteURL remoteURL: URL) {
-        if isPlaying {
-            stop()
-        }
+        stop()
         
         progressTimer = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(progressTimerFired), userInfo: nil, repeats: true)
         
@@ -111,15 +119,22 @@ class RecorderAndPlayer: NSObject {
     }
     
     func stopPlaying() {
-        progressTimer?.invalidate()
-        progressTimer = nil
+        guard isPlaying else {
+            return
+        }
+        
+        delegate?.recorderAndPlayerStoppedPlaying(sender: self)
         
         isPlaying = false
         player?.pause()
         player = nil
-        try? session.setActive(false)
         
-        delegate?.recorderAndPlayerStoppedPlaying(sender: self)
+        progressTimer?.invalidate()
+        progressTimer = nil
+        
+        if !isRecording {
+            try? session.setActive(false)
+        }
     }
     
     private func initializePlayer(withRemoteURL remoteURL: URL) {
@@ -128,7 +143,7 @@ class RecorderAndPlayer: NSObject {
             try session.setActive(true)
             let playerItem = AVPlayerItem(asset: AVAsset(url: remoteURL))
             player = AVPlayer(playerItem: playerItem)
-            player?.volume = 1
+            
         } catch {
             print(error.localizedDescription)
         }
@@ -178,7 +193,6 @@ extension RecorderAndPlayer: AVAudioRecorderDelegate {
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         stopRecording()
-        delegate?.recorderAndPlayerStoppedRecording(sender: self)
     }
     
 }

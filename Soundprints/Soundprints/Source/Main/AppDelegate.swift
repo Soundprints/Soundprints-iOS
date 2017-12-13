@@ -24,14 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
-            try AVAudioSession.sharedInstance().setActive(true)
-        }
-        catch {
-            print("AVAudioSession setCategory error: \(error.localizedDescription)")
-        }
-        
         return true
     }
     
