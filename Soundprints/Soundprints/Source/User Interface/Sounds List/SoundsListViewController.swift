@@ -29,7 +29,22 @@ class SoundsListViewController: BaseViewController {
     
     weak var delegate: SoundsListViewControllerDelegate?
     
-    var sounds: [Sound] = []
+    var soundsModel: SoundsModel? {
+        didSet {
+            soundsModel?.setState(.list)
+        }
+    }
+    
+    private var sounds: [Sound] = []
+    
+    // MARK: - View Controller lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        sounds = soundsModel?.sounds ?? []
+        tableView?.reloadData()
+    }
     
     // MARK: - Actions
     
@@ -71,6 +86,22 @@ extension SoundsListViewController: SoundsListCellDelegate {
         }
         
         delegate?.soundsListViewController(self, requestsToPlaySound: soundToPlay)
+    }
+    
+}
+
+extension SoundsListViewController: SoundsModelDelegate {
+    
+    func soundsModel(_ sender: SoundsModel, updatedAndReplacedSounds sounds: [Sound]) {
+        self.sounds = sounds
+        // TODO: Improve reloading
+        tableView?.reloadData()
+    }
+    
+    func soundsModel(_ sender: SoundsModel, addedSounds sounds: [Sound]) {
+        self.sounds.append(contentsOf: sounds)
+        // TODO: Improve reloading
+        tableView?.reloadData()
     }
     
 }

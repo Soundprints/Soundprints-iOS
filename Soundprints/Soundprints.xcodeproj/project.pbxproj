@@ -25,6 +25,8 @@
 		E2D61EEF1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */; };
 		E2D61EF31FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EF21FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift */; };
 		E2D61EF51FD84F4F00A6AA85 /* KaminoUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EF41FD84F4F00A6AA85 /* KaminoUIView.swift */; };
+		E2D9D0211FE147A9005CE19D /* SoundsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9D0201FE147A9005CE19D /* SoundsModel.swift */; };
+		E2D9D0241FE16CDE005CE19D /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9D0231FE16CDE005CE19D /* Throttle.swift */; };
 		E2E551041FD54AC800BAE27E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551031FD54AC800BAE27E /* LoginViewController.swift */; };
 		E2E551061FD54ADF00BAE27E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E551051FD54ADF00BAE27E /* Login.storyboard */; };
 		E2E551091FD56A2E00BAE27E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */; };
@@ -77,6 +79,8 @@
 		E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionLockingContentControllerView.swift; sourceTree = "<group>"; };
 		E2D61EF21FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KaminoUIView+HiddenAnimations.swift"; sourceTree = "<group>"; };
 		E2D61EF41FD84F4F00A6AA85 /* KaminoUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KaminoUIView.swift; sourceTree = "<group>"; };
+		E2D9D0201FE147A9005CE19D /* SoundsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsModel.swift; sourceTree = "<group>"; };
+		E2D9D0231FE16CDE005CE19D /* Throttle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Throttle.swift; sourceTree = "<group>"; };
 		E2E551031FD54AC800BAE27E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2E551051FD54ADF00BAE27E /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
@@ -215,6 +219,14 @@
 			path = "Content Controller";
 			sourceTree = "<group>";
 		};
+		E2CEC7751FE027CE00841FE8 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				E2D9D0201FE147A9005CE19D /* SoundsModel.swift */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		E2D61EEB1FD8230900A6AA85 /* Distance Value */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +250,14 @@
 				E2D61EF21FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		E2D9D0221FE16CDE005CE19D /* Throttle */ = {
+			isa = PBXGroup;
+			children = (
+				E2D9D0231FE16CDE005CE19D /* Throttle.swift */,
+			);
+			path = Throttle;
 			sourceTree = "<group>";
 		};
 		E2E551021FD54AAB00BAE27E /* Login */ = {
@@ -413,6 +433,8 @@
 		E2F1DD991FCEA367000CC2F1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				E2D9D0221FE16CDE005CE19D /* Throttle */,
+				E2CEC7751FE027CE00841FE8 /* Sounds */,
 				E2157B841FDEA9F5004E702A /* Folder Manager */,
 				E2157B831FDEA9EC004E702A /* Recording */,
 				E25AF4DC1FDA9C4600D7BEA2 /* Filters */,
@@ -652,6 +674,7 @@
 				E2F1DDAE1FCEB5A2000CC2F1 /* MainMapViewController.swift in Sources */,
 				E2D61EF51FD84F4F00A6AA85 /* KaminoUIView.swift in Sources */,
 				E2E5510E1FD570E000BAE27E /* ContentControllerView.swift in Sources */,
+				E2D9D0211FE147A9005CE19D /* SoundsModel.swift in Sources */,
 				E2E551231FD6DB0100BAE27E /* ProximityRingsView.swift in Sources */,
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
 				E21014891FD81405005AAE9F /* SingleTimeValue.swift in Sources */,
@@ -661,6 +684,7 @@
 				E2157B861FDEAA16004E702A /* FolderManager.swift in Sources */,
 				E2E551101FD5746900BAE27E /* ProviderLoginViewController.swift in Sources */,
 				E2EBF5961FCFFBAF00AAFBC1 /* Sound.swift in Sources */,
+				E2D9D0241FE16CDE005CE19D /* Throttle.swift in Sources */,
 				E2E5510B1FD56FC500BAE27E /* FacebookLoginViewController.swift in Sources */,
 				E2F1DDA31FCEA367000CC2F1 /* AppDelegate.swift in Sources */,
 				E2EBF5881FCEF35500AAFBC1 /* APIManager.swift in Sources */,

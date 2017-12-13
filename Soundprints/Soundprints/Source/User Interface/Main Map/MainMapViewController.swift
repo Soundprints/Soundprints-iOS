@@ -22,10 +22,11 @@ class MainMapViewController: BaseViewController {
     
     // MARK: - Variables
     
+    private var soundsModel: SoundsModel = SoundsModel(state: .map)
+    
     static var inRangeMetersTreshold: Double = 1500
     
     private var sounds: [Sound] = []
-    private var lastSoundFetchLocation: CLLocation?
     
     private lazy var headingLocationManager: CLLocationManager = CLLocationManager()
     
@@ -61,14 +62,12 @@ class MainMapViewController: BaseViewController {
         return mapCornerLocation.distance(from: currentLocation)
     }
     
-    // MARK: - Constants
-
-    private static let soundFetchDistanceTreshold: Double = 100
-    
     // MARK: - View controller lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        soundsModel.mapDelegate = self
         
         listenView?.delegate = self
         
@@ -138,19 +137,6 @@ class MainMapViewController: BaseViewController {
         let zoomLevel = log2((earthCircumference*cos(latitudeInRadians))/distancePerPixel) - 9
         
         mapView.setZoomLevel(zoomLevel, animated: animated)
-    }
-    
-    // MARK: - Sounds
-    
-    private func updateSounds(arroundCoordinate coordinate: CLLocationCoordinate2D, withRadius radius: Double) {
-        Sound.fetchSounds(around: coordinate.latitude, and: coordinate.longitude, andMaxDistance: radius) { sounds, error in
-            if error == nil, let sounds = sounds {
-                self.sounds = sounds
-                self.refreshSoundAnnotations()
-            } else {
-                // TODO: Handle error
-            }
-        }
     }
     
     // MARK: - Annotations
@@ -283,12 +269,9 @@ extension MainMapViewController: MGLMapViewDelegate {
         }
         mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
         
-        if distanceInKilometers(from: userCLLocation, to: lastSoundFetchLocation) ?? CLLocationDistanceMax > MainMapViewController.soundFetchDistanceTreshold {
-            lastSoundFetchLocation = userCLLocation
-            updateSounds(arroundCoordinate: userCLLocation.coordinate, withRadius: maximumVisibleMapRadius ?? 2*minimumVisibleMeters)
-        } else {
-            updateVisibleAnnotationViewsIfNecessary()
-        }
+        soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation, radius: maximumVisibleMapRadius ?? 2*minimumVisibleMeters))
+        
+        updateVisibleAnnotationViewsIfNecessary()
     }
     
     func mapView(_ mapView: MGLMapView, didAdd annotationViews: [MGLAnnotationView]) {
@@ -340,6 +323,15 @@ extension MainMapViewController: MGLMapViewDelegate {
         }
         
         playSound(sound)
+    }
+    
+}
+
+extension MainMapViewController: SoundsModelMapDelegate {
+    
+    func soundsModel(_ sender: SoundsModel, updatedMapSounds mapSounds: [Sound]) {
+        self.sounds = mapSounds
+        refreshSoundAnnotations()
     }
     
 }
@@ -436,7 +428,7 @@ private extension MainMapViewController {
         switch menuContent {
         case .soundsList:
             let soundsList = R.storyboard.soundsList.soundsListViewController()!
-            soundsList.sounds = sounds
+            soundsList.soundsModel = soundsModel
             soundsList.delegate = self
             contentControllerView?.setViewController(controller: soundsList, animationStyle: .fade)
         case .filter:
@@ -450,6 +442,8 @@ private extension MainMapViewController {
     }
     
     func clearContentController() {
+        soundsModel.setState(.map)
+        
         contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
         
         setMainMapComponentsHidden(false)
