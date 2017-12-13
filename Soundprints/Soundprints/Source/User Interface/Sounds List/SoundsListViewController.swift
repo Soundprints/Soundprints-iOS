@@ -24,12 +24,23 @@ class SoundsListViewController: BaseViewController {
     // MARK: - Outlets
 
     @IBOutlet private weak var tableView: UITableView?
+    @IBOutlet private weak var closeButtonImageView: UIImageView?
     
     // MARK: - Variables
     
     weak var delegate: SoundsListViewControllerDelegate?
     
     var sounds: [Sound] = []
+    
+    // MARK: - View Controller Lifecycle
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let closeButtonHeight = closeButtonImageView?.bounds.height {
+            tableView?.contentInset.bottom = closeButtonHeight + 20
+        }
+    }
     
     // MARK: - Actions
     
