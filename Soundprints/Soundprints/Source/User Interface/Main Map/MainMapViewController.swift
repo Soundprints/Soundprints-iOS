@@ -293,10 +293,10 @@ class MainMapViewController: BaseViewController {
         
         UIView.transition(with: imageView,
                           duration: animated ? 0.25 : 0.0,
-                          options: .curveEaseInOut,
+                          options: [.curveEaseInOut, .transitionCrossDissolve],
                           animations: {
                             // TODO: set recording image
-                            self.recordImageView?.image = recording ? #imageLiteral(resourceName: "record-button-icon") : #imageLiteral(resourceName: "record-button-icon")
+                            self.recordImageView?.image = recording ? #imageLiteral(resourceName: "records-button-recording-icon") : #imageLiteral(resourceName: "record-button-icon")
                           },
                           completion: nil)
     }
