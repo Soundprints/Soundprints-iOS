@@ -170,6 +170,7 @@
                         <viewLayoutGuide key="safeArea" id="Jsa-Ju-bbB"/>
                     </view>
                     <connections>
+                        <outlet property="closeButtonImageView" destination="Ry2-Ph-4I4" id="yMP-0o-YRa"/>
                         <outlet property="tableView" destination="R3p-dB-EQi" id="qCL-cr-MH0"/>
                     </connections>
                 </viewController>
