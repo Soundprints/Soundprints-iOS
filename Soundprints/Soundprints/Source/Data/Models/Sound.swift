@@ -180,10 +180,15 @@ extension Sound {
     
     static func uploadSound(filePath: String, location: CLLocationCoordinate2D, callback: @escaping (_ error: Error?) -> Void) {
         
-        var request = APIRequest(endpoint: .soundUpload, method: .UPLOAD_FILE).urlRequest
-        let boundary = MultipartFormDataHandler.generateBoundaryString()
+        // TODO: session data task delegate might be needed to track upload progress
         
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let request = APIRequest(endpoint: .soundUpload, method: .MULTIPART)
+        
+        guard let boundary = request.boundary else {
+            print("Error uploading sound: missing boundary!")
+            callback(NSError()) // TODO: proper error
+            return
+        }
         
         var data = Data()
         
@@ -194,29 +199,17 @@ extension Sound {
         if let latitude = MultipartFormDataHandler.createFormBodyWithParameters(name: "lat", formDouble: location.latitude, boundary: boundary) {
             data.append(latitude)
         }
-        
-        if let longitude = MultipartFormDataHandler.createFormBodyWithParameters(name: "lat", formDouble: location.longitude, boundary: boundary) {
+
+        if let longitude = MultipartFormDataHandler.createFormBodyWithParameters(name: "lon", formDouble: location.longitude, boundary: boundary) {
             data.append(longitude)
         }
         
-        data.appendString("--\(boundary)\r\n") // finishing boundary
+        data.appendString("--\(boundary)--\r\n") // finishing boundary
         
-        request.httpBody = data
-        
-        // sign request
-        if let accessToken = AuthenticationManager.accessToken {
-            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            request.setValue(AuthenticationManager.provider.toString(), forHTTPHeaderField: "Provider")
-        }
-        
-        // TODO: set delegate to track upload progress
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        
-        let task = session.dataTask(with: request, completionHandler: { data, response, error in
+        request.rawFormData = data
+        APIManager.performRequest(request: request) { data, error in
             callback(error)
-        })
-        
-        task.resume()
+        }
     }
     
 }

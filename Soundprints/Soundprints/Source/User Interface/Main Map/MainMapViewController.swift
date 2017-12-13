@@ -271,7 +271,7 @@ class MainMapViewController: BaseViewController {
             let path = RecorderAndPlayer.shared.stopRecording()
             // TODO: update UI
             
-            let location = CLLocationCoordinate2D(latitude: mapView!.longitude, longitude: mapView!.longitude)
+            let location = CLLocationCoordinate2D(latitude: mapView!.latitude, longitude: mapView!.longitude)
             Sound.uploadSound(filePath: path, location: location) { error in
                 if let error = error {
                     print(error.localizedDescription)

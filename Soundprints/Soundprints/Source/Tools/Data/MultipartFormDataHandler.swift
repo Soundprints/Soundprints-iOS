@@ -52,14 +52,11 @@ class MultipartFormDataHandler: NSObject {
     class func createFormBodyWithParameters(name: String, formDouble: Double, boundary: String) -> Data? {
         var body = Data()
         
-        var value = formDouble
-        let data = withUnsafePointer(to: &value) {
-            Data(bytes: UnsafePointer($0), count: MemoryLayout.size(ofValue: value))
-        }
+        let string = String(formDouble)
         
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
-        body.append(data)
+        body.appendString(string)
         body.appendString("\r\n")
         return body
     }
