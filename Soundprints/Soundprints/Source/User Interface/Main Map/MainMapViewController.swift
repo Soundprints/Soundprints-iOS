@@ -72,12 +72,6 @@ class MainMapViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        soundsModel.mapDelegate = self
-        
-        listenView?.delegate = self
-        
-        RecorderAndPlayer.shared.delegate = self
-        
         initializeMap()
         initializeProximityRingsView()
         
@@ -89,7 +83,11 @@ class MainMapViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        FilterManager.delegate = self
+        soundsModel.mapDelegate = self
+        FilterManager.delegate = soundsModel
+        listenView?.delegate = self
+        RecorderAndPlayer.shared.delegate = self
+        
         startUpdatingHeading()
         
         RecorderAndPlayer.shared.requestPermission { granted in
@@ -433,16 +431,6 @@ extension MainMapViewController: FilterViewControllerDelegate {
     
     func filterViewControllerShouldBeDismissed(sender: FilterViewController) {
         clearContentController()
-    }
-    
-}
-
-// MARK: - FilterManagerDelegate
-
-extension MainMapViewController: FilterManagerDelegate {
-    
-    func filterManagerUpdatedFilter(_ filter: Filter) {
-        // TODO: Handle updating of filter
     }
     
 }

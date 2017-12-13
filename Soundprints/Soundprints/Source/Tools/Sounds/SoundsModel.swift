@@ -45,7 +45,11 @@ class SoundsModel {
     
     private var refreshTimer: Timer?
     
-    private lazy var newPageThrottle = Throttle(delay: 5, maxLimit: 0) 
+    private lazy var newPageThrottle = Throttle(delay: 5, maxLimit: 0)
+    
+    private var fetchSoundsFromOnlyLastDay: Bool {
+        return FilterManager.filters.age == .lastDay
+    }
     
     // MARK: - Constants
     
@@ -98,6 +102,12 @@ class SoundsModel {
         }
     }
     
+    // MARK: - Invalidation
+    
+    private func invalidate() {
+        fetchAndReplaceSounds()
+    }
+    
     private func shouldInvalidate(onStateChange: Bool = false) -> Bool {
         // When the model is in list state, it should not be invalidated, except if the state was just changed.
         if onStateChange == false && state == .list {
@@ -119,7 +129,9 @@ class SoundsModel {
         guard let latestParameters = latestReceivedParamaters else {
             return
         }
-        Sound.fetchSounds(around: latestParameters.location.coordinate.latitude, and: latestParameters.location.coordinate.longitude, withMinDistance: 0, andMaxDistance: latestParameters.radius) { sounds, error in
+        
+        // TODO: Integrate the type filter
+        Sound.fetchSounds(around: latestParameters.location.coordinate.latitude, and: latestParameters.location.coordinate.longitude, withMinDistance: 0, andMaxDistance: latestParameters.radius, fromOnlyLastDay: fetchSoundsFromOnlyLastDay) { sounds, error in
             if error == nil, let sounds = sounds {
                 self.sounds = sounds
                 DispatchQueue.main.async {
@@ -153,7 +165,7 @@ class SoundsModel {
             return
         }
         
-        Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: minRadius, andMaxDistance: maximumFetchRadius, fromOnlyLastDay: false, limit: itemsPerPage) { sounds, error in
+        Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: minRadius, andMaxDistance: maximumFetchRadius, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
             if error == nil, let sounds = sounds {
                 self.sounds.append(contentsOf: sounds)
                 DispatchQueue.main.async {
@@ -190,6 +202,17 @@ extension SoundsModel {
         fileprivate(set) var location: CLLocation
         fileprivate(set) var radius: CLLocationDistance
         
+    }
+    
+}
+
+// MARK: - FilterManagerDelegate
+
+extension SoundsModel: FilterManagerDelegate {
+    
+    func filterManagerUpdatedFilter(_ filter: Filter) {
+        // For now just invalidate the whole model
+        invalidate()
     }
     
 }
