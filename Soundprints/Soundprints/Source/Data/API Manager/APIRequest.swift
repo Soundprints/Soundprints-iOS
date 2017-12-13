@@ -4,18 +4,21 @@
 //  Copyright © 2017 Kamino. All rights reserved.
 //
 
-
 import Foundation
 
 class APIRequest {
     
     // MARK: - Properties for configuring the request
     
-    /// API Endpoint to use - one of the endpoints listed below. Defaults to login endpoint
+    /// API Endpoint to use
     var endpoint = Endpoint.sound
     
-    /// Request method - GET, POST, ... Defaults to GET
-    var method = Method.GET
+    /// Request method
+    var method = Method.GET {
+        didSet {
+            injectDefaultHeaders()
+        }
+    }
     
     /// Request query parameters
     var queryParameters = Parameters()
@@ -33,9 +36,10 @@ class APIRequest {
     var customUrlPath: String?
     
     /// Flag to indicate if this request needs to be signed
-    /// signing is done by in the injectAuthenticationHeader method - implement this according to the API used
     var needsSignature = true
     
+    /// The unique boundary string for multipart form data requests
+    var boundary: String?
     
     // MARK: - Initialization and default configuration
     
@@ -47,21 +51,14 @@ class APIRequest {
     }
     
     private func injectDefaultHeaders() {
-        
-        if method == .POST {
-            headers["Content-Type"] = "application/json; charset=utf-8"
-            
-        } else if method == .PUT {
-            headers["Content-Type"] = "application/json; charset=utf-8"
-            
-        } else if method == .DELETE {
-            headers["Content-Type"] = "application/json; charset=utf-8"
-            
-        }  else if method == .PATCH {
-            headers["Content-Type"] = "application/json; charset=utf-8"
-            
-        } else if method == .UPLOAD_FILE {
-            headers["Content-Type"] = "binary"
+        switch method {
+        case .GET, .LIST: break
+        case .POST, .PUT, .DELETE, .PATCH: headers["Content-Type"] = "application/json; charset=utf-8"
+        case .UPLOAD_FILE: headers["Content-Type"] = "binary"
+        case .MULTIPART:
+            let boundary = MultipartFormDataHandler.generateBoundaryString()
+            headers["Content-Type"] = "multipart/form-data; boundary=\(boundary)"
+            self.boundary = boundary
         }
     }
     
@@ -70,6 +67,7 @@ class APIRequest {
 // MARK: - Endpoint configuration
 
 extension APIRequest {
+    
     enum Endpoint {
         
         // MARK: - Endpoint configuration - list all endpoints here
@@ -94,7 +92,7 @@ extension APIRequest {
             }
         }
         
-        /// Indicates if this method needs signature or not
+        /// Indicates if this endpoint requires signature or not
         var requiresAuthentication: Bool {
             switch self {
             default: return true
@@ -111,20 +109,22 @@ extension APIRequest {
             return "\(basePath)/\(suffix)"
         }
     }
+    
 }
 
 // MARK: Request Method
 
 extension APIRequest {
+    
     enum Method {
         case GET
         case POST
         case PUT
         case PATCH
         case DELETE
-        
-        case UPLOAD_FILE
         case LIST
+        case UPLOAD_FILE
+        case MULTIPART
         
         var stringValue: String {
             switch self {
@@ -135,9 +135,11 @@ extension APIRequest {
             case .DELETE: return "DELETE"
             case .UPLOAD_FILE: return "POST"
             case .LIST: return "GET"
+            case .MULTIPART: return "POST"
             }
         }
     }
+    
 }
 
 // MARK: Request Parameters
@@ -249,8 +251,7 @@ extension APIRequest {
         }
     }
     
-    fileprivate func injectQueryParameters(request: inout URLRequest) {
-        
+    private func injectQueryParameters(request: inout URLRequest) {
         if let query = queryParameters.urlEncodedString {
             let toReturn = endpoint.url + "?" + query
             if let url = URL(string: toReturn) {
@@ -258,6 +259,7 @@ extension APIRequest {
             } else {
                 print("Cannot prepare url: \(toReturn)")
             }
+            
         } else {
             let toReturn = endpoint.url
             if let url = URL(string: toReturn) {
@@ -268,8 +270,7 @@ extension APIRequest {
         }
     }
     
-    fileprivate func injectFormParameters( request: inout URLRequest) {
-        
+    private func injectFormParameters( request: inout URLRequest) {
         if let data = rawFormData {
             request.httpBody = data
         } else if let data = formParameters.JSONData {
@@ -277,30 +278,28 @@ extension APIRequest {
         }
     }
     
-    fileprivate func injectHeaders(request: inout URLRequest) {
-        
+    private func injectHeaders(request: inout URLRequest) {
         headers._parameters.forEach { (key, value) in
             if let stringValue = value as? String {
                 request.setValue(stringValue, forHTTPHeaderField: key)
             }
         }
     }
+    
 }
 
-// MARK: URLRequestConvertible
+// MARK:  - URLRequest
 
 extension APIRequest {
+    
     var urlRequest: URLRequest {
         
         var request = URLRequest(url: URL(string: "www.nil.com")!) // can't initialize without url
         request.url = nil
         
-        /*
-         A stupid workaroud since the normal comparison does not work
-         https://stackoverflow.com/questions/38634725/how-to-compare-swift-enumerations-which-include-additional-constructor-values
-         */
         if let customUrlPath = customUrlPath, let url = URL(string: customUrlPath), case .custom = endpoint {
             request.url = url
+            
         } else {
             injectQueryParameters(request: &request)
         }
@@ -312,4 +311,5 @@ extension APIRequest {
         
         return request
     }
+    
 }

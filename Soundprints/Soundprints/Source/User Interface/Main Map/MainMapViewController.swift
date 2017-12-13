@@ -19,6 +19,7 @@ class MainMapViewController: BaseViewController {
     @IBOutlet private weak var menuContainerView: UIView?
     @IBOutlet private weak var contentControllerView: InteractionLockingContentControllerView?
     @IBOutlet private weak var listenView: ListenView?
+    @IBOutlet private weak var recordImageView: UIImageView?
     
     // MARK: - Variables
     
@@ -61,6 +62,10 @@ class MainMapViewController: BaseViewController {
         let mapCornerLocation = CLLocation(latitude: visibleCoordinateBounds.ne.latitude, longitude: visibleCoordinateBounds.ne.longitude)
         return mapCornerLocation.distance(from: currentLocation)
     }
+
+    // MARK: - Constants
+    
+    private let listenViewHiddenAnimationDuration: Double = 1
     
     // MARK: - View controller lifecycle
     
@@ -75,14 +80,23 @@ class MainMapViewController: BaseViewController {
         
         initializeMap()
         initializeProximityRingsView()
+        
+        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(onLongPress))
+        recognizer.minimumPressDuration = 0.25
+        recordImageView?.addGestureRecognizer(recognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         FilterManager.delegate = self
-        
         startUpdatingHeading()
+        
+        RecorderAndPlayer.shared.requestPermission { granted in
+            if !granted { // cant record
+                // TODO: alert user
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -229,6 +243,54 @@ class MainMapViewController: BaseViewController {
     
     @IBAction private func filterButtonPressed(_ sender: Any) {
         setContentControllerViewController(withMenuContent: .filter)
+    }
+    
+    // MARK: - Recording
+    
+    @objc private func onLongPress(recognizer: UILongPressGestureRecognizer) {
+        guard let mapView = mapView else {
+            return
+        }
+
+        switch recognizer.state {
+        case .began: // start recording
+            print("💬 recording")
+            updateRecordButton(recording: true)
+            RecorderAndPlayer.shared.startRecording()
+            
+        case .ended, .cancelled: // stop recording
+            print("💬 recording stopped")
+            let path = RecorderAndPlayer.shared.stopRecording()
+            let location = CLLocationCoordinate2D(latitude: mapView.latitude, longitude: mapView.longitude)
+            Sound.uploadSound(filePath: path, location: location) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+            
+        default: break
+        }
+    }
+    
+    // MARK: - UI updates
+    
+    private func updateRecordButton(recording: Bool, animated: Bool = true) {
+        guard let imageView = recordImageView else {
+            return
+        }
+        
+        UIView.transition(with: imageView,
+                          duration: animated ? 0.25 : 0.0,
+                          options: .curveEaseInOut,
+                          animations: {
+                            // TODO: set recording image
+                            self.recordImageView?.image = recording ? #imageLiteral(resourceName: "record-button-icon") : #imageLiteral(resourceName: "record-button-icon")
+                          },
+                          completion: nil)
+    }
+    
+    private func setListenViewHidden(_ hidden: Bool) {
+        listenView?.kamino.animateHiden(hidden: hidden, duration: listenViewHiddenAnimationDuration)
     }
     
     // MARK: - Convenince
@@ -390,7 +452,7 @@ extension MainMapViewController: FilterManagerDelegate {
 extension MainMapViewController: ListenViewDelegate {
     
     func listenViewShouldClose(sender: ListenView) {
-        stopPlayingCurrentSound()
+        RecorderAndPlayer.shared.stopPlaying()
     }
     
 }
@@ -400,11 +462,15 @@ extension MainMapViewController: ListenViewDelegate {
 extension MainMapViewController: RecorderAndPlayerDelegate {
     
     func recorderAndPlayerStoppedPlaying(sender: RecorderAndPlayer) {
-        stopPlayingCurrentSound()
+        setListenViewHidden(true)
+        
+        if let currentlyPlayedSoundAnnotation = currentlyPlayedSoundAnnotation {
+            mapView?.addAnnotation(currentlyPlayedSoundAnnotation)
+        }
     }
     
     func recorderAndPlayerStoppedRecording(sender: RecorderAndPlayer) {
-        // TODO: 
+        updateRecordButton(recording: false)
     }
     
     func recorderAndPlayer(_ sender: RecorderAndPlayer, updatedPlayingProgress playingProgress: CGFloat) {
@@ -437,7 +503,7 @@ private extension MainMapViewController {
             contentControllerView?.setViewController(controller: filter, animationStyle: .fade)
         }
         
-        stopPlayingCurrentSound()
+        RecorderAndPlayer.shared.stopPlaying()
         setMainMapComponentsHidden(true)
     }
     
@@ -445,7 +511,6 @@ private extension MainMapViewController {
         soundsModel.setState(.map)
         
         contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
-        
         setMainMapComponentsHidden(false)
     }
     
@@ -466,13 +531,11 @@ private extension MainMapViewController {
 
 private extension MainMapViewController {
     
-    static let listenViewHiddenAnimationDuration: Double = 1
-    
     func playSound(_ sound: Sound) {
         
         listenView?.progress = 0
         
-        if let existingAnnotations = mapView?.annotations, let soundAnnotation = existingAnnotations.flatMap({ $0 as? SoundAnnotation }).first(where: { $0.sound === Optional.init(sound) }) {
+        if let existingAnnotations = mapView?.annotations, let soundAnnotation = existingAnnotations.flatMap({ $0 as? SoundAnnotation }).first(where: { $0.sound === sound }) {
             currentlyPlayedSoundAnnotation = soundAnnotation
             mapView?.removeAnnotation(soundAnnotation)
         }
@@ -490,21 +553,5 @@ private extension MainMapViewController {
             }
         }
     }
-    
-    func stopPlayingCurrentSound() {
-        setListenViewHidden(true)
-        
-        if RecorderAndPlayer.shared.isPlaying {
-            RecorderAndPlayer.shared.stopPlaying()
-        }
-        
-        if let currentlyPlayedSoundAnnotation = currentlyPlayedSoundAnnotation {
-            mapView?.addAnnotation(currentlyPlayedSoundAnnotation)
-        }
-    }
-    
-    func setListenViewHidden(_ hidden: Bool) {
-        listenView?.kamino.animateHiden(hidden: hidden, duration: MainMapViewController.listenViewHiddenAnimationDuration)
-    } 
     
 }
