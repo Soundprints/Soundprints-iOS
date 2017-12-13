@@ -49,7 +49,7 @@ class RecorderAndPlayer: NSObject {
         super.init()
         
         // clear recordings folder
-        FolderManager(folder: .recordings).clearFolder()
+        folderManager.clearFolder()
         
         NotificationCenter.default.addObserver(forName: .AVAudioSessionInterruption, object: nil, queue: nil) { [unowned self] notification in
             print("Audio session interrupted!")

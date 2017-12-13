@@ -92,9 +92,8 @@ extension APIRequest {
             }
         }
         
-        /// Indicates if this method endpoint requires signature or not
+        /// Indicates if this endpoint requires signature or not
         var requiresAuthentication: Bool {
-            // TODO: unused
             switch self {
             default: return true
             }
