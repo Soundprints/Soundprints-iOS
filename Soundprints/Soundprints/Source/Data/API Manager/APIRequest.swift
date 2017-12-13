@@ -4,7 +4,6 @@
 //  Copyright © 2017 Kamino. All rights reserved.
 //
 
-
 import Foundation
 
 class APIRequest {
@@ -33,9 +32,7 @@ class APIRequest {
     var customUrlPath: String?
     
     /// Flag to indicate if this request needs to be signed
-    /// signing is done by in the injectAuthenticationHeader method - implement this according to the API used
     var needsSignature = true
-    
     
     // MARK: - Initialization and default configuration
     

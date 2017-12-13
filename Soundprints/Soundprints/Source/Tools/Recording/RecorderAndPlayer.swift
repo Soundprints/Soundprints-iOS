@@ -68,7 +68,7 @@ class RecorderAndPlayer: NSObject {
     
     /// Stops audio recording, returns path to recorded audio file
     @discardableResult func stopRecording() -> String {
-        let path = recorder?.url.absoluteString ?? ""
+        let path = recorder?.url.path ?? ""
         isRecording = false
         recorder?.stop()
         recorder = nil

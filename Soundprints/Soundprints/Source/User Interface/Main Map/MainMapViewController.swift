@@ -19,6 +19,7 @@ class MainMapViewController: BaseViewController {
     @IBOutlet private weak var menuContainerView: UIView?
     @IBOutlet private weak var contentControllerView: InteractionLockingContentControllerView?
     @IBOutlet private weak var listenView: ListenView?
+    @IBOutlet private weak var recordImageView: UIImageView?
     
     // MARK: - Variables
     
@@ -76,14 +77,23 @@ class MainMapViewController: BaseViewController {
         
         initializeMap()
         initializeProximityRingsView()
+        
+        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(onLongPress))
+        recognizer.minimumPressDuration = 0.25
+        recordImageView?.addGestureRecognizer(recognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         FilterManager.delegate = self
-        
         startUpdatingHeading()
+        
+        RecorderAndPlayer.shared.requestPermission { granted in
+            if !granted { // cant record
+                // TODO: alert user
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -243,6 +253,33 @@ class MainMapViewController: BaseViewController {
     
     @IBAction private func filterButtonPressed(_ sender: Any) {
         setContentControllerViewController(withMenuContent: .filter)
+    }
+    
+    // MARK: - Recording
+    
+    @objc private func onLongPress(recognizer: UILongPressGestureRecognizer) {
+        switch recognizer.state {
+        case .began: // start recording
+            print("💬 recording")
+            FolderManager(folder: .recordings).clearFolder()
+            RecorderAndPlayer.shared.startRecording()
+            // TODO: update UI
+            
+            
+        case .ended, .cancelled: // stop recording
+            print("💬 recording stopped")
+            let path = RecorderAndPlayer.shared.stopRecording()
+            // TODO: update UI
+            
+            let location = CLLocationCoordinate2D(latitude: mapView!.longitude, longitude: mapView!.longitude)
+            Sound.uploadSound(filePath: path, location: location) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+            
+        default: break
+        }
     }
     
     // MARK: - Convenince
@@ -478,7 +515,7 @@ private extension MainMapViewController {
         
         listenView?.progress = 0
         
-        if let existingAnnotations = mapView?.annotations, let soundAnnotation = existingAnnotations.flatMap({ $0 as? SoundAnnotation }).first(where: { $0.sound === Optional.init(sound) }) {
+        if let existingAnnotations = mapView?.annotations, let soundAnnotation = existingAnnotations.flatMap({ $0 as? SoundAnnotation }).first(where: { $0.sound === sound }) {
             currentlyPlayedSoundAnnotation = soundAnnotation
             mapView?.removeAnnotation(soundAnnotation)
         }

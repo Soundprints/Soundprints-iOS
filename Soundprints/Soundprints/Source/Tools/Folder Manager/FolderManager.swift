@@ -34,7 +34,7 @@ class FolderManager {
     
     private func directoryExistsAt(path: String) -> Bool {
         let fileManager = FileManager.default
-        var isDir : ObjCBool = false
+        var isDir: ObjCBool = false
         
         if fileManager.fileExists(atPath: path, isDirectory:&isDir) {
             if isDir.boolValue {
@@ -42,6 +42,18 @@ class FolderManager {
             } else {
                 return false
             }
+            
+        } else {
+            return false
+        }
+    }
+    
+    func fileExistsAt(path: String) -> Bool {
+        let fileManager = FileManager.default
+        var isDir: ObjCBool = false
+        
+        if fileManager.fileExists(atPath: path, isDirectory:&isDir) {
+            return true
             
         } else {
             return false
@@ -121,7 +133,7 @@ class FolderManager {
             }
             
         } catch {
-            print("Error getting contents.")
+            print("Error clearing folder.")
         }
     }
     

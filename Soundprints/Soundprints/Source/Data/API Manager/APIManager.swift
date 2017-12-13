@@ -11,7 +11,6 @@ import FacebookCore
 
 class APIManager {
     
-    ///
     /// Performs the request provided.
     ///
     /// - Parameters:

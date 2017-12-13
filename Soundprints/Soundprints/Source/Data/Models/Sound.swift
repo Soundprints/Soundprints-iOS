@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 class Sound {
     
@@ -175,6 +176,47 @@ extension Sound {
                 callback(nil, error)
             }
         }
+    }
+    
+    static func uploadSound(filePath: String, location: CLLocationCoordinate2D, callback: @escaping (_ error: Error?) -> Void) {
+        
+        var request = APIRequest(endpoint: .soundUpload, method: .UPLOAD_FILE).urlRequest
+        let boundary = MultipartFormDataHandler.generateBoundaryString()
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var data = Data()
+        
+        if let audioData = MultipartFormDataHandler.createBodyWithParameters(name: "file", filePath: filePath, boundary: boundary, mimeType: "audio/*") {
+            data.append(audioData)
+        }
+        
+        if let latitude = MultipartFormDataHandler.createFormBodyWithParameters(name: "lat", formDouble: location.latitude, boundary: boundary) {
+            data.append(latitude)
+        }
+        
+        if let longitude = MultipartFormDataHandler.createFormBodyWithParameters(name: "lat", formDouble: location.longitude, boundary: boundary) {
+            data.append(longitude)
+        }
+        
+        data.appendString("--\(boundary)\r\n") // finishing boundary
+        
+        request.httpBody = data
+        
+        // sign request
+        if let accessToken = AuthenticationManager.accessToken {
+            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            request.setValue(AuthenticationManager.provider.toString(), forHTTPHeaderField: "Provider")
+        }
+        
+        // TODO: set delegate to track upload progress
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        let task = session.dataTask(with: request, completionHandler: { data, response, error in
+            callback(error)
+        })
+        
+        task.resume()
     }
     
 }
