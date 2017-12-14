@@ -71,7 +71,7 @@ extension FilterManager {
     struct Filters: Codable {
         
         enum SoundprintType: String, Codable, Filter {
-            case local
+            case normal
             case premium
         }
         
@@ -84,7 +84,7 @@ extension FilterManager {
         var age: SoundprintAge
         
         fileprivate static var defaultFilters: Filters {
-            return Filters(type: .local, age: .allTime)
+            return Filters(type: .normal, age: .allTime)
         }
         
         fileprivate static let defaultsKey = "filtersDefaults"

@@ -50,6 +50,9 @@ class SoundsModel {
     private var fetchSoundsFromOnlyLastDay: Bool {
         return FilterManager.filters.age == .lastDay
     }
+    private var soundTypeToFetch: Sound.SoundType {
+        return Sound.SoundType.fromFilter(FilterManager.filters.type)
+    }
     
     // MARK: - Constants
     
@@ -131,7 +134,7 @@ class SoundsModel {
         }
         
         // TODO: Integrate the type filter
-        Sound.fetchSounds(around: latestParameters.location.coordinate.latitude, and: latestParameters.location.coordinate.longitude, withMinDistance: 0, andMaxDistance: latestParameters.radius, fromOnlyLastDay: fetchSoundsFromOnlyLastDay) { sounds, error in
+        Sound.fetchSounds(around: latestParameters.location.coordinate.latitude, and: latestParameters.location.coordinate.longitude, withMinDistance: 0, andMaxDistance: latestParameters.radius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay) { sounds, error in
             if error == nil, let sounds = sounds {
                 self.sounds = sounds
                 DispatchQueue.main.async {
@@ -165,7 +168,7 @@ class SoundsModel {
             return
         }
         
-        Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: minRadius, andMaxDistance: maximumFetchRadius, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
+        Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: minRadius, andMaxDistance: maximumFetchRadius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
             if error == nil, let sounds = sounds {
                 self.sounds.append(contentsOf: sounds)
                 DispatchQueue.main.async {

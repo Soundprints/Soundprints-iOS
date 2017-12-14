@@ -25,6 +25,7 @@ class Sound {
     private(set) var initialDistance: SingleDistanceValue?
     private(set) var submissionDate: Date?
     private var resourceURL: ResourceURL?
+    private(set) var soundType: SoundType?
     
     var userProfileImageUrl: URL? {
         guard let userProfileImageUrlString = userProfileImageUrlString else {
@@ -123,6 +124,7 @@ class Sound {
         } else {
             submissionDate = nil
         }
+        soundType = SoundType.fromString(wrapper.string(key: "soundType"))
     }
     
 }
@@ -131,7 +133,7 @@ class Sound {
 
 extension Sound {
     
-    static func fetchSounds(around latitude: Double, and longitude: Double, withMinDistance minDistance: Double? = nil, andMaxDistance maxDistance: Double, fromOnlyLastDay onlyLastDay: Bool = false, limit: Int? = nil, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
+    static func fetchSounds(around latitude: Double, and longitude: Double, withMinDistance minDistance: Double? = nil, andMaxDistance maxDistance: Double, withSoundType soundType: SoundType, fromOnlyLastDay onlyLastDay: Bool = false, limit: Int? = nil, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
         let request = APIRequest(endpoint: .sound, method: .GET)
         request.queryParameters["lat"] = latitude
         request.queryParameters["lon"] = longitude
@@ -143,6 +145,7 @@ extension Sound {
         if let limit = limit {
             request.queryParameters["limit"] = limit
         }
+        request.queryParameters["soundType"] = soundType.toString()
         
         APIManager.performRequest(request: request) { response, error in
             let sounds: [Sound]? = ((response as? [String: Any])?["sounds"] as? [[String: Any]])?.flatMap { Sound(descriptor: $0) }
@@ -209,6 +212,35 @@ extension Sound {
         request.rawFormData = data
         APIManager.performRequest(request: request) { data, error in
             callback(error)
+        }
+    }
+    
+}
+
+// MARK: - SoundType
+
+extension Sound {
+    
+    enum SoundType: String {
+        case normal
+        case premium
+        
+        static func fromString(_ string: String?) -> SoundType? {
+            guard let string = string else {
+                return nil
+            }
+            return SoundType(rawValue: string)
+        }
+        
+        static func fromFilter(_ filterSoundType: FilterManager.Filters.SoundprintType) -> SoundType {
+            switch filterSoundType {
+            case .normal: return .normal
+            case .premium: return .premium
+            }
+        }
+        
+        func toString() -> String {
+            return rawValue
         }
     }
     
