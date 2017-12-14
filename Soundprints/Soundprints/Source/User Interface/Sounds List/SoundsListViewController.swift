@@ -38,6 +38,9 @@ class SoundsListViewController: BaseViewController {
     
     private var sounds: [Sound] = []
     
+    private var lastTableViewContentYOffset: CGFloat = 0
+    private var previousToLastTableViewContentYOffset: CGFloat = 0
+    
     // MARK: - View Controller lifecycle
     
     override func viewDidLoad() {
@@ -47,7 +50,11 @@ class SoundsListViewController: BaseViewController {
         tableView?.reloadData()
     }
     
-    // MARK: - View Controller Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        soundsModel?.listDelegate = self
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -87,7 +94,7 @@ extension SoundsListViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
-// MARK: - SoundsListCellDelegate
+// MARK: - SoundsListCellDelegate	        
 
 extension SoundsListViewController: SoundsListCellDelegate {
     
@@ -103,14 +110,12 @@ extension SoundsListViewController: SoundsListCellDelegate {
 
 extension SoundsListViewController: SoundsModelDelegate {
     
-    func soundsModel(_ sender: SoundsModel, updatedAndReplacedSounds sounds: [Sound]) {
-        self.sounds = sounds
-        // TODO: Improve reloading
-        tableView?.reloadData()
-    }
-    
-    func soundsModel(_ sender: SoundsModel, addedSounds sounds: [Sound]) {
-        self.sounds.append(contentsOf: sounds)
+    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isFirst: Bool) {
+        if isFirst {
+            sounds = newSoundsPage
+        } else {
+            sounds.append(contentsOf: newSoundsPage)
+        }
         // TODO: Improve reloading
         tableView?.reloadData()
     }

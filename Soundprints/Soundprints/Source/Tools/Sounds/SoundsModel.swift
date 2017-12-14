@@ -11,16 +11,9 @@ import CoreLocation
 
 // MARK: - SoundsModelDelegate
 
-protocol SoundsModelMapDelegate: class {
-    
-    func soundsModel(_ sender: SoundsModel, updatedMapSounds mapSounds: [Sound])
-    
-}
-
 protocol SoundsModelDelegate: class {
     
-    func soundsModel(_ sender: SoundsModel, updatedAndReplacedSounds sounds: [Sound])
-    func soundsModel(_ sender: SoundsModel, addedSounds sounds: [Sound])
+    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isFirst: Bool)
     
 }
 
@@ -30,8 +23,8 @@ class SoundsModel {
     
     // MARK: - Variables
     
-    weak var delegate: SoundsModelDelegate?
-    weak var mapDelegate: SoundsModelMapDelegate?
+    weak var mainDelegate: SoundsModelDelegate?
+    weak var listDelegate: SoundsModelDelegate?
     
     private(set) var state: State
     
@@ -39,13 +32,10 @@ class SoundsModel {
     private var latestReceivedParamaters: Parameters?
     
     private(set) var sounds: [Sound] = [] 
-    private(set) var mapSounds: [Sound] = []
     
-    private var currentFartherstSoundDistance: CLLocationDistance?
+    private var currentFartherstSoundDistance: CLLocationDistance = 0
     
     private var refreshTimer: Timer?
-    
-    private lazy var newPageThrottle = Throttle(delay: 5, maxLimit: 0)
     
     private var fetchSoundsFromOnlyLastDay: Bool {
         return FilterManager.filters.age == .lastDay
@@ -54,13 +44,14 @@ class SoundsModel {
         return Sound.SoundType.fromFilter(FilterManager.filters.type)
     }
     
+    private var fetchNextPageLocked = false
+    
     // MARK: - Constants
     
     private let maximumFetchRadius: CLLocationDistance = 10000
     private let itemsPerPage: Int = 20
     
     private let distanceChangeTreshold: CLLocationDistance = 100
-    private let radiusChangeTreshold: Double = 100
     
     // MARK: - Initialization
     
@@ -78,7 +69,7 @@ class SoundsModel {
         self.state = state
         
         if shouldInvalidate(onStateChange: true) {
-            fetchAndReplaceSounds()
+            invalidate()
         }
     }
     
@@ -89,7 +80,7 @@ class SoundsModel {
         latestReceivedParamaters = parameters
         if firstUpdate {
             initializeTimer()
-            fetchAndReplaceSounds()
+            fetchAndAppendNewSoundsPage()
         }
     }
     
@@ -101,14 +92,16 @@ class SoundsModel {
     
     @objc private func refreshTimerFired() {
         if shouldInvalidate() {
-            fetchAndReplaceSounds()
+            invalidate()
         }
     }
     
     // MARK: - Invalidation
     
     private func invalidate() {
-        fetchAndReplaceSounds()
+        sounds = []
+        currentFartherstSoundDistance = 0
+        fetchAndAppendNewSoundsPage()
     }
     
     private func shouldInvalidate(onStateChange: Bool = false) -> Bool {
@@ -123,63 +116,41 @@ class SoundsModel {
             return true
         }
         
-        return latestParameters.location.distance(from: latestParameters.location) > distanceChangeTreshold || latestParameters.radius - activeParameters.radius > radiusChangeTreshold
+        return latestParameters.location.distance(from: activeParameters.location) > distanceChangeTreshold
     }
     
     // MARK: - Sounds fetching
     
-    private func fetchAndReplaceSounds() {
-        guard let latestParameters = latestReceivedParamaters else {
-            return
-        }
-        
-        // TODO: Integrate the type filter
-        Sound.fetchSounds(around: latestParameters.location.coordinate.latitude, and: latestParameters.location.coordinate.longitude, withMinDistance: 0, andMaxDistance: latestParameters.radius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay) { sounds, error in
-            if error == nil, let sounds = sounds {
-                self.sounds = sounds
-                DispatchQueue.main.async {
-                    self.delegate?.soundsModel(self, updatedAndReplacedSounds: sounds)
-                }
-                switch self.state {
-                case .map: 
-                    self.mapSounds = sounds
-                    DispatchQueue.main.async {
-                        self.mapDelegate?.soundsModel(self, updatedMapSounds: sounds)
-                    }
-                case .list: break
-                }
-                
-                self.currentFartherstSoundDistance = sounds.last?.initialDistance?.distanceInMeters
-                self.activeParameters = latestParameters
-            } else {
-                // TODO: Handle error
-            }
-        }
-    }
-    
     func fetchAndAppendNewSoundsPage() {
-        newPageThrottle.run {
-            self.fetchAndAppendNewSoundsPageInternal()
-        }
-    }
-    
-    private func fetchAndAppendNewSoundsPageInternal() {
-        guard state == .list, let activeParameters = activeParameters, let minRadius = currentFartherstSoundDistance else {
+        guard fetchNextPageLocked == false, state == .list, let activeParameters = activeParameters else {
             return
         }
         
-        Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: minRadius, andMaxDistance: maximumFetchRadius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
+        fetchNextPageLocked = true
+        let isFirstPage = currentFartherstSoundDistance <= 0
+        
+        Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: currentFartherstSoundDistance, andMaxDistance: maximumFetchRadius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
             if error == nil, let sounds = sounds {
-                self.sounds.append(contentsOf: sounds)
+                
+                let reversedExistingSounds = self.sounds.reversed()
+                let filteredSounds = sounds.filter({ newSound in
+                    return !reversedExistingSounds.contains(where: { existingSound in
+                        return newSound.id == existingSound.id
+                    })
+                })
+                
+                self.sounds.append(contentsOf: filteredSounds)
+                
                 DispatchQueue.main.async {
-                    self.delegate?.soundsModel(self, addedSounds: sounds)
+                    self.mainDelegate?.soundsModel(self, fetchedNewSoundsPage: filteredSounds, isFirst: isFirstPage)
+                    self.listDelegate?.soundsModel(self, fetchedNewSoundsPage: filteredSounds, isFirst: isFirstPage)
                 }
                 
-                if let newFarthestDistance = sounds.last?.initialDistance?.distanceInMeters {
+                if let newFarthestDistance = filteredSounds.last?.initialDistance?.distanceInMeters {
                     self.currentFartherstSoundDistance = newFarthestDistance
-                    self.activeParameters?.radius = newFarthestDistance
                 }
             }
+            self.fetchNextPageLocked = false
         }
     }
     
@@ -203,7 +174,6 @@ extension SoundsModel {
     struct Parameters {
         
         fileprivate(set) var location: CLLocation
-        fileprivate(set) var radius: CLLocationDistance
         
     }
     

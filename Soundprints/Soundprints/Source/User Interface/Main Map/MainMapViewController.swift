@@ -83,7 +83,7 @@ class MainMapViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        soundsModel.mapDelegate = self
+        soundsModel.mainDelegate = self
         FilterManager.delegate = soundsModel
         listenView?.delegate = self
         RecorderAndPlayer.shared.delegate = self
@@ -110,9 +110,11 @@ class MainMapViewController: BaseViewController {
         // If not, it should be done in the next 'didUpdate userLocation' function. We do this by setting shouldUpdateZoomLevel to true.
         // Along with the zoom level, the center should be also set, but it must be set after the initial zoom level is set, 
         // otherwise it wont work.
-        if let mapView = mapView, let userLocation = mapView.userLocation, isCoordinateValid(userLocation.coordinate) {
+        if let mapView = mapView, let userLocation = mapView.userLocation, isCoordinateValid(userLocation.coordinate), let userCLLocation = userLocation.location {
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
             mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
+            
+            soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
         } else {
             shouldUpdateZoomLevel = true
         }
@@ -326,10 +328,10 @@ extension MainMapViewController: MGLMapViewDelegate {
             // Zoom level could not be updated during 'viewDidLayoutSubviews' (indicated by the 'shouldUpdateZoomLevel' property), so we have to do it here
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
             shouldUpdateZoomLevel = false
+            
+            soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
         }
         mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
-        
-        soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation, radius: maximumVisibleMapRadius ?? 2*minimumVisibleMeters))
         
         updateVisibleAnnotationViewsIfNecessary()
     }
@@ -387,11 +389,14 @@ extension MainMapViewController: MGLMapViewDelegate {
     
 }
 
-extension MainMapViewController: SoundsModelMapDelegate {
+extension MainMapViewController: SoundsModelDelegate {
     
-    func soundsModel(_ sender: SoundsModel, updatedMapSounds mapSounds: [Sound]) {
-        self.sounds = mapSounds
-        refreshSoundAnnotations()
+    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isFirst: Bool) {
+        if isFirst {
+            sounds = newSoundsPage
+        } else {
+            sounds.append(contentsOf: newSoundsPage)
+        }
     }
     
 }
