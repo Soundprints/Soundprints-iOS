@@ -36,6 +36,14 @@ class MainMapViewController: BaseViewController {
         // The proximity rings size is 3/4 of the smaller dimension and the proximity rings size is equivalent to 'inRangeMetersTreshold'.
         return MainMapViewController.inRangeMetersTreshold * (4/3) * 2
     }
+    private var maximumVisibleRadius: Double? {
+        guard let mapView = mapView else {
+            return nil
+        }
+        let widthMeters = minimumVisibleMeters
+        let heightMeters = Double(mapView.bounds.size.height/mapView.bounds.size.width) * minimumVisibleMeters 
+        return sqrt(pow(widthMeters, 2) + pow(heightMeters, 2))
+    }
     
     private var proximityRingsView: ProximityRingsView?
     
@@ -156,20 +164,27 @@ class MainMapViewController: BaseViewController {
     // MARK: - Annotations
     
     private func refreshSoundAnnotations() {
-        if let existingAnnotations = mapView?.annotations {
+        addAnnotations(forSounds: sounds, removeExistingAnnotations: true)
+    }
+    
+    private func addAnnotations(forSounds sounds: [Sound], removeExistingAnnotations: Bool ) {
+        
+        if removeExistingAnnotations, let existingAnnotations = mapView?.annotations {
             mapView?.removeAnnotations(existingAnnotations)
         }
         
-        if annotationsHidden == false {
-            let newAnnotations: [SoundAnnotation] = sounds.flatMap { sound in
-                let annotation = SoundAnnotation(sound: sound)
-                if let latitude = sound.latitude, let longitude = sound.longitude {
-                    annotation?.distance = distanceInKilometers(fromLatitude: latitude, andLongitude: longitude, to: mapView?.userLocation?.location)
-                }
-                return annotation
-            }
-            mapView?.addAnnotations(newAnnotations)
+        guard annotationsHidden == false else {
+            return
         }
+        
+        let annotationsToAdd: [SoundAnnotation] = sounds.flatMap { sound in
+            let annotation = SoundAnnotation(sound: sound)
+            if let latitude = sound.latitude, let longitude = sound.longitude {
+                annotation?.distance = distanceInKilometers(fromLatitude: latitude, andLongitude: longitude, to: mapView?.userLocation?.location)
+            }
+            return annotation
+        }
+        mapView?.addAnnotations(annotationsToAdd)
     }
     
     private func updateVisibleAnnotationViewsIfNecessary() {
@@ -389,13 +404,22 @@ extension MainMapViewController: MGLMapViewDelegate {
     
 }
 
+// MARK: - SoundsModelDelegate
+
 extension MainMapViewController: SoundsModelDelegate {
     
-    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isFirst: Bool) {
-        if isFirst {
+    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
+        if isReload {
             sounds = newSoundsPage
+            refreshSoundAnnotations()
         } else {
             sounds.append(contentsOf: newSoundsPage)
+            addAnnotations(forSounds: newSoundsPage, removeExistingAnnotations: false)
+        }
+        
+        // If we got some results and the farthest result distance is less than max map radius, try to fetch some more.
+        if newSoundsPage.isEmpty == false && soundsModel.currentFartherstSoundDistance < maximumVisibleRadius ?? 0 {
+            soundsModel.fetchAndAppendNewSoundsPage()
         }
     }
     

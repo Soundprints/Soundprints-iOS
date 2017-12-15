@@ -13,7 +13,7 @@ import CoreLocation
 
 protocol SoundsModelDelegate: class {
     
-    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isFirst: Bool)
+    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool)
     
 }
 
@@ -33,7 +33,7 @@ class SoundsModel {
     
     private(set) var sounds: [Sound] = [] 
     
-    private var currentFartherstSoundDistance: CLLocationDistance = 0
+    private(set) var currentFartherstSoundDistance: CLLocationDistance = 0
     
     private var refreshTimer: Timer?
     
@@ -79,6 +79,7 @@ class SoundsModel {
         let firstUpdate = latestReceivedParamaters == nil
         latestReceivedParamaters = parameters
         if firstUpdate {
+            activeParameters = parameters
             initializeTimer()
             fetchAndAppendNewSoundsPage()
         }
@@ -122,12 +123,12 @@ class SoundsModel {
     // MARK: - Sounds fetching
     
     func fetchAndAppendNewSoundsPage() {
-        guard fetchNextPageLocked == false, state == .list, let activeParameters = activeParameters else {
+        guard fetchNextPageLocked == false, let activeParameters = activeParameters else {
             return
         }
         
         fetchNextPageLocked = true
-        let isFirstPage = currentFartherstSoundDistance <= 0
+        let isReload = currentFartherstSoundDistance <= 0
         
         Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: currentFartherstSoundDistance, andMaxDistance: maximumFetchRadius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
             if error == nil, let sounds = sounds {
@@ -141,13 +142,13 @@ class SoundsModel {
                 
                 self.sounds.append(contentsOf: filteredSounds)
                 
-                DispatchQueue.main.async {
-                    self.mainDelegate?.soundsModel(self, fetchedNewSoundsPage: filteredSounds, isFirst: isFirstPage)
-                    self.listDelegate?.soundsModel(self, fetchedNewSoundsPage: filteredSounds, isFirst: isFirstPage)
-                }
-                
                 if let newFarthestDistance = filteredSounds.last?.initialDistance?.distanceInMeters {
                     self.currentFartherstSoundDistance = newFarthestDistance
+                }
+                
+                DispatchQueue.main.async {
+                    self.mainDelegate?.soundsModel(self, fetchedNewSoundsPage: filteredSounds, isReload: isReload)
+                    self.listDelegate?.soundsModel(self, fetchedNewSoundsPage: filteredSounds, isReload: isReload)
                 }
             }
             self.fetchNextPageLocked = false

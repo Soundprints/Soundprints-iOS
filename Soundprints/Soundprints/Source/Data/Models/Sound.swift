@@ -206,6 +206,10 @@ extension Sound {
         if let longitude = MultipartFormDataHandler.createFormBodyWithParameters(name: "lon", formDouble: location.longitude, boundary: boundary) {
             data.append(longitude)
         }
+        // For now all uploaded sounds have type normal
+        if let soundType = MultipartFormDataHandler.createFormBodyWithParameters(name: "soundType", formString: SoundType.normal.toString(), boundary: boundary) {
+            data.append(soundType)
+        }
         
         data.appendString("--\(boundary)--\r\n") // finishing boundary
         

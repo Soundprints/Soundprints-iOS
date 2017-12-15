@@ -47,6 +47,9 @@ class SoundAnnotation: MGLPointAnnotation {
         
         self.sound = sound
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        if let distanceInMeters = sound.initialDistance?.distanceInMeters {
+            self.distance = distanceInMeters/1000.0
+        }
     }
     
 }

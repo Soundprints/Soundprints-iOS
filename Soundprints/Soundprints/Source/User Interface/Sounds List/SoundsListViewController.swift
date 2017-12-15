@@ -70,6 +70,24 @@ class SoundsListViewController: BaseViewController {
         delegate?.soundsListViewControllerShouldBeDismissed(sender: self)
     }
     
+    // MARK: - Sounds inserting
+    
+    private func insertSoundsIntoList(_ soundsToInsert: [Sound]) {
+        guard soundsToInsert.isEmpty == false else {
+            return
+        }
+        
+        if let currentContentOffset = tableView?.contentOffset {
+            tableView?.setContentOffset(currentContentOffset, animated: false)
+        }
+        
+        tableView?.beginUpdates()        
+        let indexPaths = (sounds.count..<sounds.count+soundsToInsert.count).map { IndexPath(row: $0, section: 0) }
+        sounds.append(contentsOf: soundsToInsert)
+        tableView?.insertRows(at: indexPaths, with: .automatic)
+        tableView?.endUpdates()
+    }
+    
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -81,6 +99,11 @@ extension SoundsListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.row == sounds.count-1 {
+            soundsModel?.fetchAndAppendNewSoundsPage()
+        }
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.soundsListCell, for: indexPath) {
             let sound = sounds[indexPath.row]
             cell.sound = sound
@@ -110,14 +133,14 @@ extension SoundsListViewController: SoundsListCellDelegate {
 
 extension SoundsListViewController: SoundsModelDelegate {
     
-    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isFirst: Bool) {
-        if isFirst {
+    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
+        if isReload {
             sounds = newSoundsPage
+            // TODO: Improve reloading
+            tableView?.reloadData()
         } else {
-            sounds.append(contentsOf: newSoundsPage)
+            insertSoundsIntoList(newSoundsPage)
         }
-        // TODO: Improve reloading
-        tableView?.reloadData()
     }
     
 }
