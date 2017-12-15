@@ -25,10 +25,11 @@ class MainMapViewController: BaseViewController {
     
     // MARK: - Variables
     
+    private var soundsModel: SoundsModel = SoundsModel(state: .map)
+    
     static var inRangeMetersTreshold: Double = 1500
     
     private var sounds: [Sound] = []
-    private var lastSoundFetchLocation: CLLocation?
     
     private lazy var headingLocationManager: CLLocationManager = CLLocationManager()
     
@@ -36,6 +37,14 @@ class MainMapViewController: BaseViewController {
     private var minimumVisibleMeters: Double {
         // The proximity rings size is 3/4 of the smaller dimension and the proximity rings size is equivalent to 'inRangeMetersTreshold'.
         return MainMapViewController.inRangeMetersTreshold * (4/3) * 2
+    }
+    private var maximumVisibleRadius: Double? {
+        guard let mapView = mapView else {
+            return nil
+        }
+        let widthMeters = minimumVisibleMeters
+        let heightMeters = Double(mapView.bounds.size.height/mapView.bounds.size.width) * minimumVisibleMeters 
+        return sqrt(pow(widthMeters, 2) + pow(heightMeters, 2))
     }
     
     private var proximityRingsView: ProximityRingsView?
@@ -63,10 +72,8 @@ class MainMapViewController: BaseViewController {
         let mapCornerLocation = CLLocation(latitude: visibleCoordinateBounds.ne.latitude, longitude: visibleCoordinateBounds.ne.longitude)
         return mapCornerLocation.distance(from: currentLocation)
     }
-    
-    // MARK: - Constants
 
-    private static let soundFetchDistanceTreshold: Double = 100
+    // MARK: - Constants
     
     private let listenViewHiddenAnimationDuration: Double = 1
     
@@ -74,10 +81,6 @@ class MainMapViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        listenView?.delegate = self
-        
-        RecorderAndPlayer.shared.delegate = self
         
         initializeMap()
         initializeProximityRingsView()
@@ -93,7 +96,11 @@ class MainMapViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        FilterManager.delegate = self
+        soundsModel.mainDelegate = self
+        FilterManager.delegate = soundsModel
+        listenView?.delegate = self
+        RecorderAndPlayer.shared.delegate = self
+        
         startUpdatingHeading()
         
         RecorderAndPlayer.shared.requestPermission { granted in
@@ -116,9 +123,11 @@ class MainMapViewController: BaseViewController {
         // If not, it should be done in the next 'didUpdate userLocation' function. We do this by setting shouldUpdateZoomLevel to true.
         // Along with the zoom level, the center should be also set, but it must be set after the initial zoom level is set, 
         // otherwise it wont work.
-        if let mapView = mapView, let userLocation = mapView.userLocation, isCoordinateValid(userLocation.coordinate) {
+        if let mapView = mapView, let userLocation = mapView.userLocation, isCoordinateValid(userLocation.coordinate), let userCLLocation = userLocation.location {
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
             mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
+            
+            soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
         } else {
             shouldUpdateZoomLevel = true
         }
@@ -157,36 +166,30 @@ class MainMapViewController: BaseViewController {
         mapView.setZoomLevel(zoomLevel, animated: animated)
     }
     
-    // MARK: - Sounds
-    
-    private func updateSounds(arroundCoordinate coordinate: CLLocationCoordinate2D, withRadius radius: Double) {
-        Sound.fetchSounds(around: coordinate.latitude, and: coordinate.longitude, andMaxDistance: radius) { sounds, error in
-            if error == nil, let sounds = sounds {
-                self.sounds = sounds
-                self.refreshSoundAnnotations()
-            } else {
-                // TODO: Handle error
-            }
-        }
-    }
-    
     // MARK: - Annotations
     
     private func refreshSoundAnnotations() {
-        if let existingAnnotations = mapView?.annotations {
+        addAnnotations(forSounds: sounds, removeExistingAnnotations: true)
+    }
+    
+    private func addAnnotations(forSounds sounds: [Sound], removeExistingAnnotations: Bool ) {
+        
+        if removeExistingAnnotations, let existingAnnotations = mapView?.annotations {
             mapView?.removeAnnotations(existingAnnotations)
         }
         
-        if annotationsHidden == false {
-            let newAnnotations: [SoundAnnotation] = sounds.flatMap { sound in
-                let annotation = SoundAnnotation(sound: sound)
-                if let latitude = sound.latitude, let longitude = sound.longitude {
-                    annotation?.distance = distanceInKilometers(fromLatitude: latitude, andLongitude: longitude, to: mapView?.userLocation?.location)
-                }
-                return annotation
-            }
-            mapView?.addAnnotations(newAnnotations)
+        guard annotationsHidden == false else {
+            return
         }
+        
+        let annotationsToAdd: [SoundAnnotation] = sounds.flatMap { sound in
+            let annotation = SoundAnnotation(sound: sound)
+            if let latitude = sound.latitude, let longitude = sound.longitude {
+                annotation?.distance = distanceInKilometers(fromLatitude: latitude, andLongitude: longitude, to: mapView?.userLocation?.location)
+            }
+            return annotation
+        }
+        mapView?.addAnnotations(annotationsToAdd)
     }
     
     private func updateVisibleAnnotationViewsIfNecessary() {
@@ -364,15 +367,12 @@ extension MainMapViewController: MGLMapViewDelegate {
             // Zoom level could not be updated during 'viewDidLayoutSubviews' (indicated by the 'shouldUpdateZoomLevel' property), so we have to do it here
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
             shouldUpdateZoomLevel = false
+            
+            soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
         }
         mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
         
-        if distanceInKilometers(from: userCLLocation, to: lastSoundFetchLocation) ?? CLLocationDistanceMax > MainMapViewController.soundFetchDistanceTreshold {
-            lastSoundFetchLocation = userCLLocation
-            updateSounds(arroundCoordinate: userCLLocation.coordinate, withRadius: maximumVisibleMapRadius ?? 2*minimumVisibleMeters)
-        } else {
-            updateVisibleAnnotationViewsIfNecessary()
-        }
+        updateVisibleAnnotationViewsIfNecessary()
     }
     
     func mapView(_ mapView: MGLMapView, didAdd annotationViews: [MGLAnnotationView]) {
@@ -428,6 +428,27 @@ extension MainMapViewController: MGLMapViewDelegate {
     
 }
 
+// MARK: - SoundsModelDelegate
+
+extension MainMapViewController: SoundsModelDelegate {
+    
+    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
+        if isReload {
+            sounds = newSoundsPage
+            refreshSoundAnnotations()
+        } else {
+            sounds.append(contentsOf: newSoundsPage)
+            addAnnotations(forSounds: newSoundsPage, removeExistingAnnotations: false)
+        }
+        
+        // If we got some results and the farthest result distance is less than max map radius, try to fetch some more.
+        if newSoundsPage.isEmpty == false && soundsModel.currentFartherstSoundDistance < maximumVisibleRadius ?? 0 {
+            soundsModel.fetchAndAppendNewSoundsPage()
+        }
+    }
+    
+}
+
 // MARK: - Heading CLLocationManagerDelegate
 
 extension MainMapViewController: CLLocationManagerDelegate {
@@ -463,16 +484,6 @@ extension MainMapViewController: FilterViewControllerDelegate {
     
     func filterViewControllerShouldBeDismissed(sender: FilterViewController) {
         clearContentController()
-    }
-    
-}
-
-// MARK: - FilterManagerDelegate
-
-extension MainMapViewController: FilterManagerDelegate {
-    
-    func filterManagerUpdatedFilter(_ filter: Filter) {
-        // TODO: Handle updating of filter
     }
     
 }
@@ -524,7 +535,7 @@ private extension MainMapViewController {
         switch menuContent {
         case .soundsList:
             let soundsList = R.storyboard.soundsList.soundsListViewController()!
-            soundsList.sounds = sounds
+            soundsList.soundsModel = soundsModel
             soundsList.delegate = self
             contentControllerView?.setViewController(controller: soundsList, animationStyle: .fade)
         case .filter:
@@ -538,6 +549,8 @@ private extension MainMapViewController {
     }
     
     func clearContentController() {
+        soundsModel.setState(.map)
+        
         contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
         setMainMapComponentsHidden(false)
     }

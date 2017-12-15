@@ -42,7 +42,7 @@ class FilterViewController: BaseViewController {
     private func updateContent(withFilters filters: FilterManager.Filters) {
         typeFilterSwitch?.isOn = {
             switch filters.type {
-            case .local: return false
+            case .normal: return false
             case .premium: return true
             }
         }()
@@ -57,7 +57,7 @@ class FilterViewController: BaseViewController {
     // MARK: - Actions
     
     @IBAction private func typeFilterValueChanged(_ sender: UISwitch) {
-        let newTypeFilterValue: FilterManager.Filters.SoundprintType = sender.isOn ? .premium : .local
+        let newTypeFilterValue: FilterManager.Filters.SoundprintType = sender.isOn ? .premium : .normal
         FilterManager.setFilter(newTypeFilterValue)
     }
     
