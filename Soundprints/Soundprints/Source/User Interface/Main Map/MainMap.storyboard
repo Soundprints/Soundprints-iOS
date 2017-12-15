@@ -39,6 +39,12 @@
                                             <constraint firstAttribute="width" secondItem="t67-0X-Z4P" secondAttribute="height" multiplier="1:1" id="RAG-ce-dNc"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AUo-vE-tKp" userLabel="Record button">
+                                        <rect key="frame" x="140" y="20" width="94" height="93.5"/>
+                                        <connections>
+                                            <action selector="recordButtonPressed:" destination="3cC-5y-1ia" eventType="touchUpInside" id="VEK-zl-UVP"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAM-cY-126" userLabel="Sounds List Button">
                                         <rect key="frame" x="2.5" y="35" width="105.5" height="106.5"/>
                                         <connections>
@@ -63,24 +69,38 @@
                                             <constraint firstAttribute="width" secondItem="T77-94-uVa" secondAttribute="height" multiplier="1:1" id="ped-R3-Vk5"/>
                                         </constraints>
                                     </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8W2-Oa-VVd" customClass="ProgressBarView" customModule="Soundprints" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="129.5" width="375" height="4"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="4" id="5RI-ve-9K1"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="7dh-U1-cSI" firstAttribute="centerY" secondItem="T77-94-uVa" secondAttribute="centerY" id="0YA-Y4-kSq"/>
+                                    <constraint firstItem="AUo-vE-tKp" firstAttribute="width" secondItem="t67-0X-Z4P" secondAttribute="width" id="42j-R6-rpM"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="height" secondItem="WgR-Yb-w1s" secondAttribute="height" multiplier="1.5" constant="1" id="9Dx-fA-ZbF"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="width" multiplier="1.5" id="AfJ-h3-bbM"/>
                                     <constraint firstItem="7dh-U1-cSI" firstAttribute="height" secondItem="T77-94-uVa" secondAttribute="height" multiplier="1.5" constant="1" id="CBL-9L-xeE"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="centerX" secondItem="WgR-Yb-w1s" secondAttribute="centerX" id="D4s-mP-n6l"/>
                                     <constraint firstItem="T77-94-uVa" firstAttribute="bottom" secondItem="WgR-Yb-w1s" secondAttribute="bottom" id="E1R-2o-U7O"/>
+                                    <constraint firstItem="AUo-vE-tKp" firstAttribute="height" secondItem="t67-0X-Z4P" secondAttribute="height" id="Gwg-HO-CG6"/>
+                                    <constraint firstItem="AUo-vE-tKp" firstAttribute="centerY" secondItem="t67-0X-Z4P" secondAttribute="centerY" id="H81-AX-ycu"/>
                                     <constraint firstItem="7dh-U1-cSI" firstAttribute="centerX" secondItem="T77-94-uVa" secondAttribute="centerX" id="Hms-de-Icg"/>
                                     <constraint firstAttribute="trailing" secondItem="T77-94-uVa" secondAttribute="trailing" constant="20" id="LcE-31-fpf"/>
                                     <constraint firstItem="yAM-cY-126" firstAttribute="centerY" secondItem="WgR-Yb-w1s" secondAttribute="centerY" id="NP9-1f-MTV"/>
                                     <constraint firstAttribute="bottom" secondItem="t67-0X-Z4P" secondAttribute="bottom" constant="20" id="ONN-mM-jXX"/>
+                                    <constraint firstAttribute="bottom" secondItem="8W2-Oa-VVd" secondAttribute="bottom" id="OmR-At-QuX"/>
                                     <constraint firstItem="WgR-Yb-w1s" firstAttribute="leading" secondItem="WqY-Pj-pIx" secondAttribute="leading" constant="20" id="RrI-9Q-Nba"/>
                                     <constraint firstItem="t67-0X-Z4P" firstAttribute="centerX" secondItem="WqY-Pj-pIx" secondAttribute="centerX" id="Vzr-hl-QpN"/>
+                                    <constraint firstItem="8W2-Oa-VVd" firstAttribute="leading" secondItem="WqY-Pj-pIx" secondAttribute="leading" id="Xow-j5-Y63"/>
                                     <constraint firstItem="T77-94-uVa" firstAttribute="width" secondItem="WgR-Yb-w1s" secondAttribute="width" id="ecf-IE-I3b"/>
                                     <constraint firstAttribute="bottom" secondItem="WgR-Yb-w1s" secondAttribute="bottom" constant="10" id="f7y-Er-CUx"/>
+                                    <constraint firstAttribute="trailing" secondItem="8W2-Oa-VVd" secondAttribute="trailing" id="iy5-Wa-gB2"/>
                                     <constraint firstItem="WgR-Yb-w1s" firstAttribute="width" secondItem="t67-0X-Z4P" secondAttribute="width" multiplier="0.75" id="kkC-ms-Ceb"/>
+                                    <constraint firstItem="AUo-vE-tKp" firstAttribute="centerX" secondItem="t67-0X-Z4P" secondAttribute="centerX" id="tHw-NG-wCb"/>
                                     <constraint firstItem="T77-94-uVa" firstAttribute="width" secondItem="T77-94-uVa" secondAttribute="height" multiplier="1:1" id="w31-rA-O2j"/>
                                     <constraint firstItem="7dh-U1-cSI" firstAttribute="width" secondItem="T77-94-uVa" secondAttribute="width" multiplier="1.5" id="x3Z-hR-HVI"/>
                                     <constraint firstItem="t67-0X-Z4P" firstAttribute="width" secondItem="WqY-Pj-pIx" secondAttribute="width" multiplier="0.25" id="yhj-1z-u3N"/>
@@ -130,12 +150,14 @@
                         <outlet property="listenView" destination="3cK-YG-ZW4" id="bcj-H4-TMT"/>
                         <outlet property="mapView" destination="1Mo-FC-jp9" id="VtH-YF-Etm"/>
                         <outlet property="menuContainerView" destination="WqY-Pj-pIx" id="6Xn-64-QBR"/>
+                        <outlet property="progressBarView" destination="8W2-Oa-VVd" id="Adf-m9-8Yc"/>
+                        <outlet property="recordButton" destination="AUo-vE-tKp" id="XkR-NH-PPs"/>
                         <outlet property="recordImageView" destination="t67-0X-Z4P" id="XZX-6d-bUw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HNc-MU-5wb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1" y="183"/>
+            <point key="canvasLocation" x="0.80000000000000004" y="182.15892053973016"/>
         </scene>
     </scenes>
     <resources>

@@ -20,6 +20,8 @@ class MainMapViewController: BaseViewController {
     @IBOutlet private weak var contentControllerView: InteractionLockingContentControllerView?
     @IBOutlet private weak var listenView: ListenView?
     @IBOutlet private weak var recordImageView: UIImageView?
+    @IBOutlet private weak var recordButton: UIButton?
+    @IBOutlet private weak var progressBarView: ProgressBarView?
     
     // MARK: - Variables
     
@@ -81,8 +83,11 @@ class MainMapViewController: BaseViewController {
         initializeProximityRingsView()
         
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(onLongPress))
-        recognizer.minimumPressDuration = 0.25
+        recognizer.minimumPressDuration = 0.1
         recordImageView?.addGestureRecognizer(recognizer)
+        
+        // TODO: decide what to use recognizer vs button
+        recordButton?.isUserInteractionEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -260,27 +265,41 @@ class MainMapViewController: BaseViewController {
     // MARK: - Recording
     
     @objc private func onLongPress(recognizer: UILongPressGestureRecognizer) {
+        switch recognizer.state {
+        case .began: startRecording()
+        case .cancelled, .ended: stopRecording()
+        default: break
+        }
+    }
+    
+    @IBAction private func recordButtonPressed(_ sender: UIButton) {
+        RecorderAndPlayer.shared.isRecording ? stopRecording() : startRecording()
+    }
+    
+    private func startRecording() {
+        print("💬 recording")
+        updateRecordButton(recording: true)
+        RecorderAndPlayer.shared.startRecording()
+    }
+    
+    private func stopRecording() {
         guard let mapView = mapView else {
             return
         }
-
-        switch recognizer.state {
-        case .began: // start recording
-            print("💬 recording")
-            updateRecordButton(recording: true)
-            RecorderAndPlayer.shared.startRecording()
-            
-        case .ended, .cancelled: // stop recording
-            print("💬 recording stopped")
-            let path = RecorderAndPlayer.shared.stopRecording()
-            let location = CLLocationCoordinate2D(latitude: mapView.latitude, longitude: mapView.longitude)
-            Sound.uploadSound(filePath: path, location: location) { error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
+        
+        print("💬 recording stopped")
+        let path = RecorderAndPlayer.shared.stopRecording()
+        let location = CLLocationCoordinate2D(latitude: mapView.latitude, longitude: mapView.longitude)
+        progressBarView?.startProgress()
+        Sound.uploadSound(filePath: path, location: location) { error in
+            if let error = error {
+                // TODO: alert user
+                print(error.localizedDescription)
+                self.progressBarView?.cancelProgress()
+                
+            } else {
+                self.progressBarView?.finishProgress(nil)
             }
-            
-        default: break
         }
     }
     
@@ -291,11 +310,16 @@ class MainMapViewController: BaseViewController {
             return
         }
         
+        let duration: TimeInterval = 0.25
+        
+        UIView.animate(withDuration: duration) {
+            imageView.transform = recording ? CGAffineTransform(scaleX: 1.25, y: 1.25) : CGAffineTransform.identity
+        }
+        
         UIView.transition(with: imageView,
-                          duration: animated ? 0.25 : 0.0,
+                          duration: animated ? duration : 0.0,
                           options: [.curveEaseInOut, .transitionCrossDissolve],
                           animations: {
-                            // TODO: set recording image
                             self.recordImageView?.image = recording ? #imageLiteral(resourceName: "records-button-recording-icon") : #imageLiteral(resourceName: "record-button-icon")
                           },
                           completion: nil)
