@@ -293,12 +293,14 @@ class MainMapViewController: BaseViewController {
             return
         }
         
-        UIView.animate(withDuration: 0.25) {
-            imageView.transform = recording ? CGAffineTransform(scaleX: 1.1, y: 1.1) : CGAffineTransform.identity
+        let duration: TimeInterval = 0.25
+        
+        UIView.animate(withDuration: duration) {
+            imageView.transform = recording ? CGAffineTransform(scaleX: 1.25, y: 1.25) : CGAffineTransform.identity
         }
         
         UIView.transition(with: imageView,
-                          duration: animated ? 0.25 : 0.0,
+                          duration: animated ? duration : 0.0,
                           options: [.curveEaseInOut, .transitionCrossDissolve],
                           animations: {
                             self.recordImageView?.image = recording ? #imageLiteral(resourceName: "records-button-recording-icon") : #imageLiteral(resourceName: "record-button-icon")
