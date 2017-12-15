@@ -15,7 +15,7 @@ class InitialViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //handleRoutingFromViewDidAppear()
+        handleRoutingFromViewDidAppear()
     }
     
     // MARK: - Routing
