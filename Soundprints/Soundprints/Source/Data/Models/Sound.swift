@@ -181,7 +181,7 @@ extension Sound {
         }
     }
     
-    static func uploadSound(filePath: String, location: CLLocationCoordinate2D, callback: @escaping (_ error: Error?) -> Void) {
+    static func uploadSound(filePath: String, location: CLLocationCoordinate2D, callback: @escaping (_ sound: Sound?, _ error: Error?) -> Void) {
         
         // TODO: session data task delegate might be needed to track upload progress
         
@@ -189,7 +189,7 @@ extension Sound {
         
         guard let boundary = request.boundary else {
             print("Error uploading sound: missing boundary!")
-            callback(NSError()) // TODO: proper error
+            callback(nil, NSError()) // TODO: proper error
             return
         }
         
@@ -214,8 +214,12 @@ extension Sound {
         data.appendString("--\(boundary)--\r\n") // finishing boundary
         
         request.rawFormData = data
-        APIManager.performRequest(request: request) { data, error in
-            callback(error)
+        APIManager.performRequest(request: request) { response, error in
+            if error == nil, let uploadedSoundDescriptor = (response as? [String: Any])?["uploadedSound"] as? [String: Any] {
+                callback(Sound(descriptor: uploadedSoundDescriptor), nil)
+            } else {
+                callback(nil, error)
+            }
         }
     }
     
