@@ -14,6 +14,8 @@ import CoreLocation
 protocol SoundsModelDelegate: class {
     
     func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool)
+    func soundModelCouldNotUploadSound(sender: SoundsModel)
+    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int)
     
 }
 
@@ -158,6 +160,38 @@ class SoundsModel {
                 }
             }
             self.fetchNextPageLocked = false
+        }
+    }
+    
+    // MARK: - Sound uploading
+    
+    func uploadSound(atFilePath filePath: String) {
+        guard let latestReceivedParamaters = latestReceivedParamaters else {
+            DispatchQueue.main.async {
+                self.mainDelegate?.soundModelCouldNotUploadSound(sender: self)
+                self.listDelegate?.soundModelCouldNotUploadSound(sender: self)
+            }
+            return
+        } 
+        
+        Sound.uploadSound(filePath: filePath, location: latestReceivedParamaters.location.coordinate) { uploadedSound, error in
+            if error == nil, let uploadedSound = uploadedSound {
+                // The uploaded sound is currently inserted at the beginning of the sounds array, since it is assumed that it is
+                // at a distance of 0 meters. In the future think about calculating the distance and inserting the uploaded sound
+                // into an appropriate (sounds are sorted by distance) place. User could be at a different location when the upload
+                // stops, than he was when the upload wes started.
+                let insertAtIndex = 0
+                self.sounds.insert(uploadedSound, at: insertAtIndex)
+                DispatchQueue.main.async {
+                    self.mainDelegate?.soundModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: insertAtIndex)
+                    self.listDelegate?.soundModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: insertAtIndex)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.mainDelegate?.soundModelCouldNotUploadSound(sender: self)
+                    self.listDelegate?.soundModelCouldNotUploadSound(sender: self)
+                }
+            }
         }
     }
     

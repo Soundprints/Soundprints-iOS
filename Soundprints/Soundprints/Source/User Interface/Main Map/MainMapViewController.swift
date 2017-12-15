@@ -286,24 +286,10 @@ class MainMapViewController: BaseViewController {
     }
     
     private func stopRecording() {
-        guard let mapView = mapView else {
-            return
-        }
-        
         print("💬 recording stopped")
         let path = RecorderAndPlayer.shared.stopRecording()
-        let location = CLLocationCoordinate2D(latitude: mapView.latitude, longitude: mapView.longitude)
         progressBarView?.startProgress()
-        Sound.uploadSound(filePath: path, location: location) { error in
-            if let error = error {
-                // TODO: alert user
-                print(error.localizedDescription)
-                self.progressBarView?.cancelProgress()
-                
-            } else {
-                self.progressBarView?.finishProgress(nil)
-            }
-        }
+        soundsModel.uploadSound(atFilePath: path)
     }
     
     // MARK: - UI updates
@@ -430,7 +416,7 @@ extension MainMapViewController: MGLMapViewDelegate {
 
 // MARK: - SoundsModelDelegate
 
-extension MainMapViewController: SoundsModelDelegate {
+extension MainMapViewController: SoundsModelDelegate {    
     
     func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
         if isReload {
@@ -445,6 +431,16 @@ extension MainMapViewController: SoundsModelDelegate {
         if newSoundsPage.isEmpty == false && soundsModel.currentFartherstSoundDistance < maximumVisibleRadius ?? 0 {
             soundsModel.fetchAndAppendNewSoundsPage()
         }
+    }
+    
+    func soundModelCouldNotUploadSound(sender: SoundsModel) {
+        // TODO: alert user
+        self.progressBarView?.cancelProgress()
+    }
+    
+    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int) {
+        self.progressBarView?.finishProgress(nil)
+        addAnnotations(forSounds: [uploadedSound], removeExistingAnnotations: false)
     }
     
 }
