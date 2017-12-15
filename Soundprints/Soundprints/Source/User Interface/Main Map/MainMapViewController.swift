@@ -20,6 +20,7 @@ class MainMapViewController: BaseViewController {
     @IBOutlet private weak var contentControllerView: InteractionLockingContentControllerView?
     @IBOutlet private weak var listenView: ListenView?
     @IBOutlet private weak var recordImageView: UIImageView?
+    @IBOutlet private weak var progressBarView: ProgressBarView?
     
     // MARK: - Variables
     
@@ -274,9 +275,15 @@ class MainMapViewController: BaseViewController {
             print("💬 recording stopped")
             let path = RecorderAndPlayer.shared.stopRecording()
             let location = CLLocationCoordinate2D(latitude: mapView.latitude, longitude: mapView.longitude)
+            progressBarView?.startProgress()
             Sound.uploadSound(filePath: path, location: location) { error in
                 if let error = error {
+                    // TODO: alert user
                     print(error.localizedDescription)
+                    self.progressBarView?.cancelProgress()
+                    
+                } else {
+                    self.progressBarView?.finishProgress(nil)
                 }
             }
             
