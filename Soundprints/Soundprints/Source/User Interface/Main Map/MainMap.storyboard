@@ -40,7 +40,7 @@
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AUo-vE-tKp" userLabel="Record button">
-                                        <rect key="frame" x="164" y="51.5" width="46" height="30"/>
+                                        <rect key="frame" x="140" y="20" width="94" height="93.5"/>
                                         <connections>
                                             <action selector="recordButtonPressed:" destination="3cC-5y-1ia" eventType="touchUpInside" id="VEK-zl-UVP"/>
                                         </connections>
@@ -151,6 +151,7 @@
                         <outlet property="mapView" destination="1Mo-FC-jp9" id="VtH-YF-Etm"/>
                         <outlet property="menuContainerView" destination="WqY-Pj-pIx" id="6Xn-64-QBR"/>
                         <outlet property="progressBarView" destination="8W2-Oa-VVd" id="Adf-m9-8Yc"/>
+                        <outlet property="recordButton" destination="AUo-vE-tKp" id="XkR-NH-PPs"/>
                         <outlet property="recordImageView" destination="t67-0X-Z4P" id="XZX-6d-bUw"/>
                     </connections>
                 </viewController>
