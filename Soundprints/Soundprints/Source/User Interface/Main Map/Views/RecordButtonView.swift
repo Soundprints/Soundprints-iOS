@@ -13,6 +13,8 @@ protocol RecordButtonViewDelegate: class {
 }
 
 class RecordButtonView: UIView {
+    
+    // TODO: in progress...
 
     // MARK: - Properties
     
