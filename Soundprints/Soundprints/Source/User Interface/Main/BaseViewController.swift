@@ -10,6 +10,10 @@ import UIKit
 
 class BaseViewController: UIViewController {
 
-    // TODO: Add stuff to BaseViewController
+    // MARK: - Status bar
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
 }
