@@ -35,7 +35,7 @@ class SoundsModel {
     
     private(set) var currentFartherstSoundDistance: CLLocationDistance = 0
     
-    private var refreshTimer: Timer?
+    weak private var refreshTimer: Timer?
     
     private var fetchSoundsFromOnlyLastDay: Bool {
         return FilterManager.filters.age == .lastDay
@@ -57,6 +57,11 @@ class SoundsModel {
     
     init(state: State) {
         self.state = state
+    }
+    
+    deinit {
+        refreshTimer?.invalidate()
+        refreshTimer = nil
     }
     
     // MARK: - State manipulation
@@ -102,6 +107,7 @@ class SoundsModel {
     private func invalidate() {
         sounds = []
         currentFartherstSoundDistance = 0
+        activeParameters = latestReceivedParamaters
         fetchAndAppendNewSoundsPage()
     }
     

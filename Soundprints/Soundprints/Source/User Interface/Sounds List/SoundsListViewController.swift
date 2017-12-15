@@ -43,15 +43,11 @@ class SoundsListViewController: BaseViewController {
     
     // MARK: - View Controller lifecycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         sounds = soundsModel?.sounds ?? []
         tableView?.reloadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         soundsModel?.listDelegate = self
     }
