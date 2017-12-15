@@ -27,7 +27,7 @@ class MainMapViewController: BaseViewController {
     
     private var soundsModel: SoundsModel = SoundsModel(state: .map)
     
-    static var inRangeMetersTreshold: Double = 1500
+    static var inRangeMetersTreshold: Double = 450
     
     private var sounds: [Sound] = []
     

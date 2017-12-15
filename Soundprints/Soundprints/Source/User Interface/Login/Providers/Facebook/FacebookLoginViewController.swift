@@ -11,6 +11,12 @@ import FacebookLogin
 
 class FacebookLoginViewController: ProviderLoginViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let _ = fbLoginButton
+    }
+    
     // MARK: - Properties
     
     private lazy var fbLoginButton: LoginButton = {
