@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WQx-7z-9se" customClass="ContentControllerView" customModule="Soundprints" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="parentViewController" destination="Rdu-h2-kwk" id="bFM-mZ-qWy"/>
@@ -31,7 +31,7 @@
                             <constraint firstItem="S3M-G6-Xv8" firstAttribute="bottom" secondItem="WQx-7z-9se" secondAttribute="bottom" id="HB4-VC-aGp"/>
                             <constraint firstItem="S3M-G6-Xv8" firstAttribute="trailing" secondItem="WQx-7z-9se" secondAttribute="trailing" id="JaW-45-rVa"/>
                             <constraint firstItem="WQx-7z-9se" firstAttribute="leading" secondItem="S3M-G6-Xv8" secondAttribute="leading" id="Psk-Ab-lUg"/>
-                            <constraint firstItem="WQx-7z-9se" firstAttribute="top" secondItem="S3M-G6-Xv8" secondAttribute="top" id="dCc-JM-Zgm"/>
+                            <constraint firstItem="WQx-7z-9se" firstAttribute="top" secondItem="dMM-yn-dOs" secondAttribute="top" id="dCc-JM-Zgm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="S3M-G6-Xv8"/>
                     </view>
@@ -50,13 +50,55 @@
                     <view key="view" contentMode="scaleToFill" id="mYB-xx-qqp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash-image" translatesAutoresizingMaskIntoConstraints="NO" id="pIC-eg-4wg">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Soundprints" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VdQ-D4-eOl">
+                                <rect key="frame" x="30" y="364.5" width="315" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First of all thanks for being a part of this test!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fka-OX-Jec">
+                                <rect key="frame" x="30" y="401" width="315" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ans-v1-pHQ">
+                                <rect key="frame" x="30" y="440.5" width="315" height="101.5"/>
+                                <string key="text">The app is really simple, tap the record button to leave behind, a message for someone to find. Have fun and if you have any feedback leave a Soundprint. We'l find it :)</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ans-v1-pHQ" firstAttribute="leading" secondItem="O4T-tk-F1K" secondAttribute="leading" constant="30" id="9Oj-Vt-XYy"/>
+                            <constraint firstItem="VdQ-D4-eOl" firstAttribute="leading" secondItem="O4T-tk-F1K" secondAttribute="leading" constant="30" id="Chf-P4-uj8"/>
+                            <constraint firstItem="O4T-tk-F1K" firstAttribute="bottom" secondItem="ans-v1-pHQ" secondAttribute="bottom" constant="125" id="FzC-Nc-QxC"/>
+                            <constraint firstItem="fka-OX-Jec" firstAttribute="top" secondItem="VdQ-D4-eOl" secondAttribute="bottom" constant="5" id="HrM-Ag-h0E"/>
+                            <constraint firstAttribute="bottom" secondItem="pIC-eg-4wg" secondAttribute="bottom" id="MfD-Ey-D5M"/>
+                            <constraint firstItem="pIC-eg-4wg" firstAttribute="leading" secondItem="mYB-xx-qqp" secondAttribute="leading" id="PRJ-zV-lDl"/>
+                            <constraint firstItem="ans-v1-pHQ" firstAttribute="top" secondItem="fka-OX-Jec" secondAttribute="bottom" constant="25" id="S2z-ii-enB"/>
+                            <constraint firstItem="pIC-eg-4wg" firstAttribute="top" secondItem="mYB-xx-qqp" secondAttribute="top" id="T9d-sY-A7u"/>
+                            <constraint firstItem="O4T-tk-F1K" firstAttribute="trailing" secondItem="VdQ-D4-eOl" secondAttribute="trailing" constant="30" id="Xrm-r1-33l"/>
+                            <constraint firstItem="O4T-tk-F1K" firstAttribute="trailing" secondItem="fka-OX-Jec" secondAttribute="trailing" constant="30" id="b3R-I2-TMg"/>
+                            <constraint firstItem="fka-OX-Jec" firstAttribute="leading" secondItem="O4T-tk-F1K" secondAttribute="leading" constant="30" id="qUl-ub-txZ"/>
+                            <constraint firstAttribute="trailing" secondItem="pIC-eg-4wg" secondAttribute="trailing" id="vrl-yL-9yP"/>
+                            <constraint firstItem="O4T-tk-F1K" firstAttribute="trailing" secondItem="ans-v1-pHQ" secondAttribute="trailing" constant="30" id="wwG-C9-5gT"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="O4T-tk-F1K"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ox-Fg-xCn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="617" y="156"/>
+            <point key="canvasLocation" x="551" y="136"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="splash-image" width="1440" height="2960"/>
+    </resources>
 </document>

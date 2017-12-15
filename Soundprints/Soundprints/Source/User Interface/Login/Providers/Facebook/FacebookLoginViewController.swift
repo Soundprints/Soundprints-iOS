@@ -11,24 +11,23 @@ import FacebookLogin
 
 class FacebookLoginViewController: ProviderLoginViewController {
     
-    // MARK: - View controller lifecycle
+    // MARK: - Properties
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        initializeFacebookLoginButton()
-    }
-    
-    // MARK: - Facebook login button
-    
-    private func initializeFacebookLoginButton() {
-        // TODO: Improve the positioning
+    private lazy var fbLoginButton: LoginButton = {
         let loginButton = LoginButton(readPermissions: [.publicProfile, .email])
-        loginButton.center = view.center
         loginButton.delegate = self
         view.addSubview(loginButton)
+        return loginButton
+    }()
+    
+    // MARK: - View controller lifecycle
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        fbLoginButton.center = CGPoint(x: view.center.x, y: view.bounds.height - 80.0)
     }
-
+    
 }
 
 // MARK: - LoginButtonDelegate

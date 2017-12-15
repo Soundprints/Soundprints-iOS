@@ -31,7 +31,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.image` struct is generated, and contains static references to 12 images.
+  /// This `R.image` struct is generated, and contains static references to 13 images.
   struct image {
     /// Image `annotation-in-range-icon`.
     static let annotationInRangeIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "annotation-in-range-icon")
@@ -53,6 +53,8 @@ struct R: Rswift.Validatable {
     static let soundsListButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "sounds-list-button-icon")
     /// Image `sounds-list-close-button-icon`.
     static let soundsListCloseButtonIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "sounds-list-close-button-icon")
+    /// Image `splash-image`.
+    static let splashImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "splash-image")
     /// Image `user-location-icon`.
     static let userLocationIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "user-location-icon")
     /// Image `white-gradient`.
@@ -106,6 +108,11 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "sounds-list-close-button-icon", bundle: ..., traitCollection: ...)`
     static func soundsListCloseButtonIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.soundsListCloseButtonIcon, compatibleWith: traitCollection)
+    }
+    
+    /// `UIImage(named: "splash-image", bundle: ..., traitCollection: ...)`
+    static func splashImage(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.splashImage, compatibleWith: traitCollection)
     }
     
     /// `UIImage(named: "user-location-icon", bundle: ..., traitCollection: ...)`
@@ -219,6 +226,7 @@ struct _R: Rswift.Validatable {
       try main.validate()
       try login.validate()
       try filter.validate()
+      try launchScreen.validate()
       try mainMap.validate()
       try soundsList.validate()
     }
@@ -241,11 +249,15 @@ struct _R: Rswift.Validatable {
       fileprivate init() {}
     }
     
-    struct launchScreen: Rswift.StoryboardResourceWithInitialControllerType {
+    struct launchScreen: Rswift.StoryboardResourceWithInitialControllerType, Rswift.Validatable {
       typealias InitialController = UIKit.UIViewController
       
       let bundle = R.hostingBundle
       let name = "LaunchScreen"
+      
+      static func validate() throws {
+        if UIKit.UIImage(named: "splash-image") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'splash-image' is used in storyboard 'LaunchScreen', but couldn't be loaded.") }
+      }
       
       fileprivate init() {}
     }
@@ -265,6 +277,7 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
+        if UIKit.UIImage(named: "splash-image") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'splash-image' is used in storyboard 'Login', but couldn't be loaded.") }
         if _R.storyboard.login().facebookLoginViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'facebookLoginViewController' could not be loaded from storyboard 'Login' as 'FacebookLoginViewController'.") }
         if _R.storyboard.login().loginViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'loginViewController' could not be loaded from storyboard 'Login' as 'LoginViewController'.") }
       }
@@ -284,6 +297,7 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
+        if UIKit.UIImage(named: "splash-image") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'splash-image' is used in storyboard 'Main', but couldn't be loaded.") }
         if _R.storyboard.main().initialViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'initialViewController' could not be loaded from storyboard 'Main' as 'InitialViewController'.") }
       }
       
