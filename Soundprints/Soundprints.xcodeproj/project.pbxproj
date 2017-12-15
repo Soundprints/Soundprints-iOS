@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		15911F457A4ADFBD1F234989 /* Pods_Soundprints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */; };
+		CC0997501FE3D85500E06279 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC09974E1FE3D85500E06279 /* ProgressBarView.swift */; };
+		CC0997511FE3D85500E06279 /* ProgressBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC09974F1FE3D85500E06279 /* ProgressBarView.xib */; };
+		CC0997531FE3E20900E06279 /* RecordButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997521FE3E20900E06279 /* RecordButtonView.swift */; };
+		CC0997551FE3E4F200E06279 /* ValueAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997541FE3E4F200E06279 /* ValueAnimator.swift */; };
+		CC0997571FE3E50100E06279 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997561FE3E50100E06279 /* CustomView.swift */; };
 		CCAC28801FE00C9D00BF7560 /* MultipartFormDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAC287F1FE00C9C00BF7560 /* MultipartFormDataHandler.swift */; };
 		E21014811FD7FB7C005AAE9F /* SoundsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014801FD7FB7C005AAE9F /* SoundsListViewController.swift */; };
 		E21014831FD7FB87005AAE9F /* SoundsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21014821FD7FB87005AAE9F /* SoundsList.storyboard */; };
@@ -60,6 +65,11 @@
 		108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Soundprints.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.release.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.release.xcconfig"; sourceTree = "<group>"; };
 		C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints.debug.xcconfig"; sourceTree = "<group>"; };
+		CC09974E1FE3D85500E06279 /* ProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		CC09974F1FE3D85500E06279 /* ProgressBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProgressBarView.xib; sourceTree = "<group>"; };
+		CC0997521FE3E20900E06279 /* RecordButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButtonView.swift; sourceTree = "<group>"; };
+		CC0997541FE3E4F200E06279 /* ValueAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueAnimator.swift; sourceTree = "<group>"; };
+		CC0997561FE3E50100E06279 /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		CCAC287F1FE00C9C00BF7560 /* MultipartFormDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipartFormDataHandler.swift; sourceTree = "<group>"; };
 		E210147E1FD7F2AE005AAE9F /* Soundprints-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Soundprints-Bridging-Header.h"; sourceTree = "<group>"; };
 		E21014801FD7FB7C005AAE9F /* SoundsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsListViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +140,16 @@
 				108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CC09974D1FE3D85500E06279 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CC09974E1FE3D85500E06279 /* ProgressBarView.swift */,
+				CC09974F1FE3D85500E06279 /* ProgressBarView.xib */,
+				CC0997521FE3E20900E06279 /* RecordButtonView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E210147F1FD7FB66005AAE9F /* Sounds List */ = {
@@ -426,6 +446,8 @@
 			isa = PBXGroup;
 			children = (
 				E2CEC7751FE027CE00841FE8 /* Sounds */,
+				CC0997561FE3E50100E06279 /* CustomView.swift */,
+				CC0997541FE3E4F200E06279 /* ValueAnimator.swift */,
 				E2157B841FDEA9F5004E702A /* Folder Manager */,
 				E2157B831FDEA9EC004E702A /* Recording */,
 				E25AF4DC1FDA9C4600D7BEA2 /* Filters */,
@@ -485,6 +507,7 @@
 		E2F1DDAC1FCEB56A000CC2F1 /* Main Map */ = {
 			isa = PBXGroup;
 			children = (
+				CC09974D1FE3D85500E06279 /* Views */,
 				E2157B891FDEAB97004E702A /* Listen View */,
 				E2E551211FD6DAE200BAE27E /* Proximity Rings */,
 				E2E551111FD6B7E900BAE27E /* Annotations */,
@@ -569,6 +592,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2F1DDB01FCEB5B5000CC2F1 /* MainMap.storyboard in Resources */,
+				CC0997511FE3D85500E06279 /* ProgressBarView.xib in Resources */,
 				E2F1DDA51FCEA367000CC2F1 /* Main.storyboard in Resources */,
 				E2F1DDA21FCEA367000CC2F1 /* Assets.xcassets in Resources */,
 				E2E551061FD54ADF00BAE27E /* Login.storyboard in Resources */,
@@ -668,6 +692,8 @@
 				E2E551231FD6DB0100BAE27E /* ProximityRingsView.swift in Sources */,
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
 				E21014891FD81405005AAE9F /* SingleTimeValue.swift in Sources */,
+				CC0997571FE3E50100E06279 /* CustomView.swift in Sources */,
+				CC0997531FE3E20900E06279 /* RecordButtonView.swift in Sources */,
 				E2E5511F1FD6D8C900BAE27E /* CoreTextArcView.m in Sources */,
 				E2E551171FD6B85700BAE27E /* SoundAnnotationView.swift in Sources */,
 				E2AA86CC1FDA936600C1C262 /* BorderSwitch.swift in Sources */,
@@ -678,6 +704,7 @@
 				E2F1DDA31FCEA367000CC2F1 /* AppDelegate.swift in Sources */,
 				E2EBF5881FCEF35500AAFBC1 /* APIManager.swift in Sources */,
 				E2157B8B1FDEABA2004E702A /* ListenView.swift in Sources */,
+				CC0997551FE3E4F200E06279 /* ValueAnimator.swift in Sources */,
 				E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */,
 				E2EBF58D1FCEF3BD00AAFBC1 /* APIRequest.swift in Sources */,
 				E21014861FD80F02005AAE9F /* SoundsListCell.swift in Sources */,
@@ -690,6 +717,7 @@
 				E2EBF5901FCEF3BD00AAFBC1 /* APIResponseTools.swift in Sources */,
 				E2D61EF31FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift in Sources */,
 				CCAC28801FE00C9D00BF7560 /* MultipartFormDataHandler.swift in Sources */,
+				CC0997501FE3D85500E06279 /* ProgressBarView.swift in Sources */,
 				E2D61EEF1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift in Sources */,
 				E2157B881FDEAA1F004E702A /* RecorderAndPlayer.swift in Sources */,
 				E2E551151FD6B82E00BAE27E /* UserAnnotationView.swift in Sources */,
