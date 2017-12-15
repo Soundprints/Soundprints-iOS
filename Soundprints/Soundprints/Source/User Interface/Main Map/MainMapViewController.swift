@@ -80,10 +80,6 @@ class MainMapViewController: BaseViewController {
         
         initializeMap()
         initializeProximityRingsView()
-        
-        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(onLongPress))
-        recognizer.minimumPressDuration = 0.25
-        recordImageView?.addGestureRecognizer(recognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -260,18 +256,12 @@ class MainMapViewController: BaseViewController {
     
     // MARK: - Recording
     
-    @objc private func onLongPress(recognizer: UILongPressGestureRecognizer) {
+    @IBAction private func recordButtonPressed(_ sender: UIButton) {
         guard let mapView = mapView else {
             return
         }
-
-        switch recognizer.state {
-        case .began: // start recording
-            print("💬 recording")
-            updateRecordButton(recording: true)
-            RecorderAndPlayer.shared.startRecording()
-            
-        case .ended, .cancelled: // stop recording
+        
+        if RecorderAndPlayer.shared.isRecording { // stop recording
             print("💬 recording stopped")
             let path = RecorderAndPlayer.shared.stopRecording()
             let location = CLLocationCoordinate2D(latitude: mapView.latitude, longitude: mapView.longitude)
@@ -287,8 +277,13 @@ class MainMapViewController: BaseViewController {
                 }
             }
             
-        default: break
+            
+        } else { // start recording
+            print("💬 recording")
+            updateRecordButton(recording: true)
+            RecorderAndPlayer.shared.startRecording()
         }
+
     }
     
     // MARK: - UI updates
@@ -298,11 +293,14 @@ class MainMapViewController: BaseViewController {
             return
         }
         
+        UIView.animate(withDuration: 0.25) {
+            imageView.transform = recording ? CGAffineTransform(scaleX: 1.1, y: 1.1) : CGAffineTransform.identity
+        }
+        
         UIView.transition(with: imageView,
                           duration: animated ? 0.25 : 0.0,
                           options: [.curveEaseInOut, .transitionCrossDissolve],
                           animations: {
-                            // TODO: set recording image
                             self.recordImageView?.image = recording ? #imageLiteral(resourceName: "records-button-recording-icon") : #imageLiteral(resourceName: "record-button-icon")
                           },
                           completion: nil)
