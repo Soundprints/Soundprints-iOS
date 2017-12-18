@@ -68,7 +68,7 @@ class SoundsListViewController: BaseViewController {
     
     // MARK: - Sounds inserting
     
-    private func insertSoundsIntoList(_ soundsToInsert: [Sound]) {
+    private func appendSoundsToList(_ soundsToInsert: [Sound]) {
         guard soundsToInsert.isEmpty == false else {
             return
         }
@@ -81,6 +81,13 @@ class SoundsListViewController: BaseViewController {
         let indexPaths = (sounds.count..<sounds.count+soundsToInsert.count).map { IndexPath(row: $0, section: 0) }
         sounds.append(contentsOf: soundsToInsert)
         tableView?.insertRows(at: indexPaths, with: .automatic)
+        tableView?.endUpdates()
+    }
+    
+    private func insertSound(_ soundToInsert: Sound, atIndex: Int) {
+        tableView?.beginUpdates()        
+        sounds.insert(soundToInsert, at: atIndex)
+        tableView?.insertRows(at: [IndexPath(row: atIndex, section: 0)], with: .automatic)
         tableView?.endUpdates()
     }
     
@@ -135,8 +142,16 @@ extension SoundsListViewController: SoundsModelDelegate {
             // TODO: Improve reloading
             tableView?.reloadData()
         } else {
-            insertSoundsIntoList(newSoundsPage)
+            appendSoundsToList(newSoundsPage)
         }
+    }
+    
+    func soundModelCouldNotUploadSound(sender: SoundsModel) {
+        // TODO: Alert user
+    }
+    
+    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int) {
+        insertSound(uploadedSound, atIndex: insertedAtIndex)
     }
     
 }
