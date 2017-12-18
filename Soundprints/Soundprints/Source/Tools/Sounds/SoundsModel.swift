@@ -136,7 +136,7 @@ class SoundsModel {
         }
         
         fetchNextPageLocked = true
-        let isReload = currentFartherstSoundDistance <= 0
+        let isReload = currentFartherstSoundDistance <= 0 && sounds.isEmpty
         
         Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: currentFartherstSoundDistance, andMaxDistance: maximumFetchRadius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
             if error == nil, let sounds = sounds {
