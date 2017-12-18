@@ -48,12 +48,15 @@ class SoundsModel {
     
     private var fetchNextPageLocked = false
     
+    private var lastInvalidationDate: Date?
+    
     // MARK: - Constants
     
     private let maximumFetchRadius: CLLocationDistance = 10000
     private let itemsPerPage: Int = 20
     
     private let distanceChangeTreshold: CLLocationDistance = 100
+    private let timeIntervalInvalidationTreshold: TimeInterval = 60
     
     // MARK: - Initialization
     
@@ -86,6 +89,7 @@ class SoundsModel {
         let firstUpdate = latestReceivedParamaters == nil
         latestReceivedParamaters = parameters
         if firstUpdate {
+            lastInvalidationDate = Date()
             activeParameters = parameters
             initializeTimer()
             fetchAndAppendNewSoundsPage()
@@ -107,6 +111,7 @@ class SoundsModel {
     // MARK: - Invalidation
     
     private func invalidate() {
+        lastInvalidationDate = Date()
         sounds = []
         currentFartherstSoundDistance = 0
         activeParameters = latestReceivedParamaters
@@ -114,6 +119,11 @@ class SoundsModel {
     }
     
     private func shouldInvalidate(onStateChange: Bool = false) -> Bool {
+        // If the model hasn't been invalidated in last 'timeIntervalInvalidationTreshold' seconds, it should be.
+        guard let lastInvalidationDate = lastInvalidationDate, Date().timeIntervalSince(lastInvalidationDate) < timeIntervalInvalidationTreshold else {
+            return true
+        }
+        
         // When the model is in list state, it should not be invalidated, except if the state was just changed.
         if onStateChange == false && state == .list {
             return false
