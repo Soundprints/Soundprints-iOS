@@ -150,8 +150,10 @@ extension SoundsListViewController: SoundsModelDelegate {
         // TODO: Alert user
     }
     
-    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int) {
-        insertSound(uploadedSound, atIndex: insertedAtIndex)
+    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int?) {
+        if let insertedAtIndex = insertedAtIndex {
+            insertSound(uploadedSound, atIndex: insertedAtIndex)
+        }
     }
     
 }

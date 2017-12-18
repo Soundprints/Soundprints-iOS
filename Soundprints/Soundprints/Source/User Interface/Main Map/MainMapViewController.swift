@@ -450,10 +450,13 @@ extension MainMapViewController: SoundsModelDelegate {
         self.progressBarView?.cancelProgress()
     }
     
-    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int) {
-        sounds.insert(uploadedSound, at: insertedAtIndex)
+    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int?) {
+        if let insertedAtIndex = insertedAtIndex {
+            sounds.insert(uploadedSound, at: insertedAtIndex)
+            addAnnotations(forSounds: [uploadedSound], removeExistingAnnotations: false)
+        }
+        
         self.progressBarView?.finishProgress(nil)
-        addAnnotations(forSounds: [uploadedSound], removeExistingAnnotations: false)
     }
     
 }
