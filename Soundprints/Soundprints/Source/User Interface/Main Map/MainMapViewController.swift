@@ -384,6 +384,8 @@ extension MainMapViewController: MGLMapViewDelegate {
             }
             annotationView?.injectProperties(fromSoundAnnotation: soundAnnotation)
             
+            annotationView?.setContentHidden(false, animated: true)
+            
             return annotationView
             
         } else if annotation is MGLUserLocation {

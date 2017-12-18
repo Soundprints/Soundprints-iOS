@@ -13,6 +13,7 @@ class SoundAnnotationView: MGLAnnotationView {
     
     // MARK: - Variables
     
+    var contentContainerView: UIView?
     var backgroundImageView: UIImageView?
     var profileImageView: UIImageView?
     var playButtonImageView: UIImageView?
@@ -46,6 +47,8 @@ class SoundAnnotationView: MGLAnnotationView {
         self.frame = frame
         backgroundColor = .clear
         
+        let contentContainerView = UIView(frame: bounds)
+        
         let backgroundImageView = UIImageView(frame: bounds)
         
         let profileImageInset = bounds.width * 0.3
@@ -73,11 +76,14 @@ class SoundAnnotationView: MGLAnnotationView {
         // TODO: Tweak this to be more accurate. This has to take into account the outer glow of the image.
         centerOffset = CGVector(dx: 0, dy: -bounds.height/3)
         
-        addSubview(backgroundImageView)
-        addSubview(profileImageView)
-        addSubview(playButtonImageView)
-        addSubview(distanceLabel)
+        contentContainerView.addSubview(backgroundImageView)
+        contentContainerView.addSubview(profileImageView)
+        contentContainerView.addSubview(playButtonImageView)
+        contentContainerView.addSubview(distanceLabel)
         
+        addSubview(contentContainerView)
+        
+        self.contentContainerView = contentContainerView
         self.backgroundImageView = backgroundImageView
         self.profileImageView = profileImageView
         self.playButtonImageView = playButtonImageView
@@ -115,6 +121,13 @@ class SoundAnnotationView: MGLAnnotationView {
         if let distanceString = soundAnnotation.distanceString {
             self.distanceString = distanceString
         }
+    }
+    
+    // MARK: - Content animations
+    
+    func setContentHidden(_ hidden: Bool, animated: Bool) {
+        contentContainerView?.alpha = hidden ? 1 : 0
+        contentContainerView?.kamino.animateHiden(hidden: hidden, duration: 0.4)
     }
     
 }
