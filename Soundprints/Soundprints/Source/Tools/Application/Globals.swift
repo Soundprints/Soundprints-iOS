@@ -14,14 +14,12 @@ class Globals {
     
     enum Environment {
         case development
-        case testing
         case production
         
         var baseURL: String {
             switch self {
             case .development: return "http://35.198.82.110:8080/api"
-            case .testing: return "http://35.198.82.110:8081/api"
-            case .production: return ""
+            case .production: return "http://35.198.82.110:8081/api"
             }
         }
 
@@ -34,8 +32,6 @@ class Globals {
     static var environment: Environment = {
         #if DEV
             return .development
-        #elseif TEST
-            return .testing
         #else
             return .production
         #endif

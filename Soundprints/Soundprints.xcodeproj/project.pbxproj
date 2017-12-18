@@ -75,58 +75,6 @@
 		E26912B11FE7B8FD001AC806 /* SoundsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21014821FD7FB87005AAE9F /* SoundsList.storyboard */; };
 		E26912B21FE7B8FD001AC806 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2AA86C61FDA863B00C1C262 /* Filter.storyboard */; };
 		E26912B31FE7B8FD001AC806 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD9F1FCEA367000CC2F1 /* LaunchScreen.storyboard */; };
-		E26912C01FE7C0B9001AC806 /* MainMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDAD1FCEB5A2000CC2F1 /* MainMapViewController.swift */; };
-		E26912C11FE7C0B9001AC806 /* KaminoUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EF41FD84F4F00A6AA85 /* KaminoUIView.swift */; };
-		E26912C21FE7C0B9001AC806 /* ContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */; };
-		E26912C31FE7C0B9001AC806 /* SoundsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9D0201FE147A9005CE19D /* SoundsModel.swift */; };
-		E26912C41FE7C0B9001AC806 /* ProximityRingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551221FD6DB0100BAE27E /* ProximityRingsView.swift */; };
-		E26912C51FE7C0B9001AC806 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDA91FCEA3DA000CC2F1 /* InitialViewController.swift */; };
-		E26912C61FE7C0B9001AC806 /* SingleTimeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014881FD81405005AAE9F /* SingleTimeValue.swift */; };
-		E26912C71FE7C0B9001AC806 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997561FE3E50100E06279 /* CustomView.swift */; };
-		E26912C81FE7C0B9001AC806 /* RecordButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997521FE3E20900E06279 /* RecordButtonView.swift */; };
-		E26912C91FE7C0B9001AC806 /* CoreTextArcView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E5511E1FD6D8C900BAE27E /* CoreTextArcView.m */; };
-		E26912CA1FE7C0B9001AC806 /* SoundAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551161FD6B85700BAE27E /* SoundAnnotationView.swift */; };
-		E26912CB1FE7C0B9001AC806 /* BorderSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */; };
-		E26912CC1FE7C0B9001AC806 /* FolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2157B851FDEAA16004E702A /* FolderManager.swift */; };
-		E26912CD1FE7C0B9001AC806 /* ProviderLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510F1FD5746900BAE27E /* ProviderLoginViewController.swift */; };
-		E26912CE1FE7C0B9001AC806 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5951FCFFBAF00AAFBC1 /* Sound.swift */; };
-		E26912CF1FE7C0B9001AC806 /* FacebookLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510A1FD56FC500BAE27E /* FacebookLoginViewController.swift */; };
-		E26912D01FE7C0B9001AC806 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DD9B1FCEA367000CC2F1 /* AppDelegate.swift */; };
-		E26912D11FE7C0B9001AC806 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5871FCEF35500AAFBC1 /* APIManager.swift */; };
-		E26912D21FE7C0B9001AC806 /* ListenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2157B8A1FDEABA2004E702A /* ListenView.swift */; };
-		E26912D31FE7C0B9001AC806 /* ValueAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997541FE3E4F200E06279 /* ValueAnimator.swift */; };
-		E26912D41FE7C0B9001AC806 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDA71FCEA3BF000CC2F1 /* BaseViewController.swift */; };
-		E26912D51FE7C0B9001AC806 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5891FCEF3BC00AAFBC1 /* APIRequest.swift */; };
-		E26912D61FE7C0B9001AC806 /* SoundsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014851FD80F02005AAE9F /* SoundsListCell.swift */; };
-		E26912D71FE7C0B9001AC806 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF58B1FCEF3BD00AAFBC1 /* APIResponse.swift */; };
-		E26912D81FE7C0B9001AC806 /* TimeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E210148A1FD8161C005AAE9F /* TimeValue.swift */; };
-		E26912D91FE7C0B9001AC806 /* SoundAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551181FD6B88E00BAE27E /* SoundAnnotation.swift */; };
-		E26912DA1FE7C0B9001AC806 /* SingleDistanceValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEC1FD8234500A6AA85 /* SingleDistanceValue.swift */; };
-		E26912DB1FE7C0B9001AC806 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B344361FCEBA8F001FC5FD /* R.generated.swift */; };
-		E26912DC1FE7C0B9001AC806 /* SoundsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014801FD7FB7C005AAE9F /* SoundsListViewController.swift */; };
-		E26912DD1FE7C0B9001AC806 /* APIResponseTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF58C1FCEF3BD00AAFBC1 /* APIResponseTools.swift */; };
-		E26912DE1FE7C0B9001AC806 /* KaminoUIView+HiddenAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EF21FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift */; };
-		E26912DF1FE7C0B9001AC806 /* MultipartFormDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAC287F1FE00C9C00BF7560 /* MultipartFormDataHandler.swift */; };
-		E26912E01FE7C0B9001AC806 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC09974E1FE3D85500E06279 /* ProgressBarView.swift */; };
-		E26912E11FE7C0B9001AC806 /* InteractionLockingContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */; };
-		E26912E21FE7C0B9001AC806 /* RecorderAndPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2157B871FDEAA1F004E702A /* RecorderAndPlayer.swift */; };
-		E26912E31FE7C0B9001AC806 /* UserAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551141FD6B82E00BAE27E /* UserAnnotationView.swift */; };
-		E26912E41FE7C0B9001AC806 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86C81FDA868200C1C262 /* FilterViewController.swift */; };
-		E26912E51FE7C0B9001AC806 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */; };
-		E26912E61FE7C0B9001AC806 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5921FCEF40E00AAFBC1 /* Globals.swift */; };
-		E26912E71FE7C0B9001AC806 /* APIJSONTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF5981FCFFC5300AAFBC1 /* APIJSONTools.swift */; };
-		E26912E81FE7C0B9001AC806 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25AF4DD1FDA9C5000D7BEA2 /* FilterManager.swift */; };
-		E26912E91FE7C0B9001AC806 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551031FD54AC800BAE27E /* LoginViewController.swift */; };
-		E26912EA1FE7C0B9001AC806 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBF58A1FCEF3BD00AAFBC1 /* APIError.swift */; };
-		E26912EC1FE7C0B9001AC806 /* Pods_Soundprints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108272D2F2087D27A72BB0B7 /* Pods_Soundprints.framework */; };
-		E26912EE1FE7C0B9001AC806 /* MainMap.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DDAF1FCEB5B5000CC2F1 /* MainMap.storyboard */; };
-		E26912EF1FE7C0B9001AC806 /* ProgressBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC09974F1FE3D85500E06279 /* ProgressBarView.xib */; };
-		E26912F01FE7C0B9001AC806 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DDA01FCEA367000CC2F1 /* Main.storyboard */; };
-		E26912F11FE7C0B9001AC806 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD971FCEA367000CC2F1 /* Assets.xcassets */; };
-		E26912F21FE7C0B9001AC806 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E551051FD54ADF00BAE27E /* Login.storyboard */; };
-		E26912F31FE7C0B9001AC806 /* SoundsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21014821FD7FB87005AAE9F /* SoundsList.storyboard */; };
-		E26912F41FE7C0B9001AC806 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2AA86C61FDA863B00C1C262 /* Filter.storyboard */; };
-		E26912F51FE7C0B9001AC806 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD9F1FCEA367000CC2F1 /* LaunchScreen.storyboard */; };
 		E2AA86C71FDA863B00C1C262 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2AA86C61FDA863B00C1C262 /* Filter.storyboard */; };
 		E2AA86C91FDA868200C1C262 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86C81FDA868200C1C262 /* FilterViewController.swift */; };
 		E2AA86CC1FDA936600C1C262 /* BorderSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */; };
@@ -187,7 +135,6 @@
 		E25AF4DD1FDA9C5000D7BEA2 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		E26912BA1FE7B8FD001AC806 /* Soundprints-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Soundprints-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E26912BB1FE7B8FE001AC806 /* Soundprints copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Soundprints copy-Info.plist"; path = "/Users/svitzebec/Projects/Soundprints/Soundprints-iOS/Soundprints/Soundprints copy-Info.plist"; sourceTree = "<absolute>"; };
-		E26912FC1FE7C0BA001AC806 /* Soundprints-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Soundprints-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E26912FD1FE7C0BA001AC806 /* Soundprints-Dev copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Soundprints-Dev copy-Info.plist"; path = "/Users/svitzebec/Projects/Soundprints/Soundprints-iOS/Soundprints/Soundprints-Dev copy-Info.plist"; sourceTree = "<absolute>"; };
 		E2AA86C61FDA863B00C1C262 /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
 		E2AA86C81FDA868200C1C262 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -236,14 +183,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E26912AA1FE7B8FD001AC806 /* Pods_Soundprints.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E26912EB1FE7C0B9001AC806 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E26912EC1FE7C0B9001AC806 /* Pods_Soundprints.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,7 +475,6 @@
 			children = (
 				E2F1DD801FCDEDE8000CC2F1 /* Soundprints.app */,
 				E26912BA1FE7B8FD001AC806 /* Soundprints-Dev.app */,
-				E26912FC1FE7C0BA001AC806 /* Soundprints-Test.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -679,28 +617,6 @@
 			productReference = E26912BA1FE7B8FD001AC806 /* Soundprints-Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E26912BC1FE7C0B9001AC806 /* Soundprints-Test */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E26912F91FE7C0B9001AC806 /* Build configuration list for PBXNativeTarget "Soundprints-Test" */;
-			buildPhases = (
-				E26912BD1FE7C0B9001AC806 /* [CP] Check Pods Manifest.lock */,
-				E26912BE1FE7C0B9001AC806 /* R.swift */,
-				E26912BF1FE7C0B9001AC806 /* Sources */,
-				E26912EB1FE7C0B9001AC806 /* Frameworks */,
-				E26912ED1FE7C0B9001AC806 /* Resources */,
-				E26912F61FE7C0B9001AC806 /* [CP] Embed Pods Frameworks */,
-				E26912F71FE7C0B9001AC806 /* [CP] Copy Pods Resources */,
-				E26912F81FE7C0B9001AC806 /* Fabric */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Soundprints-Test";
-			productName = Soundprints;
-			productReference = E26912FC1FE7C0BA001AC806 /* Soundprints-Test.app */;
-			productType = "com.apple.product-type.application";
-		};
 		E2F1DD7F1FCDEDE8000CC2F1 /* Soundprints */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2F1DD921FCDEDE8000CC2F1 /* Build configuration list for PBXNativeTarget "Soundprints" */;
@@ -736,9 +652,6 @@
 					E269127A1FE7B8FD001AC806 = {
 						ProvisioningStyle = Automatic;
 					};
-					E26912BC1FE7C0B9001AC806 = {
-						ProvisioningStyle = Automatic;
-					};
 					E2F1DD7F1FCDEDE8000CC2F1 = {
 						CreatedOnToolsVersion = 9.1;
 						LastSwiftMigration = 0910;
@@ -761,7 +674,6 @@
 			targets = (
 				E2F1DD7F1FCDEDE8000CC2F1 /* Soundprints */,
 				E269127A1FE7B8FD001AC806 /* Soundprints-Dev */,
-				E26912BC1FE7C0B9001AC806 /* Soundprints-Test */,
 			);
 		};
 /* End PBXProject section */
@@ -779,21 +691,6 @@
 				E26912B11FE7B8FD001AC806 /* SoundsList.storyboard in Resources */,
 				E26912B21FE7B8FD001AC806 /* Filter.storyboard in Resources */,
 				E26912B31FE7B8FD001AC806 /* LaunchScreen.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E26912ED1FE7C0B9001AC806 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E26912EE1FE7C0B9001AC806 /* MainMap.storyboard in Resources */,
-				E26912EF1FE7C0B9001AC806 /* ProgressBarView.xib in Resources */,
-				E26912F01FE7C0B9001AC806 /* Main.storyboard in Resources */,
-				E26912F11FE7C0B9001AC806 /* Assets.xcassets in Resources */,
-				E26912F21FE7C0B9001AC806 /* Login.storyboard in Resources */,
-				E26912F31FE7C0B9001AC806 /* SoundsList.storyboard in Resources */,
-				E26912F41FE7C0B9001AC806 /* Filter.storyboard in Resources */,
-				E26912F51FE7C0B9001AC806 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,79 +830,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 12dfab8e5f8154ff13da9caeda177a7f7732acfb 4a38cebc68a20a1b89df71127f5da54270b8f172823d4078999eba9af035d101";
 		};
-		E26912BD1FE7C0B9001AC806 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		E26912BE1FE7C0B9001AC806 /* R.swift */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = R.swift;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/Soundprints/Resources\"";
-		};
-		E26912F61FE7C0B9001AC806 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E26912F71FE7C0B9001AC806 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Soundprints/Pods-Soundprints-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E26912F81FE7C0B9001AC806 /* Fabric */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Fabric;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 12dfab8e5f8154ff13da9caeda177a7f7732acfb 4a38cebc68a20a1b89df71127f5da54270b8f172823d4078999eba9af035d101";
-		};
 		E2B344351FCEB9AF001FC5FD /* R.swift */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1084,56 +908,6 @@
 				E26912A61FE7B8FD001AC806 /* FilterManager.swift in Sources */,
 				E26912A71FE7B8FD001AC806 /* LoginViewController.swift in Sources */,
 				E26912A81FE7B8FD001AC806 /* APIError.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E26912BF1FE7C0B9001AC806 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E26912C01FE7C0B9001AC806 /* MainMapViewController.swift in Sources */,
-				E26912C11FE7C0B9001AC806 /* KaminoUIView.swift in Sources */,
-				E26912C21FE7C0B9001AC806 /* ContentControllerView.swift in Sources */,
-				E26912C31FE7C0B9001AC806 /* SoundsModel.swift in Sources */,
-				E26912C41FE7C0B9001AC806 /* ProximityRingsView.swift in Sources */,
-				E26912C51FE7C0B9001AC806 /* InitialViewController.swift in Sources */,
-				E26912C61FE7C0B9001AC806 /* SingleTimeValue.swift in Sources */,
-				E26912C71FE7C0B9001AC806 /* CustomView.swift in Sources */,
-				E26912C81FE7C0B9001AC806 /* RecordButtonView.swift in Sources */,
-				E26912C91FE7C0B9001AC806 /* CoreTextArcView.m in Sources */,
-				E26912CA1FE7C0B9001AC806 /* SoundAnnotationView.swift in Sources */,
-				E26912CB1FE7C0B9001AC806 /* BorderSwitch.swift in Sources */,
-				E26912CC1FE7C0B9001AC806 /* FolderManager.swift in Sources */,
-				E26912CD1FE7C0B9001AC806 /* ProviderLoginViewController.swift in Sources */,
-				E26912CE1FE7C0B9001AC806 /* Sound.swift in Sources */,
-				E26912CF1FE7C0B9001AC806 /* FacebookLoginViewController.swift in Sources */,
-				E26912D01FE7C0B9001AC806 /* AppDelegate.swift in Sources */,
-				E26912D11FE7C0B9001AC806 /* APIManager.swift in Sources */,
-				E26912D21FE7C0B9001AC806 /* ListenView.swift in Sources */,
-				E26912D31FE7C0B9001AC806 /* ValueAnimator.swift in Sources */,
-				E26912D41FE7C0B9001AC806 /* BaseViewController.swift in Sources */,
-				E26912D51FE7C0B9001AC806 /* APIRequest.swift in Sources */,
-				E26912D61FE7C0B9001AC806 /* SoundsListCell.swift in Sources */,
-				E26912D71FE7C0B9001AC806 /* APIResponse.swift in Sources */,
-				E26912D81FE7C0B9001AC806 /* TimeValue.swift in Sources */,
-				E26912D91FE7C0B9001AC806 /* SoundAnnotation.swift in Sources */,
-				E26912DA1FE7C0B9001AC806 /* SingleDistanceValue.swift in Sources */,
-				E26912DB1FE7C0B9001AC806 /* R.generated.swift in Sources */,
-				E26912DC1FE7C0B9001AC806 /* SoundsListViewController.swift in Sources */,
-				E26912DD1FE7C0B9001AC806 /* APIResponseTools.swift in Sources */,
-				E26912DE1FE7C0B9001AC806 /* KaminoUIView+HiddenAnimations.swift in Sources */,
-				E26912DF1FE7C0B9001AC806 /* MultipartFormDataHandler.swift in Sources */,
-				E26912E01FE7C0B9001AC806 /* ProgressBarView.swift in Sources */,
-				E26912E11FE7C0B9001AC806 /* InteractionLockingContentControllerView.swift in Sources */,
-				E26912E21FE7C0B9001AC806 /* RecorderAndPlayer.swift in Sources */,
-				E26912E31FE7C0B9001AC806 /* UserAnnotationView.swift in Sources */,
-				E26912E41FE7C0B9001AC806 /* FilterViewController.swift in Sources */,
-				E26912E51FE7C0B9001AC806 /* AuthenticationManager.swift in Sources */,
-				E26912E61FE7C0B9001AC806 /* Globals.swift in Sources */,
-				E26912E71FE7C0B9001AC806 /* APIJSONTools.swift in Sources */,
-				E26912E81FE7C0B9001AC806 /* FilterManager.swift in Sources */,
-				E26912E91FE7C0B9001AC806 /* LoginViewController.swift in Sources */,
-				E26912EA1FE7C0B9001AC806 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1226,48 +1000,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kamino.Soundprints-Dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEV;
-				SWIFT_OBJC_BRIDGING_HEADER = "Soundprints/Source/Main/Soundprints-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		E26912FA1FE7C0B9001AC806 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C06D222F24E2EE27F80A0247 /* Pods-Soundprints.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 4RJ9D66P45;
-				INFOPLIST_FILE = "Soundprints-Dev copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kamino.Soundprints-Dev";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "TEST DEBUG";
-				SWIFT_OBJC_BRIDGING_HEADER = "Soundprints/Source/Main/Soundprints-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		E26912FB1FE7C0B9001AC806 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 34DA75E4F0D73D17402B77D7 /* Pods-Soundprints.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4RJ9D66P45;
-				INFOPLIST_FILE = "Soundprints-Dev copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kamino.Soundprints-Dev";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TEST;
 				SWIFT_OBJC_BRIDGING_HEADER = "Soundprints/Source/Main/Soundprints-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1431,15 +1163,6 @@
 			buildConfigurations = (
 				E26912B81FE7B8FD001AC806 /* Debug */,
 				E26912B91FE7B8FD001AC806 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E26912F91FE7C0B9001AC806 /* Build configuration list for PBXNativeTarget "Soundprints-Test" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E26912FA1FE7C0B9001AC806 /* Debug */,
-				E26912FB1FE7C0B9001AC806 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
