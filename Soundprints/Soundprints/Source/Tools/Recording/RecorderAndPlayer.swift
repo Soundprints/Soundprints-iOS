@@ -43,6 +43,8 @@ class RecorderAndPlayer: NSObject {
     
     private var progressTimer: Timer?
     
+    private var recordingStartedDate: Date?
+    
     // MARK: - Init
     
     override init() {
@@ -65,12 +67,14 @@ class RecorderAndPlayer: NSObject {
         isRecording = true
         initializeRecorder()
         recorder?.record()
+        
+        recordingStartedDate = Date()
     }
     
     /// Stops audio recording, returns path to recorded audio file
-    @discardableResult func stopRecording() -> String {
+    @discardableResult func stopRecording() -> (path: String?, error: RecorderError?) {
         guard isRecording else {
-            return ""
+            return (nil, .notRecording)
         }
         
         let path = recorder?.url.path ?? ""
@@ -83,7 +87,13 @@ class RecorderAndPlayer: NSObject {
         }
         
         delegate?.recorderAndPlayerStoppedRecording(sender: self)
-        return path
+        
+        if let recordingStartedDate = recordingStartedDate, Date().timeIntervalSince(recordingStartedDate) < 1 {
+            folderManager.clearFolder()
+            return (nil, .recordingTooShort)
+        }
+        
+        return (path, nil)
     }
     
     private func initializeRecorder() {
@@ -193,6 +203,17 @@ extension RecorderAndPlayer: AVAudioRecorderDelegate {
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         stopRecording()
+    }
+    
+}
+
+extension RecorderAndPlayer {
+
+    enum RecorderError {
+        
+        case notRecording
+        case recordingTooShort
+        
     }
     
 }

@@ -287,9 +287,19 @@ class MainMapViewController: BaseViewController {
     
     private func stopRecording() {
         print("💬 recording stopped")
-        let path = RecorderAndPlayer.shared.stopRecording()
-        progressBarView?.startProgress()
-        soundsModel.uploadSound(atFilePath: path)
+        let (path, error) = RecorderAndPlayer.shared.stopRecording()
+        
+        if let path = path, error == nil {
+            progressBarView?.startProgress()
+            soundsModel.uploadSound(atFilePath: path)
+        } else if let error = error {
+            switch error {
+            case .notRecording: Alert.showAlert(title: "Cannot stop recording", message: "Recording not in progress.", inController: self)
+            case .recordingTooShort: Alert.showAlert(title: "Cannot process sound", message: "Recording is too short. It has to be at lease 1 second long.", inController: self) 
+            }
+        } else {
+            Alert.showAlert(title: "Cannot stop recording", inController: self)
+        }
     }
     
     // MARK: - UI updates

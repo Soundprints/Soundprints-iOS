@@ -75,6 +75,8 @@
 		E26912B11FE7B8FD001AC806 /* SoundsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21014821FD7FB87005AAE9F /* SoundsList.storyboard */; };
 		E26912B21FE7B8FD001AC806 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2AA86C61FDA863B00C1C262 /* Filter.storyboard */; };
 		E26912B31FE7B8FD001AC806 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD9F1FCEA367000CC2F1 /* LaunchScreen.storyboard */; };
+		E26913001FE80E31001AC806 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26912FF1FE80E31001AC806 /* Alert.swift */; };
+		E26913011FE80F83001AC806 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26912FF1FE80E31001AC806 /* Alert.swift */; };
 		E2AA86C71FDA863B00C1C262 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2AA86C61FDA863B00C1C262 /* Filter.storyboard */; };
 		E2AA86C91FDA868200C1C262 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86C81FDA868200C1C262 /* FilterViewController.swift */; };
 		E2AA86CC1FDA936600C1C262 /* BorderSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */; };
@@ -136,6 +138,7 @@
 		E26912BA1FE7B8FD001AC806 /* Soundprints-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Soundprints-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E26912BB1FE7B8FE001AC806 /* Soundprints copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Soundprints copy-Info.plist"; path = "/Users/svitzebec/Projects/Soundprints/Soundprints-iOS/Soundprints/Soundprints copy-Info.plist"; sourceTree = "<absolute>"; };
 		E26912FD1FE7C0BA001AC806 /* Soundprints-Dev copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Soundprints-Dev copy-Info.plist"; path = "/Users/svitzebec/Projects/Soundprints/Soundprints-iOS/Soundprints/Soundprints-Dev copy-Info.plist"; sourceTree = "<absolute>"; };
+		E26912FF1FE80E31001AC806 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		E2AA86C61FDA863B00C1C262 /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
 		E2AA86C81FDA868200C1C262 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderSwitch.swift; sourceTree = "<group>"; };
@@ -274,6 +277,14 @@
 			path = Filters;
 			sourceTree = "<group>";
 		};
+		E26912FE1FE80E25001AC806 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				E26912FF1FE80E31001AC806 /* Alert.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
 		E2AA86C51FDA862600C1C262 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,6 +366,7 @@
 		E2E5510C1FD570E000BAE27E /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				E26912FE1FE80E25001AC806 /* Alert */,
 				E2C409601FDAD77C005F61C5 /* Content Controller */,
 				E2E5511C1FD6D89800BAE27E /* Arc Text View */,
 			);
@@ -895,6 +907,7 @@
 				E26912991FE7B8FD001AC806 /* R.generated.swift in Sources */,
 				E269129A1FE7B8FD001AC806 /* SoundsListViewController.swift in Sources */,
 				E269129B1FE7B8FD001AC806 /* APIResponseTools.swift in Sources */,
+				E26913011FE80F83001AC806 /* Alert.swift in Sources */,
 				E269129C1FE7B8FD001AC806 /* KaminoUIView+HiddenAnimations.swift in Sources */,
 				E269129D1FE7B8FD001AC806 /* MultipartFormDataHandler.swift in Sources */,
 				E269129E1FE7B8FD001AC806 /* ProgressBarView.swift in Sources */,
@@ -945,6 +958,7 @@
 				E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */,
 				E21014811FD7FB7C005AAE9F /* SoundsListViewController.swift in Sources */,
 				E2EBF5901FCEF3BD00AAFBC1 /* APIResponseTools.swift in Sources */,
+				E26913001FE80E31001AC806 /* Alert.swift in Sources */,
 				E2D61EF31FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift in Sources */,
 				CCAC28801FE00C9D00BF7560 /* MultipartFormDataHandler.swift in Sources */,
 				CC0997501FE3D85500E06279 /* ProgressBarView.swift in Sources */,
