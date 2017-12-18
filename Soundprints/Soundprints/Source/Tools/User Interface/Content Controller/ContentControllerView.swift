@@ -111,6 +111,7 @@ class ContentControllerView: UIView {
                 controller?.didMove(toParentViewController: parentViewController) // Notify the new controller it did move to the parent
                 
                 self.currentController = controller
+                self.setNeedsLayout()
                 self.layoutIfNeeded()
                 controller?.viewDidLayoutSubviews()
                 
