@@ -14,27 +14,23 @@ class SoundAnnotation: MGLPointAnnotation {
     // MARK: - Variables
     
     weak var sound: Sound?
-    /// Distance in kilometers
-    var distance: Double?
+    /// Distance in meters
+    private(set) var distance: Double?
     /// Distance represented in string. If closer than 50 meters it will be in meters, otherwise in kilometers.
     var distanceString: String? {
         guard let distance = distance else {
             return nil
         }
-        let roundedKilometers = Double(round(distance*10)/10)
+        let distanceInKilometers = distance/1000.0
+        let roundedKilometers = Double(round(distanceInKilometers*10)/10)
         if roundedKilometers < 0.1 {
-            let meters = Int(round(distance*1000.0))
-            return String(format: "%dm", meters)
+            let metersToDisplay = Int(max(1,round(distance/10))*10)
+            return String(format: "%dm", metersToDisplay)
         } else {
             return String(format: "%.1fkm", roundedKilometers)
         }
     }
-    var inRange: Bool {
-        guard let distance = distance else {
-            return false
-        }
-        return distance*1000.0 <= MainMapViewController.inRangeMetersTreshold
-    }
+    private(set) var inRange: Bool = false
     
     // MARK: - Initializers
     
@@ -48,8 +44,19 @@ class SoundAnnotation: MGLPointAnnotation {
         self.sound = sound
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         if let distanceInMeters = sound.initialDistance?.distanceInMeters {
-            self.distance = distanceInMeters/1000.0
+            self.distance = distanceInMeters
         }
+    }
+    
+    // MARK: - Distance info updating
+    
+    func updateDistanceInfo(withUserLocation userLocation: CLLocation, andInRangeTreshold inRangeTreshold: Double) {
+        guard let latitude = sound?.latitude, let longitude = sound?.longitude else {
+            return
+        }
+        let newDistance = CLLocation(latitude: latitude, longitude: longitude).distance(from: userLocation)
+        inRange = newDistance <= inRangeTreshold
+        distance = newDistance
     }
     
 }
