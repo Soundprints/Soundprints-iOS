@@ -248,8 +248,6 @@ class MainMapViewController: BaseViewController {
             }
         })
         
-        print("annotations to refresh: \(annotationsToRefresh)")
-        
         if annotationsToRefresh.isEmpty == false {
             mapView?.removeAnnotations(annotationsToRefresh)
             mapView?.addAnnotations(annotationsToRefresh)
