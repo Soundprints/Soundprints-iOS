@@ -41,6 +41,8 @@ class SoundsListViewController: BaseViewController {
     private var lastTableViewContentYOffset: CGFloat = 0
     private var previousToLastTableViewContentYOffset: CGFloat = 0
     
+    private var shownCellIndexPaths: [IndexPath] = []
+    
     // MARK: - View Controller lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -123,6 +125,22 @@ extension SoundsListViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        // Perform the slide from left animation for cell index paths that were not shown yet
+        if (shownCellIndexPaths.contains(indexPath) == false) {
+            
+            cell.transform = CGAffineTransform(translationX: -tableView.bounds.width, y: 0)
+            UIView.beginAnimations("rotation", context: nil)
+            UIView.setAnimationDuration(0.3 + 0.07*Double(indexPath.row))
+            cell.transform = CGAffineTransform(translationX: 0, y: 0)
+            cell.alpha = 1
+            UIView.commitAnimations()
+            
+            shownCellIndexPaths.append(indexPath)
+        }
     }
     
 }
