@@ -38,9 +38,6 @@ class SoundsListViewController: BaseViewController {
     
     private var sounds: [Sound] = []
     
-    private var lastTableViewContentYOffset: CGFloat = 0
-    private var previousToLastTableViewContentYOffset: CGFloat = 0
-    
     private var shownCellIndexPaths: [IndexPath] = []
     
     // MARK: - View Controller lifecycle
