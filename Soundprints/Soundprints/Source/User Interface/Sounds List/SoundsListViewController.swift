@@ -127,7 +127,10 @@ extension SoundsListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         // Perform the slide from left animation for cell index paths that were not shown yet
-        if (shownCellIndexPaths.contains(indexPath) == false) {
+        // and limit for which index paths to perform the animation with an upper boud of row = 10,
+        // since there shouldent be any more than 10 elements visible at the start and we want to
+        // perform the animation only for the visible elements when the screen loads.
+        if (shownCellIndexPaths.contains(indexPath) == false && indexPath.row < 10) {
             
             cell.transform = CGAffineTransform(translationX: -tableView.bounds.width, y: 0)
             UIView.beginAnimations("rotation", context: nil)

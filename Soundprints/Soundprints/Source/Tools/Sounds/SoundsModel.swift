@@ -100,6 +100,9 @@ class SoundsModel {
     
     private func initializeTimer() {
         refreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshTimerFired), userInfo: nil, repeats: true)
+        if let refreshTimer = refreshTimer {
+            RunLoop.current.add(refreshTimer, forMode: .commonModes)
+        }
     }
     
     @objc private func refreshTimerFired() {
@@ -119,15 +122,17 @@ class SoundsModel {
     }
     
     private func shouldInvalidate(onStateChange: Bool = false) -> Bool {
-        // If the model hasn't been invalidated in last 'timeIntervalInvalidationTreshold' seconds, it should be.
-        guard let lastInvalidationDate = lastInvalidationDate, Date().timeIntervalSince(lastInvalidationDate) < timeIntervalInvalidationTreshold else {
-            return true
-        }
         
         // When the model is in list state, it should not be invalidated, except if the state was just changed.
         if onStateChange == false && state == .list {
             return false
         }
+        
+        // If the model hasn't been invalidated in last 'timeIntervalInvalidationTreshold' seconds, it should be.
+        guard let lastInvalidationDate = lastInvalidationDate, Date().timeIntervalSince(lastInvalidationDate) < timeIntervalInvalidationTreshold else {
+            return true
+        }
+        
         guard let latestParameters = latestReceivedParamaters else {
             return false
         }

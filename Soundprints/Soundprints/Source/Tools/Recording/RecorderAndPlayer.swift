@@ -86,7 +86,9 @@ class RecorderAndPlayer: NSObject {
             try? session.setActive(false)
         }
         
-        delegate?.recorderAndPlayerStoppedRecording(sender: self)
+        DispatchQueue.main.async {
+            self.delegate?.recorderAndPlayerStoppedRecording(sender: self)
+        }
         
         if let recordingStartedDate = recordingStartedDate, Date().timeIntervalSince(recordingStartedDate) < 1 {
             folderManager.clearFolder()
@@ -122,6 +124,9 @@ class RecorderAndPlayer: NSObject {
         stop()
         
         progressTimer = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(progressTimerFired), userInfo: nil, repeats: true)
+        if let progressTimer = progressTimer {
+            RunLoop.current.add(progressTimer, forMode: .commonModes)
+        }
         
         isPlaying = true
         initializePlayer(withRemoteURL: remoteURL)
@@ -133,7 +138,9 @@ class RecorderAndPlayer: NSObject {
             return
         }
         
-        delegate?.recorderAndPlayerStoppedPlaying(sender: self)
+        DispatchQueue.main.async {
+            self.delegate?.recorderAndPlayerStoppedPlaying(sender: self)
+        }
         
         isPlaying = false
         player?.pause()
@@ -173,7 +180,9 @@ class RecorderAndPlayer: NSObject {
             return
         }
         
-        delegate?.recorderAndPlayer(self, updatedPlayingProgress: progress)
+        DispatchQueue.main.async {
+            self.delegate?.recorderAndPlayer(self, updatedPlayingProgress: progress)
+        }
         
         if progress >= 1 {
             stopPlaying()
