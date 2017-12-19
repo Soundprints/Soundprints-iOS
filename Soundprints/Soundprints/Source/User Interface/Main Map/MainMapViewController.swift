@@ -101,7 +101,7 @@ class MainMapViewController: BaseViewController {
         listenView?.delegate = self
         RecorderAndPlayer.shared.delegate = self
         
-        startUpdatingHeading()
+//        startUpdatingHeading()
         
         RecorderAndPlayer.shared.requestPermission { granted in
             if !granted { // cant record
@@ -125,7 +125,7 @@ class MainMapViewController: BaseViewController {
         // otherwise it wont work.
         if let mapView = mapView, let userLocation = mapView.userLocation, isCoordinateValid(userLocation.coordinate), let userCLLocation = userLocation.location {
             setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
-            mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
+//            mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
             
             soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
         } else {
@@ -142,10 +142,19 @@ class MainMapViewController: BaseViewController {
         mapView?.showsUserLocation = true
         mapView?.allowsRotating = false
         mapView?.allowsTilting = false
-        mapView?.allowsZooming = false
+        mapView?.allowsZooming = true
         mapView?.allowsScrolling = false
         mapView?.showsUserHeadingIndicator = false
         mapView?.compassView.image = nil
+        
+//        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(centerTimerFired), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func centerTimerFired() {
+        guard let location = mapView?.userLocation?.coordinate else {
+            return
+        }
+        mapView?.setCenter(location, animated: true)
     }
     
     private func setZoomLevelToMinimumVisibleMeters(_ meters: Double, onLatitude latitude: Double, animated: Bool) {
@@ -164,6 +173,8 @@ class MainMapViewController: BaseViewController {
         let zoomLevel = log2((earthCircumference*cos(latitudeInRadians))/distancePerPixel) - 9
         
         mapView.setZoomLevel(zoomLevel, animated: animated)
+        
+        mapView.minimumZoomLevel = zoomLevel
     }
     
     // MARK: - Annotations
@@ -366,7 +377,8 @@ extension MainMapViewController: MGLMapViewDelegate {
             
             soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
         }
-        mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
+//        mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
+        mapView.userTrackingMode = MGLUserTrackingMode.follow
         
         updateVisibleAnnotationViewsIfNecessary()
     }
