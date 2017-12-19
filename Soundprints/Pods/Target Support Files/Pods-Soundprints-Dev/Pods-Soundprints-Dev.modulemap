@@ -1,0 +1,6 @@
+framework module Pods_Soundprints_Dev {
+  umbrella header "Pods-Soundprints-Dev-umbrella.h"
+
+  export *
+  module * { export * }
+}
