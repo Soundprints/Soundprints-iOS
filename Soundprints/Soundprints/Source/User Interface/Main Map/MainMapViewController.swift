@@ -584,6 +584,9 @@ private extension MainMapViewController {
         
         contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
         setMainMapComponentsHidden(false)
+        
+        // Set the RecorderAndPlayer delegate here because it could be set in SoundsListViewController
+        RecorderAndPlayer.shared.delegate = self
     }
     
     private func setMainMapComponentsHidden(_ hidden: Bool) {

@@ -95,23 +95,31 @@
                                                                 <constraint firstItem="Jom-Aq-tf1" firstAttribute="height" secondItem="qvJ-Pa-e10" secondAttribute="height" multiplier="0.6" id="0fi-Re-P6J"/>
                                                             </constraints>
                                                         </stackView>
+                                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SUf-Tf-Dos" customClass="ListenView" customModule="Soundprints" customModuleProvider="target">
+                                                            <rect key="frame" x="19.5" y="19.5" width="61.5" height="61.5"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.95686274509803915" green="0.97254901960784312" blue="0.9882352941176471" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
+                                                        <constraint firstItem="SUf-Tf-Dos" firstAttribute="width" secondItem="m71-hf-9Sx" secondAttribute="width" constant="1" id="0QG-Ty-G8q"/>
                                                         <constraint firstItem="HIf-Aw-JSr" firstAttribute="leading" secondItem="qvJ-Pa-e10" secondAttribute="trailing" constant="20" id="1fg-SR-kM5"/>
                                                         <constraint firstItem="462-1v-dDK" firstAttribute="centerX" secondItem="HIf-Aw-JSr" secondAttribute="centerX" id="2hp-z2-FfZ"/>
                                                         <constraint firstItem="m71-hf-9Sx" firstAttribute="leading" secondItem="YQr-kv-Xhn" secondAttribute="leading" constant="20" id="4f8-9J-6dG"/>
                                                         <constraint firstAttribute="bottom" secondItem="HIf-Aw-JSr" secondAttribute="bottom" id="85c-hi-oFY"/>
                                                         <constraint firstAttribute="trailing" secondItem="HIf-Aw-JSr" secondAttribute="trailing" id="Eel-Sh-j5S"/>
+                                                        <constraint firstItem="SUf-Tf-Dos" firstAttribute="centerY" secondItem="m71-hf-9Sx" secondAttribute="centerY" id="Eyt-dx-XrP"/>
                                                         <constraint firstAttribute="bottom" secondItem="m71-hf-9Sx" secondAttribute="bottom" constant="19.5" id="Gnj-XP-miL"/>
                                                         <constraint firstItem="HIf-Aw-JSr" firstAttribute="top" secondItem="YQr-kv-Xhn" secondAttribute="top" id="Tkd-Ig-Lda"/>
                                                         <constraint firstItem="HIf-Aw-JSr" firstAttribute="width" secondItem="YQr-kv-Xhn" secondAttribute="width" multiplier="0.2" id="YBi-cD-HVS"/>
                                                         <constraint firstItem="qvJ-Pa-e10" firstAttribute="leading" secondItem="m71-hf-9Sx" secondAttribute="trailing" constant="20" id="azn-fI-qSB"/>
+                                                        <constraint firstItem="SUf-Tf-Dos" firstAttribute="centerX" secondItem="m71-hf-9Sx" secondAttribute="centerX" id="b2b-V8-VMf"/>
                                                         <constraint firstItem="m71-hf-9Sx" firstAttribute="top" secondItem="YQr-kv-Xhn" secondAttribute="top" constant="20" id="c0z-Wj-j7f"/>
                                                         <constraint firstItem="462-1v-dDK" firstAttribute="width" secondItem="HIf-Aw-JSr" secondAttribute="width" multiplier="0.4" id="c9s-br-DwG"/>
                                                         <constraint firstItem="qvJ-Pa-e10" firstAttribute="top" secondItem="m71-hf-9Sx" secondAttribute="top" id="gWk-qT-ZCe"/>
                                                         <constraint firstItem="462-1v-dDK" firstAttribute="centerY" secondItem="HIf-Aw-JSr" secondAttribute="centerY" id="nfM-lB-179"/>
                                                         <constraint firstItem="qvJ-Pa-e10" firstAttribute="bottom" secondItem="m71-hf-9Sx" secondAttribute="bottom" id="pFx-iP-oKA"/>
+                                                        <constraint firstItem="SUf-Tf-Dos" firstAttribute="height" secondItem="m71-hf-9Sx" secondAttribute="height" constant="1" id="tS3-0Y-WXN"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -127,6 +135,7 @@
                                         <connections>
                                             <outlet property="contentContainerView" destination="YQr-kv-Xhn" id="sEi-FG-sFU"/>
                                             <outlet property="durationAndDistanceLabel" destination="Hrx-xz-4S7" id="fdP-rF-JZI"/>
+                                            <outlet property="listenView" destination="SUf-Tf-Dos" id="VZp-eO-VKU"/>
                                             <outlet property="playButton" destination="HIf-Aw-JSr" id="8q1-0j-mV8"/>
                                             <outlet property="playButtonImageView" destination="462-1v-dDK" id="fkS-dJ-dEH"/>
                                             <outlet property="profileImageView" destination="m71-hf-9Sx" id="ke6-Ia-juy"/>

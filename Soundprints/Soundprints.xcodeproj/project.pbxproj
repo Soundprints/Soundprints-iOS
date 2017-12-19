@@ -78,6 +78,8 @@
 		E26912B31FE7B8FD001AC806 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1DD9F1FCEA367000CC2F1 /* LaunchScreen.storyboard */; };
 		E26913001FE80E31001AC806 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26912FF1FE80E31001AC806 /* Alert.swift */; };
 		E26913011FE80F83001AC806 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26912FF1FE80E31001AC806 /* Alert.swift */; };
+		E2A5CA961FE9518400F603AB /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5CA951FE9518400F603AB /* ColorPalette.swift */; };
+		E2A5CA971FE951FA00F603AB /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5CA951FE9518400F603AB /* ColorPalette.swift */; };
 		E2AA86C71FDA863B00C1C262 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2AA86C61FDA863B00C1C262 /* Filter.storyboard */; };
 		E2AA86C91FDA868200C1C262 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86C81FDA868200C1C262 /* FilterViewController.swift */; };
 		E2AA86CC1FDA936600C1C262 /* BorderSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */; };
@@ -143,6 +145,7 @@
 		E26912BB1FE7B8FE001AC806 /* Soundprints copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Soundprints copy-Info.plist"; path = "/Users/svitzebec/Projects/Soundprints/Soundprints-iOS/Soundprints/Soundprints copy-Info.plist"; sourceTree = "<absolute>"; };
 		E26912FD1FE7C0BA001AC806 /* Soundprints-Dev copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Soundprints-Dev copy-Info.plist"; path = "/Users/svitzebec/Projects/Soundprints/Soundprints-iOS/Soundprints/Soundprints-Dev copy-Info.plist"; sourceTree = "<absolute>"; };
 		E26912FF1FE80E31001AC806 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		E2A5CA951FE9518400F603AB /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		E2AA86C61FDA863B00C1C262 /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
 		E2AA86C81FDA868200C1C262 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderSwitch.swift; sourceTree = "<group>"; };
@@ -291,6 +294,14 @@
 			path = Alert;
 			sourceTree = "<group>";
 		};
+		E2A5CA941FE9516E00F603AB /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				E2A5CA951FE9518400F603AB /* ColorPalette.swift */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
 		E2AA86C51FDA862600C1C262 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,6 +383,7 @@
 		E2E5510C1FD570E000BAE27E /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				E2A5CA941FE9516E00F603AB /* Colors */,
 				E26912FE1FE80E25001AC806 /* Alert */,
 				E2C409601FDAD77C005F61C5 /* Content Controller */,
 				E2E5511C1FD6D89800BAE27E /* Arc Text View */,
@@ -905,6 +917,7 @@
 				E269128F1FE7B8FD001AC806 /* APIManager.swift in Sources */,
 				E26912901FE7B8FD001AC806 /* ListenView.swift in Sources */,
 				E26912911FE7B8FD001AC806 /* ValueAnimator.swift in Sources */,
+				E2A5CA971FE951FA00F603AB /* ColorPalette.swift in Sources */,
 				E26912921FE7B8FD001AC806 /* BaseViewController.swift in Sources */,
 				E26912931FE7B8FD001AC806 /* APIRequest.swift in Sources */,
 				E26912941FE7B8FD001AC806 /* SoundsListCell.swift in Sources */,
@@ -956,6 +969,7 @@
 				E2EBF5881FCEF35500AAFBC1 /* APIManager.swift in Sources */,
 				E2157B8B1FDEABA2004E702A /* ListenView.swift in Sources */,
 				CC0997551FE3E4F200E06279 /* ValueAnimator.swift in Sources */,
+				E2A5CA961FE9518400F603AB /* ColorPalette.swift in Sources */,
 				E2F1DDA81FCEA3BF000CC2F1 /* BaseViewController.swift in Sources */,
 				E2EBF58D1FCEF3BD00AAFBC1 /* APIRequest.swift in Sources */,
 				E21014861FD80F02005AAE9F /* SoundsListCell.swift in Sources */,

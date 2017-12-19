@@ -29,6 +29,8 @@ class SoundsListCell: UITableViewCell {
     @IBOutlet private weak var userDisplayNameLabel: UILabel?
     @IBOutlet private weak var durationAndDistanceLabel: UILabel?
     @IBOutlet private weak var timestampLabel: UILabel?
+    @IBOutlet private weak var listenView: ListenView?
+    
     
     // MARK: - Variables
     
@@ -40,12 +42,35 @@ class SoundsListCell: UITableViewCell {
         }
     }
     
+    // MARK: - Constants
+    
+    private let listenViewHiddenAnimationDuration: Double = 1
+    
     // MARK: - UIView lifecycle
+    
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        listenView?.delegate = self
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
         updateFramesAndBorders()
+    }
+    
+    // MARK: - Reuse
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        DispatchQueue.global().async {
+            RecorderAndPlayer.shared.stopPlaying()
+        }
+        if RecorderAndPlayer.shared.delegate === self {
+            RecorderAndPlayer.shared.delegate = nil
+        }
     }
     
     // MARK: - Content updating
@@ -80,7 +105,84 @@ class SoundsListCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction private func playButtonPressed(_ sender: Any) {
-        delegate?.soundListCell(self, requestsToPlaySound: sound)
+        playSound()
+    }
+    
+    // MARK: - Listen View
+    
+    private func setListenViewHidden(_ hidden: Bool) {
+        listenView?.kamino.animateHiden(hidden: hidden, duration: listenViewHiddenAnimationDuration)
+    }
+    
+    // MARK: - Play button
+    
+    private func setPlayButtonEnabled(_ enabled: Bool) {
+        playButton?.isEnabled = enabled
+        UIView.animate(withDuration: listenViewHiddenAnimationDuration) { 
+            self.playButtonImageView?.alpha = enabled ? 1 : 0.3
+        }
     }
 
+}
+
+// MARK: - Sound playing
+
+private extension SoundsListCell {
+    
+    func playSound() {
+        guard let sound = sound else {
+            return
+        }
+        
+        listenView?.progressColor = ColorPalette.soundsList.blue
+        
+        RecorderAndPlayer.shared.stopPlaying()
+        RecorderAndPlayer.shared.delegate = self
+        
+        listenView?.progress = 0
+        
+        setListenViewHidden(false)
+        setPlayButtonEnabled(false)
+        
+        sound.getResourceURL { resourceURL, error in
+            if let resourceURL = resourceURL {
+                RecorderAndPlayer.shared.playFile(withRemoteURL: resourceURL)
+            } else {
+                // TODO: Handle error
+                self.setListenViewHidden(true)
+                self.setPlayButtonEnabled(true)
+            }
+        }
+    }
+    
+}
+
+
+// MARK: - ListenViewDelegate
+
+extension SoundsListCell: ListenViewDelegate {
+    
+    func listenViewShouldClose(sender: ListenView) {
+        RecorderAndPlayer.shared.stopPlaying()
+    }
+    
+}
+
+// MARK: - RecorderAndPlayerDelegate
+
+extension SoundsListCell: RecorderAndPlayerDelegate {
+    
+    func recorderAndPlayerStoppedPlaying(sender: RecorderAndPlayer) {
+        setListenViewHidden(true)
+        setPlayButtonEnabled(true)
+    }
+    
+    func recorderAndPlayerStoppedRecording(sender: RecorderAndPlayer) {
+        // No recording here, so leave empty
+    }
+    
+    func recorderAndPlayer(_ sender: RecorderAndPlayer, updatedPlayingProgress playingProgress: CGFloat) {
+        listenView?.progress = playingProgress
+    }
+    
 }
