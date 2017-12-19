@@ -2,12 +2,18 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 use_frameworks!
 
-target 'Soundprints' do
-	pod 'Mapbox-iOS-SDK', '~> 3.7'
-	pod 'R.swift'
-	pod 'Fabric'
-	pod 'Crashlytics'
-	pod 'FacebookLogin'
+def all_target_pods
+    pod 'Mapbox-iOS-SDK', '~> 3.7'
+    pod 'R.swift'
+    pod 'Fabric'
+    pod 'Crashlytics'
+    pod 'FacebookLogin'
     pod 'Kingfisher', '~> 4.0'
 end
 
+target 'Soundprints' do
+	all_target_pods
+end
+target 'Soundprints-Dev' do
+    all_target_pods
+end
