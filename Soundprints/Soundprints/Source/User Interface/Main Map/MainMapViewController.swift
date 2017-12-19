@@ -28,7 +28,7 @@ class MainMapViewController: BaseViewController {
     private var soundsModel: SoundsModel = SoundsModel(state: .map)
     
     private lazy var inRangeMetersTreshold: Double = {
-        self.initialMinimumVisibleMeters
+        self.initialMinimumVisibleMeters * (3/8)
     }()
     
     private var sounds: [Sound] = []
@@ -176,6 +176,8 @@ class MainMapViewController: BaseViewController {
         
         mapView.userTrackingMode = selectedUserTrackingMode
     }
+    
+    // MARK: - Zoom level calculation helpers
     
     private func zoomLevelForMinimumVisibleMeters(_ meters: Double, onLatitude latitude: Double, forMapView mapView: MGLMapView) -> Double {
         // Now we have to calculate the zoom level so that at least 'meters' meters are in the smaller dimension of the map.
