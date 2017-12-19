@@ -35,7 +35,7 @@ class ProximityRingsView: UIView {
     
     // MARK: - Constants
     
-    private static let proximityRingsColor = UIColor(red: 99/255, green: 182/255, blue: 255/255, alpha: 1)
+    private static let proximityRingsColor = ColorPalette.mainMap.proximityRings.blue
     
     // MARK: - Initializers
     

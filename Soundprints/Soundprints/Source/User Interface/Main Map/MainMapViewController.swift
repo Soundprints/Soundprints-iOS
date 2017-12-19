@@ -27,19 +27,21 @@ class MainMapViewController: BaseViewController {
     
     private var soundsModel: SoundsModel = SoundsModel(state: .map)
     
-    static var inRangeMetersTreshold: Double = 450
+    private lazy var inRangeMetersTreshold: Double = {
+        self.initialMinimumVisibleMeters * (3/8)
+    }()
     
     private var sounds: [Sound] = []
     
-    private lazy var headingLocationManager: CLLocationManager = CLLocationManager()
-    
-    private var shouldUpdateZoomLevel: Bool = false
-    private var minimumVisibleMeters: Double {
-        // The proximity rings size is 3/4 of the smaller dimension and the proximity rings size is equivalent to 'inRangeMetersTreshold'.
-        return MainMapViewController.inRangeMetersTreshold * (4/3) * 2
+    private var currentMinimumVisibleMeters: Double? {
+        guard let mapView = mapView, let latitude = mapView.userLocation?.coordinate.latitude else {
+            return nil
+        }
+        
+        return visibleMetersForZoomLevel(mapView.zoomLevel, onLatitude: latitude, forMapView: mapView)
     }
     private var maximumVisibleRadius: Double? {
-        guard let mapView = mapView else {
+        guard let mapView = mapView, let minimumVisibleMeters = currentMinimumVisibleMeters else {
             return nil
         }
         let widthMeters = minimumVisibleMeters
@@ -72,10 +74,21 @@ class MainMapViewController: BaseViewController {
         let mapCornerLocation = CLLocation(latitude: visibleCoordinateBounds.ne.latitude, longitude: visibleCoordinateBounds.ne.longitude)
         return mapCornerLocation.distance(from: currentLocation)
     }
+    
+    private var selectedUserTrackingMode: MGLUserTrackingMode = .followWithHeading
+    
+    private var initialZoomSet = false
+    private var initialCenterSet = false
+    private var shouldInitializeZoom: Bool = false
 
     // MARK: - Constants
     
     private let listenViewHiddenAnimationDuration: Double = 1
+    private let earthCircumference: Double = 40075000.0
+    
+    private let initialMinimumVisibleMeters: Double = 1200
+    private let maximumVisibleMeters: Double? = 2400
+    private let minimumVisibleMeters: Double? = nil
     
     // MARK: - View controller lifecycle
     
@@ -101,8 +114,6 @@ class MainMapViewController: BaseViewController {
         listenView?.delegate = self
         RecorderAndPlayer.shared.delegate = self
         
-        startUpdatingHeading()
-        
         RecorderAndPlayer.shared.requestPermission { granted in
             if !granted { // cant record
                 // TODO: alert user
@@ -110,28 +121,12 @@ class MainMapViewController: BaseViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        stopUpdatingHeading()
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        // Zoom level should be set the the views are layed out, so try to do it here if we have the location.
-        // If not, it should be done in the next 'didUpdate userLocation' function. We do this by setting shouldUpdateZoomLevel to true.
-        // Along with the zoom level, the center should be also set, but it must be set after the initial zoom level is set, 
-        // otherwise it wont work.
-        if let mapView = mapView, let userLocation = mapView.userLocation, isCoordinateValid(userLocation.coordinate), let userCLLocation = userLocation.location {
-            setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
-            mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
-            
-            soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
-        } else {
-            shouldUpdateZoomLevel = true
-        }
-        
+        // Try to initialize zoom when layout is set. If it can't be initialized, 'shouldInitializeZoom' will
+        // be marked with true and the zoom will be initialized in the next location update method in map view delegate.
+        initializeZoom()
         updateProximityRingsFrames()
     }
     
@@ -142,30 +137,71 @@ class MainMapViewController: BaseViewController {
         mapView?.showsUserLocation = true
         mapView?.allowsRotating = false
         mapView?.allowsTilting = false
-        mapView?.allowsZooming = false
+        mapView?.allowsZooming = true
         mapView?.allowsScrolling = false
         mapView?.showsUserHeadingIndicator = false
+        mapView?.userTrackingMode = selectedUserTrackingMode
         mapView?.compassView.image = nil
     }
     
-    private func setZoomLevelToMinimumVisibleMeters(_ meters: Double, onLatitude latitude: Double, animated: Bool) {
-        guard let mapView = mapView else {
+    /// Initializes zoom. 
+    /// It does it by first setting the zoom level depending on the 'initialMinimumVisibleMeters' property.
+    /// Then if 'maximalVisibleMeters' is set, it sets the minimum zoom level.
+    /// Lastly if 'maximalVisibleMeters' is set, it sets the maximum zoom level.
+    ///
+    /// This function should be called after the layout is set, since the dimension of the map view is used.
+    private func initializeZoom() {
+        guard initialZoomSet == false else {
+            return
+        }
+        guard let mapView = mapView, let latitude = mapView.userLocation?.coordinate.latitude else {
+            shouldInitializeZoom = true
             return
         }
         
+        let initialZoomLevel = zoomLevelForMinimumVisibleMeters(initialMinimumVisibleMeters, onLatitude: latitude, forMapView: mapView)
+        mapView.setZoomLevel(initialZoomLevel, animated: false)
+        
+        if let maximalVisibleMeters = maximumVisibleMeters {
+            let minimumZoomLevel = zoomLevelForMinimumVisibleMeters(maximalVisibleMeters, onLatitude: latitude, forMapView: mapView)
+            mapView.minimumZoomLevel = minimumZoomLevel
+        }
+        if let minimalVisibleMeters = minimumVisibleMeters {
+            let maximumZoomLevel = zoomLevelForMinimumVisibleMeters(minimalVisibleMeters, onLatitude: latitude, forMapView: mapView)
+            mapView.maximumZoomLevel = maximumZoomLevel
+        }
+        
+        initialZoomSet = true
+        shouldInitializeZoom = false
+        
+        mapView.userTrackingMode = selectedUserTrackingMode
+    }
+    
+    // MARK: - Zoom level calculation helpers
+    
+    private func zoomLevelForMinimumVisibleMeters(_ meters: Double, onLatitude latitude: Double, forMapView mapView: MGLMapView) -> Double {
         // Now we have to calculate the zoom level so that at least 'meters' meters are in the smaller dimension of the map.
         // How to do this can be found here: http://wiki.openstreetmap.org/wiki/Zoom_levels
         let mapViewMinimumDimension = mapView.bounds.width < mapView.bounds.height ? Double(mapView.bounds.width) : Double(mapView.bounds.height)
         let distancePerPixel = meters/mapViewMinimumDimension
-        let earthCircumference = 40075000.0
         let latitudeInRadians = latitude * (.pi/180)
-        // Subtract 7 instead of 8, because Mapbox's implementation works with 512x512 pixel tiles and the zoom level from 
+        // Subtract 9 instead of 8, because Mapbox's implementation works with 512x512 pixel tiles and the zoom level from 
         // the link above is true for 256x256 pixel tiles. This means that the zoom level will be off by one and we simply subtract one more.
         let zoomLevel = log2((earthCircumference*cos(latitudeInRadians))/distancePerPixel) - 9
         
-        mapView.setZoomLevel(zoomLevel, animated: animated)
+        return zoomLevel
     }
     
+    private func visibleMetersForZoomLevel(_ zoomLevel: Double, onLatitude latitude: Double, forMapView mapView: MGLMapView) -> Double {
+        // This procedure is the same as the on in 'zoomLevelForMinimumVisibleMeters', just that it is the other way around.
+        // Here we are trying to obtain the visible meters from zoom level.
+        let mapViewMinimumDimension = mapView.bounds.width < mapView.bounds.height ? Double(mapView.bounds.width) : Double(mapView.bounds.height)
+        let latitudeInRadians = latitude * (.pi/180)
+        let distancePerPixel = earthCircumference*(cos(latitudeInRadians)) / (pow(2, mapView.zoomLevel+9))
+        
+        return distancePerPixel*mapViewMinimumDimension
+    }
+        
     // MARK: - Annotations
     
     private func refreshSoundAnnotations() {
@@ -184,8 +220,8 @@ class MainMapViewController: BaseViewController {
         
         let annotationsToAdd: [SoundAnnotation] = sounds.flatMap { sound in
             let annotation = SoundAnnotation(sound: sound)
-            if let latitude = sound.latitude, let longitude = sound.longitude {
-                annotation?.distance = distanceInKilometers(fromLatitude: latitude, andLongitude: longitude, to: mapView?.userLocation?.location)
+            if let userCLLocation = mapView?.userLocation?.location {
+                annotation?.updateDistanceInfo(withUserLocation: userCLLocation, andInRangeTreshold: inRangeMetersTreshold)
             }
             return annotation
         }
@@ -203,24 +239,28 @@ class MainMapViewController: BaseViewController {
                 let oldDistanceString = soundAnnotation.distanceString
                 let oldInRange = soundAnnotation.inRange
                 
-                let newDistance = distanceInKilometers(fromLatitude: soundAnnotation.coordinate.latitude, andLongitude: soundAnnotation.coordinate.longitude, to: userCLLocation)
-                soundAnnotation.distance = newDistance
+                soundAnnotation.updateDistanceInfo(withUserLocation: userCLLocation, andInRangeTreshold: inRangeMetersTreshold)
                 
-                if soundAnnotation.inRange == false && (soundAnnotation.distanceString != oldDistanceString || soundAnnotation.inRange != oldInRange) {
+                let newDistanceString = soundAnnotation.distanceString
+                let newInRange = soundAnnotation.inRange
+                
+                if (oldInRange != newInRange) || (newInRange == false && oldDistanceString != newDistanceString) {
                     annotationsToRefresh.append(soundAnnotation)
                 }
             }
         })
         
-        mapView?.removeAnnotations(annotationsToRefresh)
-        mapView?.addAnnotations(annotationsToRefresh)
+        if annotationsToRefresh.isEmpty == false {
+            mapView?.removeAnnotations(annotationsToRefresh)
+            mapView?.addAnnotations(annotationsToRefresh)
+        }
     }
     
     // MARK: - Proximity rings
     
     private func initializeProximityRingsView() {
         proximityRingsView = ProximityRingsView()
-        proximityRingsView?.innerRingDistanceInMeters = Int(MainMapViewController.inRangeMetersTreshold/3)
+        proximityRingsView?.innerRingDistanceInMeters = Int(inRangeMetersTreshold/3)
     }
     
     private func updateProximityRingsFrames() {
@@ -241,18 +281,6 @@ class MainMapViewController: BaseViewController {
         proximityRingsView?.frame.size = CGSize(width: proximityRingsViewDimension, height: proximityRingsViewDimension)
         proximityRingsView?.center = mapGLKView.center
 
-    }
-    
-    // MARK: - Heading updating
-    
-    private func startUpdatingHeading() {
-        headingLocationManager.headingFilter = 0.1
-        headingLocationManager.startUpdatingHeading()
-        headingLocationManager.delegate = self
-    }
-    
-    private func stopUpdatingHeading() {
-        headingLocationManager.stopUpdatingHeading()
     }
     
     // MARK: - Actions
@@ -334,18 +362,10 @@ class MainMapViewController: BaseViewController {
         return coordinate.latitude >= -90 && coordinate.latitude <= 90 && coordinate.longitude >= -180 && coordinate.longitude <= 180
     }
     
-    private func distanceInKilometers(from: CLLocation?, to: CLLocation?) -> Double? {
-        guard let from = from, let to = to else {
-            return nil
-        }
-        return to.distance(from: from)/1000.0
-    }
-    
-    private func distanceInKilometers(fromLatitude latitude: Double, andLongitude longitude: Double, to: CLLocation?) -> Double? {
-        guard let to = to else {
-            return nil
-        }
-        return to.distance(from: CLLocation(latitude: latitude, longitude: longitude))/1000.0
+    private func roundTo(multipleOf: Int, value: Double) -> Int {
+        let fractionNum = Double(value) / Double(multipleOf)
+        let roundedNum = max(1, Int(round(fractionNum)))
+        return roundedNum * multipleOf
     }
 
 }
@@ -359,14 +379,19 @@ extension MainMapViewController: MGLMapViewDelegate {
             return
         }
         
-        if shouldUpdateZoomLevel {
-            // Zoom level could not be updated during 'viewDidLayoutSubviews' (indicated by the 'shouldUpdateZoomLevel' property), so we have to do it here
-            setZoomLevelToMinimumVisibleMeters(minimumVisibleMeters, onLatitude: userLocation.coordinate.latitude, animated: false)
-            shouldUpdateZoomLevel = false
-            
-            soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
+        soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
+        
+        if shouldInitializeZoom {
+            initializeZoom()
         }
-        mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
+        
+        // Center should be set only once and only after the initial zoom has been set (there are problems otherwise).
+        if initialZoomSet && initialCenterSet == false {
+            mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
+            initialCenterSet = true
+        }
+        
+        mapView.userTrackingMode = selectedUserTrackingMode
         
         updateVisibleAnnotationViewsIfNecessary()
     }
@@ -424,6 +449,14 @@ extension MainMapViewController: MGLMapViewDelegate {
         playSound(sound)
     }
     
+    func mapView(_ mapView: MGLMapView, regionDidChangeAnimated animated: Bool) {
+        if let minimumVisibleMeters = currentMinimumVisibleMeters {
+            inRangeMetersTreshold = minimumVisibleMeters * (3/8)
+            proximityRingsView?.innerRingDistanceInMeters = roundTo(multipleOf: 5, value: minimumVisibleMeters/8)
+        }
+        updateVisibleAnnotationViewsIfNecessary()
+    }
+    
 }
 
 // MARK: - SoundsModelDelegate
@@ -458,20 +491,6 @@ extension MainMapViewController: SoundsModelDelegate {
         
         self.progressBarView?.finishProgress(nil)
     }
-    
-}
-
-// MARK: - Heading CLLocationManagerDelegate
-
-extension MainMapViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        // We want the direction of the map to change based on the device heading. This means that the map will rotate with the user.
-        // If possible use the true north heading (valid if positive), otherwise use the magnetic north heading, which should be good
-        // enough, if the true heading is not available for some reason.
-        mapView?.direction = newHeading.trueHeading >= 0 ? newHeading.trueHeading : newHeading.magneticHeading
-    }
-
     
 }
 
@@ -565,6 +584,9 @@ private extension MainMapViewController {
         
         contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
         setMainMapComponentsHidden(false)
+        
+        // Set the RecorderAndPlayer delegate here because it could be set in SoundsListViewController
+        RecorderAndPlayer.shared.delegate = self
     }
     
     private func setMainMapComponentsHidden(_ hidden: Bool) {

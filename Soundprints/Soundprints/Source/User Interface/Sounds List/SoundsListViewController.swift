@@ -52,6 +52,13 @@ class SoundsListViewController: BaseViewController {
         soundsModel?.listDelegate = self
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Stop playing on leaving this screen, since the cells can be playing sound.
+        RecorderAndPlayer.shared.stopPlaying()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
