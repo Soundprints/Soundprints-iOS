@@ -77,7 +77,7 @@ class MainMapViewController: BaseViewController {
     
     private var selectedUserTrackingMode: MGLUserTrackingMode = .followWithHeading
     
-    private var initialZoomSet = false
+    private var initialZoomLevel: Double?
     private var initialCenterSet = false
     private var shouldInitializeZoom: Bool = false
 
@@ -151,7 +151,7 @@ class MainMapViewController: BaseViewController {
     ///
     /// This function should be called after the layout is set, since the dimension of the map view is used.
     private func initializeZoom() {
-        guard initialZoomSet == false else {
+        guard initialZoomLevel == nil else {
             return
         }
         guard let mapView = mapView, let latitude = mapView.userLocation?.coordinate.latitude else {
@@ -159,22 +159,22 @@ class MainMapViewController: BaseViewController {
             return
         }
         
-        let initialZoomLevel = zoomLevelForMinimumVisibleMeters(initialMinimumVisibleMeters, onLatitude: latitude, forMapView: mapView)
-        mapView.setZoomLevel(initialZoomLevel, animated: false)
-        
-        if let maximalVisibleMeters = maximumVisibleMeters {
-            let minimumZoomLevel = zoomLevelForMinimumVisibleMeters(maximalVisibleMeters, onLatitude: latitude, forMapView: mapView)
+        if let maximumVisibleMeters = maximumVisibleMeters {
+            let minimumZoomLevel = zoomLevelForMinimumVisibleMeters(maximumVisibleMeters, onLatitude: latitude, forMapView: mapView)
             mapView.minimumZoomLevel = minimumZoomLevel
         }
-        if let minimalVisibleMeters = minimumVisibleMeters {
-            let maximumZoomLevel = zoomLevelForMinimumVisibleMeters(minimalVisibleMeters, onLatitude: latitude, forMapView: mapView)
+        if let minimumVisibleMeters = minimumVisibleMeters {
+            let maximumZoomLevel = zoomLevelForMinimumVisibleMeters(minimumVisibleMeters, onLatitude: latitude, forMapView: mapView)
             mapView.maximumZoomLevel = maximumZoomLevel
         }
         
-        initialZoomSet = true
+        let zoomLevel = zoomLevelForMinimumVisibleMeters(initialMinimumVisibleMeters, onLatitude: latitude, forMapView: mapView)
+        mapView.setZoomLevel(zoomLevel, animated: false)
+        
+        self.initialZoomLevel = zoomLevel
         shouldInitializeZoom = false
         
-        mapView.userTrackingMode = selectedUserTrackingMode
+        updateUserTrackingMode()
     }
     
     // MARK: - Zoom level calculation helpers
@@ -200,6 +200,14 @@ class MainMapViewController: BaseViewController {
         let distancePerPixel = earthCircumference*(cos(latitudeInRadians)) / (pow(2, mapView.zoomLevel+9))
         
         return distancePerPixel*mapViewMinimumDimension
+    }
+    
+    // MARK: - User tracking
+    
+    private func updateUserTrackingMode() {
+        if mapView?.userTrackingMode != selectedUserTrackingMode {
+            mapView?.userTrackingMode = selectedUserTrackingMode
+        }
     }
         
     // MARK: - Annotations
@@ -386,12 +394,11 @@ extension MainMapViewController: MGLMapViewDelegate {
         }
         
         // Center should be set only once and only after the initial zoom has been set (there are problems otherwise).
-        if initialZoomSet && initialCenterSet == false {
-            mapView.setCenter(userLocation.coordinate, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: false)
+        if let initialZoomLevel = initialZoomLevel, initialCenterSet == false {
+            mapView.setCenter(userLocation.coordinate, zoomLevel: initialZoomLevel, direction: mapView.direction, animated: false)
             initialCenterSet = true
         }
-        
-        mapView.userTrackingMode = selectedUserTrackingMode
+        updateUserTrackingMode()
         
         updateVisibleAnnotationViewsIfNecessary()
     }
@@ -455,6 +462,7 @@ extension MainMapViewController: MGLMapViewDelegate {
             proximityRingsView?.innerRingDistanceInMeters = roundTo(multipleOf: 5, value: minimumVisibleMeters/8)
         }
         updateVisibleAnnotationViewsIfNecessary()
+        updateUserTrackingMode()
     }
     
 }

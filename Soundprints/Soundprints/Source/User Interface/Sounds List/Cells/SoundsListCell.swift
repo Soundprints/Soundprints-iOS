@@ -31,7 +31,6 @@ class SoundsListCell: UITableViewCell {
     @IBOutlet private weak var timestampLabel: UILabel?
     @IBOutlet private weak var listenView: ListenView?
     
-    
     // MARK: - Variables
     
     weak var delegate: SoundsListCellDelegate?
@@ -41,6 +40,8 @@ class SoundsListCell: UITableViewCell {
             updateContent(withSound: sound)
         }
     }
+    
+    private var soundPlaying = false
     
     // MARK: - Constants
     
@@ -65,8 +66,11 @@ class SoundsListCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        DispatchQueue.global().async {
-            RecorderAndPlayer.shared.stopPlaying()
+        if soundPlaying {
+            self.onStopPlaying()
+            DispatchQueue.global().async {
+                RecorderAndPlayer.shared.stopPlaying()
+            }
         }
         if RecorderAndPlayer.shared.delegate === self {
             RecorderAndPlayer.shared.delegate = nil
@@ -122,6 +126,14 @@ class SoundsListCell: UITableViewCell {
             self.playButtonImageView?.alpha = enabled ? 1 : 0.3
         }
     }
+    
+    // MARK: - Convenience
+    
+    private func onStopPlaying() {
+        soundPlaying = false
+        setListenViewHidden(true)
+        setPlayButtonEnabled(true)
+    }
 
 }
 
@@ -146,6 +158,7 @@ private extension SoundsListCell {
         
         sound.getResourceURL { resourceURL, error in
             if let resourceURL = resourceURL {
+                self.soundPlaying = true
                 RecorderAndPlayer.shared.playFile(withRemoteURL: resourceURL)
             } else {
                 // TODO: Handle error
@@ -173,8 +186,7 @@ extension SoundsListCell: ListenViewDelegate {
 extension SoundsListCell: RecorderAndPlayerDelegate {
     
     func recorderAndPlayerStoppedPlaying(sender: RecorderAndPlayer) {
-        setListenViewHidden(true)
-        setPlayButtonEnabled(true)
+        onStopPlaying()
     }
     
     func recorderAndPlayerStoppedRecording(sender: RecorderAndPlayer) {

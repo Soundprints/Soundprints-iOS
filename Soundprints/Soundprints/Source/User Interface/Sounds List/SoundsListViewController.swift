@@ -38,8 +38,7 @@ class SoundsListViewController: BaseViewController {
     
     private var sounds: [Sound] = []
     
-    private var lastTableViewContentYOffset: CGFloat = 0
-    private var previousToLastTableViewContentYOffset: CGFloat = 0
+    private var shownCellIndexPaths: [IndexPath] = []
     
     // MARK: - View Controller lifecycle
     
@@ -123,6 +122,25 @@ extension SoundsListViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        // Perform the slide from left animation for cell index paths that were not shown yet
+        // and limit for which index paths to perform the animation with an upper boud of row = 10,
+        // since there shouldent be any more than 10 elements visible at the start and we want to
+        // perform the animation only for the visible elements when the screen loads.
+        if (shownCellIndexPaths.contains(indexPath) == false && indexPath.row < 10) {
+            
+            cell.transform = CGAffineTransform(translationX: -tableView.bounds.width, y: 0)
+            UIView.beginAnimations("rotation", context: nil)
+            UIView.setAnimationDuration(0.3 + 0.07*Double(indexPath.row))
+            cell.transform = CGAffineTransform(translationX: 0, y: 0)
+            cell.alpha = 1
+            UIView.commitAnimations()
+            
+            shownCellIndexPaths.append(indexPath)
+        }
     }
     
 }
