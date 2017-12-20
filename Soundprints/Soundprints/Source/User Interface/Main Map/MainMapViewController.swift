@@ -25,7 +25,8 @@ class MainMapViewController: BaseViewController {
     
     // MARK: - Variables
     
-    private var soundsModel: SoundsModel = SoundsModel(state: .map)
+    private var soundsLocationBasedModel: SoundsLocationBasedModel = SoundsLocationBasedModel(state: .map)
+    private var soundsTimeBasedModel: SoundsTimeBasedModel = SoundsTimeBasedModel()
     
     private lazy var inRangeMetersTreshold: Double = {
         self.initialMinimumVisibleMeters * (3/8)
@@ -104,13 +105,16 @@ class MainMapViewController: BaseViewController {
         
         // TODO: decide what to use recognizer vs button
         recordButton?.isUserInteractionEnabled = false
+        
+        soundsTimeBasedModel.fetchAndAppendNewSoundsPage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        soundsModel.mainDelegate = self
-        FilterManager.delegate = soundsModel
+        soundsLocationBasedModel.mainDelegate = self
+        FilterManager.locationBasedDelegate = soundsLocationBasedModel
+        FilterManager.timeBasedDelegate = soundsTimeBasedModel
         listenView?.delegate = self
         RecorderAndPlayer.shared.delegate = self
         
@@ -327,7 +331,7 @@ class MainMapViewController: BaseViewController {
         
         if let path = path, error == nil {
             progressBarView?.startProgress()
-            soundsModel.uploadSound(atFilePath: path)
+            soundsLocationBasedModel.uploadSound(atFilePath: path)
         } else if let error = error {
             switch error {
             case .notRecording: Alert.showAlert(title: "Cannot stop recording", message: "Recording not in progress.", inController: self)
@@ -387,7 +391,7 @@ extension MainMapViewController: MGLMapViewDelegate {
             return
         }
         
-        soundsModel.updateLatestParameters(SoundsModel.Parameters(location: userCLLocation))
+        soundsLocationBasedModel.updateLatestParameters(SoundsLocationBasedModel.Parameters(location: userCLLocation))
         
         if shouldInitializeZoom {
             initializeZoom()
@@ -469,9 +473,9 @@ extension MainMapViewController: MGLMapViewDelegate {
 
 // MARK: - SoundsModelDelegate
 
-extension MainMapViewController: SoundsModelDelegate {    
+extension MainMapViewController: SoundsLocationBasedModelDelegate {    
     
-    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
+    func soundsLocationBasedModel(_ sender: SoundsLocationBasedModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
         if isReload {
             sounds = newSoundsPage
             refreshSoundAnnotations()
@@ -481,17 +485,17 @@ extension MainMapViewController: SoundsModelDelegate {
         }
         
         // If we got some results and the farthest result distance is less than max map radius, try to fetch some more.
-        if newSoundsPage.isEmpty == false && soundsModel.currentFartherstSoundDistance < maximumVisibleRadius ?? 0 {
-            soundsModel.fetchAndAppendNewSoundsPage()
+        if newSoundsPage.isEmpty == false && soundsLocationBasedModel.currentFartherstSoundDistance < maximumVisibleRadius ?? 0 {
+            soundsLocationBasedModel.fetchAndAppendNewSoundsPage()
         }
     }
     
-    func soundModelCouldNotUploadSound(sender: SoundsModel) {
+    func soundsLocationBasedModelCouldNotUploadSound(sender: SoundsLocationBasedModel) {
         // TODO: alert user
         self.progressBarView?.cancelProgress()
     }
     
-    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int?) {
+    func soundsLocationBasedModel(_ sender: SoundsLocationBasedModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int?) {
         if let insertedAtIndex = insertedAtIndex {
             sounds.insert(uploadedSound, at: insertedAtIndex)
             addAnnotations(forSounds: [uploadedSound], removeExistingAnnotations: false)
@@ -574,7 +578,7 @@ private extension MainMapViewController {
         switch menuContent {
         case .soundsList:
             let soundsList = R.storyboard.soundsList.soundsListViewController()!
-            soundsList.soundsModel = soundsModel
+            soundsList.soundsModel = soundsTimeBasedModel
             soundsList.delegate = self
             contentControllerView?.setViewController(controller: soundsList, animationStyle: .fade)
         case .filter:
@@ -588,7 +592,7 @@ private extension MainMapViewController {
     }
     
     func clearContentController() {
-        soundsModel.setState(.map)
+        soundsLocationBasedModel.setState(.map)
         
         contentControllerView?.setViewController(controller: nil, animationStyle: .fade)
         setMainMapComponentsHidden(false)

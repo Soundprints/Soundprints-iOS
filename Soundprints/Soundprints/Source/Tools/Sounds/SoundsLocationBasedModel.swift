@@ -9,24 +9,24 @@
 import Foundation
 import CoreLocation
 
-// MARK: - SoundsModelDelegate
+// MARK: - SoundsLocationBasedModelDelegate
 
-protocol SoundsModelDelegate: class {
+protocol SoundsLocationBasedModelDelegate: class {
     
-    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool)
-    func soundModelCouldNotUploadSound(sender: SoundsModel)
-    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int?)
+    func soundsLocationBasedModel(_ sender: SoundsLocationBasedModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool)
+    func soundsLocationBasedModelCouldNotUploadSound(sender: SoundsLocationBasedModel)
+    func soundsLocationBasedModel(_ sender: SoundsLocationBasedModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int?)
     
 }
 
-// MARK: - SoundsModel
+// MARK: - SoundsLocationBasedModel
 
-class SoundsModel {
+class SoundsLocationBasedModel {
     
     // MARK: - Variables
     
-    weak var mainDelegate: SoundsModelDelegate?
-    weak var listDelegate: SoundsModelDelegate?
+    weak var mainDelegate: SoundsLocationBasedModelDelegate?
+    weak var listDelegate: SoundsLocationBasedModelDelegate?
     
     private(set) var state: State
     
@@ -49,6 +49,7 @@ class SoundsModel {
     private var fetchNextPageLocked = false
     
     private var lastInvalidationDate: Date?
+    private var fetchInvalidated = false
     
     // MARK: - Constants
     
@@ -63,6 +64,8 @@ class SoundsModel {
     init(state: State) {
         self.state = state
     }
+    
+    // MARK: - Deinitialization
     
     deinit {
         refreshTimer?.invalidate()
@@ -118,7 +121,9 @@ class SoundsModel {
         sounds = []
         currentFartherstSoundDistance = 0
         activeParameters = latestReceivedParamaters
-        fetchAndAppendNewSoundsPage()
+        fetchNextPageLocked = false
+        fetchInvalidated = true
+        fetchAndAppendNewSoundsPage(afterInvalidation: true)
     }
     
     private func shouldInvalidate(onStateChange: Bool = false) -> Bool {
@@ -145,15 +150,19 @@ class SoundsModel {
     
     // MARK: - Sounds fetching
     
-    func fetchAndAppendNewSoundsPage() {
+    func fetchAndAppendNewSoundsPage(afterInvalidation: Bool = false) {
         guard fetchNextPageLocked == false, let activeParameters = activeParameters else {
             return
         }
         
         fetchNextPageLocked = true
-        let isReload = currentFartherstSoundDistance <= 0 && sounds.isEmpty
+        let isReload = (currentFartherstSoundDistance <= 0 && sounds.isEmpty) || afterInvalidation
         
-        Sound.fetchSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: currentFartherstSoundDistance, andMaxDistance: maximumFetchRadius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
+        Sound.fetchLocationBasedSounds(around: activeParameters.location.coordinate.latitude, and: activeParameters.location.coordinate.longitude, withMinDistance: currentFartherstSoundDistance, andMaxDistance: maximumFetchRadius, withSoundType: soundTypeToFetch, fromOnlyLastDay: fetchSoundsFromOnlyLastDay, limit: itemsPerPage) { sounds, error in
+            guard self.fetchInvalidated == false || afterInvalidation else {
+                return
+            }
+            
             if error == nil, let sounds = sounds {
                 
                 let reversedExistingSounds = self.sounds.reversed()
@@ -163,17 +172,22 @@ class SoundsModel {
                     })
                 })
                 
-                self.sounds.append(contentsOf: filteredSounds)
+                if afterInvalidation {
+                    self.sounds = sounds
+                } else {
+                    self.sounds.append(contentsOf: filteredSounds)
+                }
                 
                 if let newFarthestDistance = filteredSounds.last?.initialDistance?.distanceInMeters {
                     self.currentFartherstSoundDistance = newFarthestDistance
                 }
                 
                 DispatchQueue.main.async {
-                    self.mainDelegate?.soundsModel(self, fetchedNewSoundsPage: filteredSounds, isReload: isReload)
-                    self.listDelegate?.soundsModel(self, fetchedNewSoundsPage: filteredSounds, isReload: isReload)
+                    self.mainDelegate?.soundsLocationBasedModel(self, fetchedNewSoundsPage: filteredSounds, isReload: isReload)
+                    self.listDelegate?.soundsLocationBasedModel(self, fetchedNewSoundsPage: filteredSounds, isReload: isReload)
                 }
             }
+            self.fetchInvalidated = false
             self.fetchNextPageLocked = false
         }
     }
@@ -183,8 +197,8 @@ class SoundsModel {
     func uploadSound(atFilePath filePath: String) {
         guard let latestReceivedParamaters = latestReceivedParamaters else {
             DispatchQueue.main.async {
-                self.mainDelegate?.soundModelCouldNotUploadSound(sender: self)
-                self.listDelegate?.soundModelCouldNotUploadSound(sender: self)
+                self.mainDelegate?.soundsLocationBasedModelCouldNotUploadSound(sender: self)
+                self.listDelegate?.soundsLocationBasedModelCouldNotUploadSound(sender: self)
             }
             return
         } 
@@ -204,19 +218,19 @@ class SoundsModel {
                     self.sounds.insert(uploadedSound, at: insertAtIndex)
                     
                     DispatchQueue.main.async {
-                        self.mainDelegate?.soundModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: insertAtIndex)
-                        self.listDelegate?.soundModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: insertAtIndex)
+                        self.mainDelegate?.soundsLocationBasedModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: insertAtIndex)
+                        self.listDelegate?.soundsLocationBasedModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: insertAtIndex)
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.mainDelegate?.soundModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: nil)
-                        self.listDelegate?.soundModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: nil)
+                        self.mainDelegate?.soundsLocationBasedModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: nil)
+                        self.listDelegate?.soundsLocationBasedModel(self, uploadedSound: uploadedSound, whichWasInsertedAtIndex: nil)
                     }
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.mainDelegate?.soundModelCouldNotUploadSound(sender: self)
-                    self.listDelegate?.soundModelCouldNotUploadSound(sender: self)
+                    self.mainDelegate?.soundsLocationBasedModelCouldNotUploadSound(sender: self)
+                    self.listDelegate?.soundsLocationBasedModelCouldNotUploadSound(sender: self)
                 }
             }
         }
@@ -226,7 +240,7 @@ class SoundsModel {
 
 // MARK: - State
 
-extension SoundsModel {
+extension SoundsLocationBasedModel {
     
     enum State {
         case map
@@ -237,7 +251,7 @@ extension SoundsModel {
 
 // MARK: - Parameters
 
-extension SoundsModel {
+extension SoundsLocationBasedModel {
     
     struct Parameters {
         
@@ -249,7 +263,7 @@ extension SoundsModel {
 
 // MARK: - FilterManagerDelegate
 
-extension SoundsModel: FilterManagerDelegate {
+extension SoundsLocationBasedModel: FilterManagerDelegate {
     
     func filterManagerUpdatedFilter(_ filter: Filter) {
         // For now just invalidate the whole model

@@ -11,7 +11,7 @@ class APIRequest {
     // MARK: - Properties for configuring the request
     
     /// API Endpoint to use
-    var endpoint = Endpoint.sound
+    var endpoint = Endpoint.soundLocationBased
     
     /// Request method
     var method = Method.GET {
@@ -72,7 +72,8 @@ extension APIRequest {
         
         // MARK: - Endpoint configuration - list all endpoints here
         
-        case sound
+        case soundLocationBased
+        case soundTimeBased
         case soundResourceURL(id: String)
         case soundUpload
         
@@ -84,7 +85,8 @@ extension APIRequest {
         private var suffix: String {
             switch self {
                 
-            case .sound: return "sounds"
+            case .soundLocationBased: return "sounds/locationBased"
+            case .soundTimeBased: return "sounds/timeBased"
             case .soundResourceURL(let id): return "sounds/\(id)/resourceUrl"
             case .soundUpload: return "sounds/upload"
                 

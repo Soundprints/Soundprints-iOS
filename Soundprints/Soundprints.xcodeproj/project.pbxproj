@@ -25,10 +25,12 @@
 		E2157B881FDEAA1F004E702A /* RecorderAndPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2157B871FDEAA1F004E702A /* RecorderAndPlayer.swift */; };
 		E2157B8B1FDEABA2004E702A /* ListenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2157B8A1FDEABA2004E702A /* ListenView.swift */; };
 		E25AF4DE1FDA9C5000D7BEA2 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25AF4DD1FDA9C5000D7BEA2 /* FilterManager.swift */; };
+		E268692D1FEAAA76007B4650 /* SoundsTimeBasedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E268692C1FEAAA76007B4650 /* SoundsTimeBasedModel.swift */; };
+		E268692E1FEAB332007B4650 /* SoundsTimeBasedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E268692C1FEAAA76007B4650 /* SoundsTimeBasedModel.swift */; };
 		E269127E1FE7B8FD001AC806 /* MainMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDAD1FCEB5A2000CC2F1 /* MainMapViewController.swift */; };
 		E269127F1FE7B8FD001AC806 /* KaminoUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EF41FD84F4F00A6AA85 /* KaminoUIView.swift */; };
 		E26912801FE7B8FD001AC806 /* ContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5510D1FD570E000BAE27E /* ContentControllerView.swift */; };
-		E26912811FE7B8FD001AC806 /* SoundsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9D0201FE147A9005CE19D /* SoundsModel.swift */; };
+		E26912811FE7B8FD001AC806 /* SoundsLocationBasedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9D0201FE147A9005CE19D /* SoundsLocationBasedModel.swift */; };
 		E26912821FE7B8FD001AC806 /* ProximityRingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551221FD6DB0100BAE27E /* ProximityRingsView.swift */; };
 		E26912831FE7B8FD001AC806 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDA91FCEA3DA000CC2F1 /* InitialViewController.swift */; };
 		E26912841FE7B8FD001AC806 /* SingleTimeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014881FD81405005AAE9F /* SingleTimeValue.swift */; };
@@ -88,7 +90,7 @@
 		E2D61EEF1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */; };
 		E2D61EF31FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EF21FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift */; };
 		E2D61EF51FD84F4F00A6AA85 /* KaminoUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EF41FD84F4F00A6AA85 /* KaminoUIView.swift */; };
-		E2D9D0211FE147A9005CE19D /* SoundsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9D0201FE147A9005CE19D /* SoundsModel.swift */; };
+		E2D9D0211FE147A9005CE19D /* SoundsLocationBasedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9D0201FE147A9005CE19D /* SoundsLocationBasedModel.swift */; };
 		E2E551041FD54AC800BAE27E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551031FD54AC800BAE27E /* LoginViewController.swift */; };
 		E2E551061FD54ADF00BAE27E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E551051FD54ADF00BAE27E /* Login.storyboard */; };
 		E2E551091FD56A2E00BAE27E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */; };
@@ -141,6 +143,7 @@
 		E2157B871FDEAA1F004E702A /* RecorderAndPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecorderAndPlayer.swift; sourceTree = "<group>"; };
 		E2157B8A1FDEABA2004E702A /* ListenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenView.swift; sourceTree = "<group>"; };
 		E25AF4DD1FDA9C5000D7BEA2 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
+		E268692C1FEAAA76007B4650 /* SoundsTimeBasedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsTimeBasedModel.swift; sourceTree = "<group>"; };
 		E26912BA1FE7B8FD001AC806 /* Soundprints-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Soundprints-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E26912BB1FE7B8FE001AC806 /* Soundprints copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Soundprints copy-Info.plist"; path = "/Users/svitzebec/Projects/Soundprints/Soundprints-iOS/Soundprints/Soundprints copy-Info.plist"; sourceTree = "<absolute>"; };
 		E26912FD1FE7C0BA001AC806 /* Soundprints-Dev copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Soundprints-Dev copy-Info.plist"; path = "/Users/svitzebec/Projects/Soundprints/Soundprints-iOS/Soundprints/Soundprints-Dev copy-Info.plist"; sourceTree = "<absolute>"; };
@@ -154,7 +157,7 @@
 		E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionLockingContentControllerView.swift; sourceTree = "<group>"; };
 		E2D61EF21FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KaminoUIView+HiddenAnimations.swift"; sourceTree = "<group>"; };
 		E2D61EF41FD84F4F00A6AA85 /* KaminoUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KaminoUIView.swift; sourceTree = "<group>"; };
-		E2D9D0201FE147A9005CE19D /* SoundsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsModel.swift; sourceTree = "<group>"; };
+		E2D9D0201FE147A9005CE19D /* SoundsLocationBasedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsLocationBasedModel.swift; sourceTree = "<group>"; };
 		E2E551031FD54AC800BAE27E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2E551051FD54ADF00BAE27E /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		E2E551081FD56A2E00BAE27E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
@@ -332,7 +335,8 @@
 		E2CEC7751FE027CE00841FE8 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				E2D9D0201FE147A9005CE19D /* SoundsModel.swift */,
+				E2D9D0201FE147A9005CE19D /* SoundsLocationBasedModel.swift */,
+				E268692C1FEAAA76007B4650 /* SoundsTimeBasedModel.swift */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -900,13 +904,14 @@
 				E269127E1FE7B8FD001AC806 /* MainMapViewController.swift in Sources */,
 				E269127F1FE7B8FD001AC806 /* KaminoUIView.swift in Sources */,
 				E26912801FE7B8FD001AC806 /* ContentControllerView.swift in Sources */,
-				E26912811FE7B8FD001AC806 /* SoundsModel.swift in Sources */,
+				E26912811FE7B8FD001AC806 /* SoundsLocationBasedModel.swift in Sources */,
 				E26912821FE7B8FD001AC806 /* ProximityRingsView.swift in Sources */,
 				E26912831FE7B8FD001AC806 /* InitialViewController.swift in Sources */,
 				E26912841FE7B8FD001AC806 /* SingleTimeValue.swift in Sources */,
 				E26912851FE7B8FD001AC806 /* CustomView.swift in Sources */,
 				E26912861FE7B8FD001AC806 /* RecordButtonView.swift in Sources */,
 				E26912871FE7B8FD001AC806 /* CoreTextArcView.m in Sources */,
+				E268692E1FEAB332007B4650 /* SoundsTimeBasedModel.swift in Sources */,
 				E26912881FE7B8FD001AC806 /* SoundAnnotationView.swift in Sources */,
 				E26912891FE7B8FD001AC806 /* BorderSwitch.swift in Sources */,
 				E269128A1FE7B8FD001AC806 /* FolderManager.swift in Sources */,
@@ -952,13 +957,14 @@
 				E2F1DDAE1FCEB5A2000CC2F1 /* MainMapViewController.swift in Sources */,
 				E2D61EF51FD84F4F00A6AA85 /* KaminoUIView.swift in Sources */,
 				E2E5510E1FD570E000BAE27E /* ContentControllerView.swift in Sources */,
-				E2D9D0211FE147A9005CE19D /* SoundsModel.swift in Sources */,
+				E2D9D0211FE147A9005CE19D /* SoundsLocationBasedModel.swift in Sources */,
 				E2E551231FD6DB0100BAE27E /* ProximityRingsView.swift in Sources */,
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
 				E21014891FD81405005AAE9F /* SingleTimeValue.swift in Sources */,
 				CC0997571FE3E50100E06279 /* CustomView.swift in Sources */,
 				CC0997531FE3E20900E06279 /* RecordButtonView.swift in Sources */,
 				E2E5511F1FD6D8C900BAE27E /* CoreTextArcView.m in Sources */,
+				E268692D1FEAAA76007B4650 /* SoundsTimeBasedModel.swift in Sources */,
 				E2E551171FD6B85700BAE27E /* SoundAnnotationView.swift in Sources */,
 				E2AA86CC1FDA936600C1C262 /* BorderSwitch.swift in Sources */,
 				E2157B861FDEAA16004E702A /* FolderManager.swift in Sources */,
