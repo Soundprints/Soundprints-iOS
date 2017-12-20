@@ -24,7 +24,8 @@ class FilterManager {
     
     private(set) static var filters: Filters = loadFilters()
     
-    static weak var delegate: FilterManagerDelegate?
+    static weak var locationBasedDelegate: FilterManagerDelegate?
+    static weak var timeBasedDelegate: FilterManagerDelegate?
     
     // MARK: - Filter management
     
@@ -36,7 +37,8 @@ class FilterManager {
         }
         saveFilters()
         
-        delegate?.filterManagerUpdatedFilter(filter)
+        locationBasedDelegate?.filterManagerUpdatedFilter(filter)
+        timeBasedDelegate?.filterManagerUpdatedFilter(filter)
     }
     
     // MARK: - Filter loading and storing

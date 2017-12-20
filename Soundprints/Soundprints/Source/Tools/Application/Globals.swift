@@ -18,8 +18,8 @@ class Globals {
         
         var baseURL: String {
             switch self {
-            case .development: return "http://35.198.82.110:8080/api"
-            case .production: return "http://35.198.82.110:8081/api"
+            case .development: return "https://soundprints.co/development/api"
+            case .production: return "https://soundprints.co/api"
             }
         }
 

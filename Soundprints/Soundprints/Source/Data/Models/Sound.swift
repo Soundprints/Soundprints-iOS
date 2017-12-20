@@ -54,7 +54,20 @@ class Sound {
         formatter.unitsStyle = .abbreviated
         formatter.maximumUnitCount = 1
         
-        return formatter.string(from: Date().timeIntervalSince(submissionDate))
+        guard let formatted = formatter.string(from: Date().timeIntervalSince(submissionDate)) else {
+            return nil
+        }
+        
+        // There exists a bug where even if you set the maximumUnitCount property to 1, more than 1 units can appear
+        // in the formatted string. To take care of this we simply split the formatted string with a space and
+        // use only the first components if there is more than one. Otherwise the formatted string is ok and is used.
+        // The bug is documented here: https://openradar.appspot.com/26354907
+        let formattedComponents = formatted.split(separator: " ")
+        if formattedComponents.count > 0 {
+            return String(formattedComponents[0])
+        } else {
+            return formatted
+        }
     }
     
     // MARK: - Display strings
@@ -133,8 +146,9 @@ class Sound {
 
 extension Sound {
     
-    static func fetchSounds(around latitude: Double, and longitude: Double, withMinDistance minDistance: Double? = nil, andMaxDistance maxDistance: Double, withSoundType soundType: SoundType, fromOnlyLastDay onlyLastDay: Bool = false, limit: Int? = nil, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
-        let request = APIRequest(endpoint: .sound, method: .GET)
+    static func fetchLocationBasedSounds(around latitude: Double, and longitude: Double, withMinDistance minDistance: Double? = nil, andMaxDistance maxDistance: Double, withSoundType soundType: SoundType, fromOnlyLastDay onlyLastDay: Bool = false, limit: Int? = nil, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
+        
+        let request = APIRequest(endpoint: .soundLocationBased, method: .GET)
         request.queryParameters["lat"] = latitude
         request.queryParameters["lon"] = longitude
         request.queryParameters["maxDistance"] = maxDistance
@@ -146,6 +160,26 @@ extension Sound {
             request.queryParameters["limit"] = limit
         }
         request.queryParameters["soundType"] = soundType.toString()
+        
+        APIManager.performRequest(request: request) { response, error in
+            let sounds: [Sound]? = ((response as? [String: Any])?["sounds"] as? [[String: Any]])?.flatMap { Sound(descriptor: $0) }
+            callback(sounds, error)
+        }
+    }
+    
+    static func fetchTimeBasedSounds(withSoundType soundType: SoundType, upToDate: Date?, sinceDate: Date?, limit: Int? = nil, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
+        
+        let request = APIRequest(endpoint: .soundTimeBased, method: .GET)
+        request.queryParameters["soundType"] = soundType.toString()
+        if let limit = limit {
+            request.queryParameters["limit"] = limit
+        }
+        if let upToDate = upToDate {
+            request.queryParameters["upTo"] = upToDate.timeIntervalSince1970
+        }
+        if let sinceDate = sinceDate {
+            request.queryParameters["since"] = sinceDate.timeIntervalSince1970
+        }
         
         APIManager.performRequest(request: request) { response, error in
             let sounds: [Sound]? = ((response as? [String: Any])?["sounds"] as? [[String: Any]])?.flatMap { Sound(descriptor: $0) }

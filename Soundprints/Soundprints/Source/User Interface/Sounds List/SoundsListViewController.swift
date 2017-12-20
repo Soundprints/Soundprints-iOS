@@ -30,17 +30,35 @@ class SoundsListViewController: BaseViewController {
     
     weak var delegate: SoundsListViewControllerDelegate?
     
-    var soundsModel: SoundsModel? {
+    var soundsModel: SoundsTimeBasedModel? {
         didSet {
-            soundsModel?.setState(.list)
+            soundsModel?.isShowingList = true
         }
     }
     
-    private var sounds: [Sound] = []
+    private var sounds: [Sound] = [] {
+        didSet {
+            if initialNumberOfSounds == nil {
+                initialNumberOfSounds = sounds.count
+            }
+        }
+    }
+    private var initialNumberOfSounds: Int?
     
     private var shownCellIndexPaths: [IndexPath] = []
     
+    // MARK: - Constants
+    
+    private let expectedTableCellHeight: CGFloat = 120
+    
     // MARK: - View Controller lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView?.estimatedRowHeight = expectedTableCellHeight
+        tableView?.rowHeight = UITableViewAutomaticDimension
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -48,11 +66,13 @@ class SoundsListViewController: BaseViewController {
         sounds = soundsModel?.sounds ?? []
         tableView?.reloadData()
         
-        soundsModel?.listDelegate = self
+        soundsModel?.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        soundsModel?.isShowingList = false
         
         // Stop playing on leaving this screen, since the cells can be playing sound.
         RecorderAndPlayer.shared.stopPlaying()
@@ -126,11 +146,10 @@ extension SoundsListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        // Perform the slide from left animation for cell index paths that were not shown yet
-        // and limit for which index paths to perform the animation with an upper boud of row = 10,
-        // since there shouldent be any more than 10 elements visible at the start and we want to
-        // perform the animation only for the visible elements when the screen loads.
-        if (shownCellIndexPaths.contains(indexPath) == false && indexPath.row < 10) {
+        // Perform the animation only for the cells on initial load, which means only for index paths with 
+        // rows up to how many cells fit in the table view at a time and only for cells that were not shown yet.
+        let expectedNumberOfCellsThatFitInTableView = Int(ceil(tableView.bounds.height/expectedTableCellHeight))
+        if shownCellIndexPaths.contains(indexPath) == false && indexPath.row < expectedNumberOfCellsThatFitInTableView {
             
             cell.transform = CGAffineTransform(translationX: -tableView.bounds.width, y: 0)
             UIView.beginAnimations("rotation", context: nil)
@@ -159,9 +178,9 @@ extension SoundsListViewController: SoundsListCellDelegate {
     
 }
 
-extension SoundsListViewController: SoundsModelDelegate {
+extension SoundsListViewController: SoundsTimeBasedModelDelegate {
     
-    func soundsModel(_ sender: SoundsModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
+    func soundsTimeBasedModel(_ sender: SoundsTimeBasedModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
         if isReload {
             sounds = newSoundsPage
             // TODO: Improve reloading
@@ -171,11 +190,29 @@ extension SoundsListViewController: SoundsModelDelegate {
         }
     }
     
-    func soundModelCouldNotUploadSound(sender: SoundsModel) {
+}
+
+// MARK: - SoundsLocationBasedModelDelegate
+
+// This extension remains here even though it is not used, because maybe it will be used again,
+// if the sounds list should display sounds based on location.
+extension SoundsListViewController: SoundsLocationBasedModelDelegate {
+    
+    func soundsLocationBasedModel(_ sender: SoundsLocationBasedModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
+        if isReload {
+            sounds = newSoundsPage
+            // TODO: Improve reloading
+            tableView?.reloadData()
+        } else {
+            appendSoundsToList(newSoundsPage)
+        }
+    }
+    
+    func soundsLocationBasedModelCouldNotUploadSound(sender: SoundsLocationBasedModel) {
         // TODO: Alert user
     }
     
-    func soundModel(_ sender: SoundsModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int?) {
+    func soundsLocationBasedModel(_ sender: SoundsLocationBasedModel, uploadedSound: Sound, whichWasInsertedAtIndex insertedAtIndex: Int?) {
         if let insertedAtIndex = insertedAtIndex {
             insertSound(uploadedSound, atIndex: insertedAtIndex)
         }
