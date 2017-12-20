@@ -167,7 +167,7 @@ extension Sound {
         }
     }
     
-    static func fetchTimeBasedSounds(withSoundType soundType: SoundType, upToDate: Date?, limit: Int? = nil, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
+    static func fetchTimeBasedSounds(withSoundType soundType: SoundType, upToDate: Date?, sinceDate: Date?, limit: Int? = nil, callback: @escaping ((_ sounds: [Sound]?, _ error: APIError?) -> Void)) {
         
         let request = APIRequest(endpoint: .soundTimeBased, method: .GET)
         request.queryParameters["soundType"] = soundType.toString()
@@ -176,6 +176,9 @@ extension Sound {
         }
         if let upToDate = upToDate {
             request.queryParameters["upTo"] = upToDate.timeIntervalSince1970
+        }
+        if let sinceDate = sinceDate {
+            request.queryParameters["since"] = sinceDate.timeIntervalSince1970
         }
         
         APIManager.performRequest(request: request) { response, error in

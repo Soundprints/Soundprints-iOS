@@ -41,10 +41,11 @@ class SoundsTimeBasedModel {
     
     private var lastInvalidationDate: Date?
     private var fetchInvalidated = false
+    private var sinceDate: Date?
     
     // MARK: - Constants
     
-    private let itemsPerPage: Int = 8
+    private let itemsPerPage: Int = 50
     private let timeIntervalInvalidationTreshold: TimeInterval = 60
     
     // MARK: - Initialization
@@ -79,6 +80,7 @@ class SoundsTimeBasedModel {
     
     private func invalidate() {
         lastInvalidationDate = Date()
+        sinceDate = nil
         sounds = []
         currentFetchedUpToDate = nil
         fetchNextPageLocked = false
@@ -111,7 +113,15 @@ class SoundsTimeBasedModel {
         fetchNextPageLocked = true
         let isReload = (currentFetchedUpToDate == nil && sounds.isEmpty) || afterInvalidation
         
-        Sound.fetchTimeBasedSounds(withSoundType: soundTypeToFetch, upToDate: currentFetchedUpToDate, limit: itemsPerPage) { sounds, error in
+        if fetchSoundsFromOnlyLastDay {
+            if sinceDate == nil {
+                sinceDate = Date().addingTimeInterval(-60*60*24)
+            }
+        } else {
+            sinceDate = nil
+        }
+        
+        Sound.fetchTimeBasedSounds(withSoundType: soundTypeToFetch, upToDate: currentFetchedUpToDate, sinceDate: sinceDate, limit: itemsPerPage) { sounds, error in
             guard self.fetchInvalidated == false || afterInvalidation else {
                 return
             }
