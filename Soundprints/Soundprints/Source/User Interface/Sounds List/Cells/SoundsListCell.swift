@@ -149,7 +149,6 @@ private extension SoundsListCell {
         listenView?.progressColor = ColorPalette.soundsList.blue
         
         RecorderAndPlayer.shared.stopPlaying()
-        RecorderAndPlayer.shared.delegate = self
         
         listenView?.progress = 0
         
@@ -159,6 +158,7 @@ private extension SoundsListCell {
         sound.getResourceURL { resourceURL, error in
             if let resourceURL = resourceURL {
                 self.soundPlaying = true
+                RecorderAndPlayer.shared.delegate = self
                 RecorderAndPlayer.shared.playFile(withRemoteURL: resourceURL)
             } else {
                 // TODO: Handle error
