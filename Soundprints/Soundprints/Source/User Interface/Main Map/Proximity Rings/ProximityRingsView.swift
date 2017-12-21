@@ -12,7 +12,7 @@ class ProximityRingsView: UIView {
     
     // MARK: - Properties
     
-    var innerRingDistanceInMeters: Int = 500 {
+    var innerRingDistanceInMeters: Int? = 500 {
         didSet {
             innerArcTextView?.text = innerArcText
             middleArcTextView?.text = middleArcText
@@ -20,10 +20,18 @@ class ProximityRingsView: UIView {
     }
     
     private var innerArcText: String {
-        return "\(innerRingDistanceInMeters)m"
+        if let innerRingDistanceInMeters = innerRingDistanceInMeters {
+            return "\(innerRingDistanceInMeters)m"
+        } else {
+            return ""
+        }
     }
     private var middleArcText: String {
-        return "\(2*innerRingDistanceInMeters)m"
+        if let innerRingDistanceInMeters = innerRingDistanceInMeters {
+            return "\(2*innerRingDistanceInMeters)m"
+        } else {
+            return ""
+        }
     }
     
     private var proximityRingOuterView: UIView?

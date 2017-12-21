@@ -215,15 +215,13 @@ extension Sound {
         }
     }
     
-    static func uploadSound(filePath: String, location: CLLocationCoordinate2D, callback: @escaping (_ sound: Sound?, _ error: Error?) -> Void) {
-        
-        // TODO: session data task delegate might be needed to track upload progress
+    static func uploadSound(filePath: String, location: CLLocationCoordinate2D, callback: @escaping (_ sound: Sound?, _ error: APIError?) -> Void) {
         
         let request = APIRequest(endpoint: .soundUpload, method: .MULTIPART)
         
         guard let boundary = request.boundary else {
             print("Error uploading sound: missing boundary!")
-            callback(nil, NSError()) // TODO: proper error
+            callback(nil, APIError(localError: .generalError))
             return
         }
         
