@@ -12,7 +12,6 @@
 		69A9564114ABE4B10A45589C /* Pods_Soundprints_Dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB5F3FBB7D98F2483D8D6A7 /* Pods_Soundprints_Dev.framework */; };
 		CC0997501FE3D85500E06279 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC09974E1FE3D85500E06279 /* ProgressBarView.swift */; };
 		CC0997511FE3D85500E06279 /* ProgressBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC09974F1FE3D85500E06279 /* ProgressBarView.xib */; };
-		CC0997531FE3E20900E06279 /* RecordButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997521FE3E20900E06279 /* RecordButtonView.swift */; };
 		CC0997551FE3E4F200E06279 /* ValueAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997541FE3E4F200E06279 /* ValueAnimator.swift */; };
 		CC0997571FE3E50100E06279 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997561FE3E50100E06279 /* CustomView.swift */; };
 		CCAC28801FE00C9D00BF7560 /* MultipartFormDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAC287F1FE00C9C00BF7560 /* MultipartFormDataHandler.swift */; };
@@ -35,7 +34,6 @@
 		E26912831FE7B8FD001AC806 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1DDA91FCEA3DA000CC2F1 /* InitialViewController.swift */; };
 		E26912841FE7B8FD001AC806 /* SingleTimeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21014881FD81405005AAE9F /* SingleTimeValue.swift */; };
 		E26912851FE7B8FD001AC806 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997561FE3E50100E06279 /* CustomView.swift */; };
-		E26912861FE7B8FD001AC806 /* RecordButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0997521FE3E20900E06279 /* RecordButtonView.swift */; };
 		E26912871FE7B8FD001AC806 /* CoreTextArcView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E5511E1FD6D8C900BAE27E /* CoreTextArcView.m */; };
 		E26912881FE7B8FD001AC806 /* SoundAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E551161FD6B85700BAE27E /* SoundAnnotationView.swift */; };
 		E26912891FE7B8FD001AC806 /* BorderSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */; };
@@ -129,7 +127,6 @@
 		BA3740000DB6E0F39DD0AE29 /* Pods-Soundprints-Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soundprints-Dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Soundprints-Dev/Pods-Soundprints-Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		CC09974E1FE3D85500E06279 /* ProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		CC09974F1FE3D85500E06279 /* ProgressBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProgressBarView.xib; sourceTree = "<group>"; };
-		CC0997521FE3E20900E06279 /* RecordButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButtonView.swift; sourceTree = "<group>"; };
 		CC0997541FE3E4F200E06279 /* ValueAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueAnimator.swift; sourceTree = "<group>"; };
 		CC0997561FE3E50100E06279 /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		CCAC287F1FE00C9C00BF7560 /* MultipartFormDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipartFormDataHandler.swift; sourceTree = "<group>"; };
@@ -225,7 +222,6 @@
 			children = (
 				CC09974E1FE3D85500E06279 /* ProgressBarView.swift */,
 				CC09974F1FE3D85500E06279 /* ProgressBarView.xib */,
-				CC0997521FE3E20900E06279 /* RecordButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -909,7 +905,6 @@
 				E26912831FE7B8FD001AC806 /* InitialViewController.swift in Sources */,
 				E26912841FE7B8FD001AC806 /* SingleTimeValue.swift in Sources */,
 				E26912851FE7B8FD001AC806 /* CustomView.swift in Sources */,
-				E26912861FE7B8FD001AC806 /* RecordButtonView.swift in Sources */,
 				E26912871FE7B8FD001AC806 /* CoreTextArcView.m in Sources */,
 				E268692E1FEAB332007B4650 /* SoundsTimeBasedModel.swift in Sources */,
 				E26912881FE7B8FD001AC806 /* SoundAnnotationView.swift in Sources */,
@@ -962,7 +957,6 @@
 				E2F1DDAA1FCEA3DA000CC2F1 /* InitialViewController.swift in Sources */,
 				E21014891FD81405005AAE9F /* SingleTimeValue.swift in Sources */,
 				CC0997571FE3E50100E06279 /* CustomView.swift in Sources */,
-				CC0997531FE3E20900E06279 /* RecordButtonView.swift in Sources */,
 				E2E5511F1FD6D8C900BAE27E /* CoreTextArcView.m in Sources */,
 				E268692D1FEAAA76007B4650 /* SoundsTimeBasedModel.swift in Sources */,
 				E2E551171FD6B85700BAE27E /* SoundAnnotationView.swift in Sources */,

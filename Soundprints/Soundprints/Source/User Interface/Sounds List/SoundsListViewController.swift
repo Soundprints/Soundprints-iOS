@@ -117,6 +117,16 @@ class SoundsListViewController: BaseViewController {
         tableView?.endUpdates()
     }
     
+    // MARK: - Reload Table View
+    
+    private func reloadData(animated: Bool) {
+        if animated {
+            // Clear the shown cell index paths so that the initial load animation will happen again
+            shownCellIndexPaths = []
+        }
+        tableView?.reloadData()
+    }
+    
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -183,8 +193,7 @@ extension SoundsListViewController: SoundsTimeBasedModelDelegate {
     func soundsTimeBasedModel(_ sender: SoundsTimeBasedModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
         if isReload {
             sounds = newSoundsPage
-            // TODO: Improve reloading
-            tableView?.reloadData()
+            reloadData(animated: true)
         } else {
             appendSoundsToList(newSoundsPage)
         }
@@ -201,8 +210,7 @@ extension SoundsListViewController: SoundsLocationBasedModelDelegate {
     func soundsLocationBasedModel(_ sender: SoundsLocationBasedModel, fetchedNewSoundsPage newSoundsPage: [Sound], isReload: Bool) {
         if isReload {
             sounds = newSoundsPage
-            // TODO: Improve reloading
-            tableView?.reloadData()
+            reloadData(animated: true)
         } else {
             appendSoundsToList(newSoundsPage)
         }

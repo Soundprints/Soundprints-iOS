@@ -191,9 +191,9 @@ class RecorderAndPlayer: NSObject {
     
     // MARK: - Permissions
     
-    func requestPermission(callback: @escaping (_ granted: Bool) -> Void) {
+    func requestPermission(callback: ((_ granted: Bool) -> Void)?) {
         AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            callback(granted)
+            callback?(granted)
         }
     }
     

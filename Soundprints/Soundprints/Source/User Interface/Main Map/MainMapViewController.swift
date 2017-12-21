@@ -35,11 +35,11 @@ class MainMapViewController: BaseViewController {
     private var sounds: [Sound] = []
     
     private var currentMinimumVisibleMeters: Double? {
-        guard let mapView = mapView, let latitude = mapView.userLocation?.coordinate.latitude else {
+        guard let mapView = mapView, let coordinate = mapView.userLocation?.coordinate, isCoordinateValid(coordinate) else {
             return nil
         }
         
-        return visibleMetersForZoomLevel(mapView.zoomLevel, onLatitude: latitude, forMapView: mapView)
+        return visibleMetersForZoomLevel(mapView.zoomLevel, onLatitude: coordinate.latitude, forMapView: mapView)
     }
     private var maximumVisibleRadius: Double? {
         guard let mapView = mapView, let minimumVisibleMeters = currentMinimumVisibleMeters else {
@@ -112,17 +112,23 @@ class MainMapViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        NotificationCenter.default.addObserver(forName: .UIApplicationDidBecomeActive, object: nil, queue: nil) { notification in
+            self.mapView?.showsUserLocation = true
+        }
+        
         soundsLocationBasedModel.mainDelegate = self
         FilterManager.locationBasedDelegate = soundsLocationBasedModel
         FilterManager.timeBasedDelegate = soundsTimeBasedModel
         listenView?.delegate = self
         RecorderAndPlayer.shared.delegate = self
         
-        RecorderAndPlayer.shared.requestPermission { granted in
-            if !granted { // cant record
-                // TODO: alert user
-            }
-        }
+        RecorderAndPlayer.shared.requestPermission(callback: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -141,11 +147,13 @@ class MainMapViewController: BaseViewController {
         mapView?.showsUserLocation = true
         mapView?.allowsRotating = false
         mapView?.allowsTilting = false
-        mapView?.allowsZooming = true
+        mapView?.allowsZooming = false
         mapView?.allowsScrolling = false
         mapView?.showsUserHeadingIndicator = false
         mapView?.userTrackingMode = selectedUserTrackingMode
         mapView?.compassView.image = nil
+        
+        updateUserTrackingMode()
     }
     
     /// Initializes zoom. 
@@ -158,25 +166,27 @@ class MainMapViewController: BaseViewController {
         guard initialZoomLevel == nil else {
             return
         }
-        guard let mapView = mapView, let latitude = mapView.userLocation?.coordinate.latitude else {
+        guard let mapView = mapView, let coordinate = mapView.userLocation?.coordinate, isCoordinateValid(coordinate) else {
             shouldInitializeZoom = true
             return
         }
         
         if let maximumVisibleMeters = maximumVisibleMeters {
-            let minimumZoomLevel = zoomLevelForMinimumVisibleMeters(maximumVisibleMeters, onLatitude: latitude, forMapView: mapView)
+            let minimumZoomLevel = zoomLevelForMinimumVisibleMeters(maximumVisibleMeters, onLatitude: coordinate.latitude, forMapView: mapView)
             mapView.minimumZoomLevel = minimumZoomLevel
         }
         if let minimumVisibleMeters = minimumVisibleMeters {
-            let maximumZoomLevel = zoomLevelForMinimumVisibleMeters(minimumVisibleMeters, onLatitude: latitude, forMapView: mapView)
+            let maximumZoomLevel = zoomLevelForMinimumVisibleMeters(minimumVisibleMeters, onLatitude: coordinate.latitude, forMapView: mapView)
             mapView.maximumZoomLevel = maximumZoomLevel
         }
         
-        let zoomLevel = zoomLevelForMinimumVisibleMeters(initialMinimumVisibleMeters, onLatitude: latitude, forMapView: mapView)
+        let zoomLevel = zoomLevelForMinimumVisibleMeters(initialMinimumVisibleMeters, onLatitude: coordinate.latitude, forMapView: mapView)
         mapView.setZoomLevel(zoomLevel, animated: false)
         
         self.initialZoomLevel = zoomLevel
         shouldInitializeZoom = false
+        
+        mapView.allowsZooming = true
         
         updateUserTrackingMode()
     }
@@ -308,10 +318,18 @@ class MainMapViewController: BaseViewController {
     // MARK: - Recording
     
     @objc private func onLongPress(recognizer: UILongPressGestureRecognizer) {
-        switch recognizer.state {
-        case .began: startRecording()
-        case .cancelled, .ended: stopRecording()
-        default: break
+        RecorderAndPlayer.shared.requestPermission { granted in
+            guard granted else {
+                DispatchQueue.main.async {
+                    self.showAppSettingsAlert(forPrivacySetting: .microphone)
+                }
+                return
+            }
+            switch recognizer.state {
+            case .began: self.startRecording()
+            case .cancelled, .ended: self.stopRecording()
+            default: break
+            }
         }
     }
     
@@ -366,6 +384,60 @@ class MainMapViewController: BaseViewController {
     
     private func setListenViewHidden(_ hidden: Bool) {
         listenView?.kamino.animateHiden(hidden: hidden, duration: listenViewHiddenAnimationDuration)
+    }
+    
+    // MARK: - App Settings alert
+    
+    private enum PrivacySetting {
+        case location
+        case microphone
+    }
+    
+    private var appSettingsAlertShown = false
+    private func showAppSettingsAlert(forPrivacySetting privacySetting: PrivacySetting) {
+        guard appSettingsAlertShown == false else {
+            return
+        }
+        
+        let title: String = {
+            switch privacySetting {
+            case .location: return "Location access not granted"
+            case .microphone: return "Microphone access not granted"
+            }
+        }()
+        let message: String? = {
+            switch privacySetting {
+            case .location: return "Please grant when in use location access"
+            case .microphone: return "Please grant microphone access"
+            }
+        }()
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let goToSettingsAlertAction = UIAlertAction(title: "Go to Settings", style: .default) { _ in
+            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(settingsUrl) else {
+                alertController.dismiss(animated: true, completion: nil)
+                self.appSettingsAlertShown = false
+                return
+            }
+            UIApplication.shared.openURL(settingsUrl)
+            alertController.dismiss(animated: true, completion: nil)
+            self.appSettingsAlertShown = false
+        }
+        
+        switch privacySetting {
+        case .microphone:
+            let cancelAlertAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                alertController.dismiss(animated: true, completion: nil)
+                self.appSettingsAlertShown = false    
+            })
+            alertController.addAction(cancelAlertAction)
+        case .location: break
+        }
+        
+        alertController.addAction(goToSettingsAlertAction)
+        
+        appSettingsAlertShown = true
+        present(alertController, animated: true, completion: nil)
     }
     
     // MARK: - Convenince
@@ -464,9 +536,19 @@ extension MainMapViewController: MGLMapViewDelegate {
         if let minimumVisibleMeters = currentMinimumVisibleMeters {
             inRangeMetersTreshold = minimumVisibleMeters * (3/8)
             proximityRingsView?.innerRingDistanceInMeters = roundTo(multipleOf: 5, value: minimumVisibleMeters/8)
+        } else {
+            proximityRingsView?.innerRingDistanceInMeters = nil
         }
         updateVisibleAnnotationViewsIfNecessary()
         updateUserTrackingMode()
+    }
+    
+    func mapView(_ mapView: MGLMapView, didFailToLocateUserWithError error: Error) {
+        // Check if error is kCLErrorDenied ('kCLErrorDomain', code 1)
+        let nsError = error as NSError 
+        if nsError.domain == "kCLErrorDomain", nsError.code == 1 {
+            showAppSettingsAlert(forPrivacySetting: .location)
+        }
     }
     
 }
