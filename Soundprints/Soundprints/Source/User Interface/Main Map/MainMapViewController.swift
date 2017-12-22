@@ -23,6 +23,9 @@ class MainMapViewController: BaseViewController {
     @IBOutlet private weak var recordButton: UIButton?
     @IBOutlet private weak var progressBarView: ProgressBarView?
     
+    @IBOutlet private weak var recordingView: RecordingView?
+    
+    
     // MARK: - Variables
     
     private var soundsLocationBasedModel: SoundsLocationBasedModel = SoundsLocationBasedModel(state: .map)
@@ -112,8 +115,8 @@ class MainMapViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(forName: .UIApplicationDidBecomeActive, object: nil, queue: nil) { notification in
-            self.mapView?.showsUserLocation = true
+        NotificationCenter.default.addObserver(forName: .UIApplicationDidBecomeActive, object: nil, queue: nil) { [weak self] notification in
+            self?.mapView?.showsUserLocation = true
         }
         
         soundsLocationBasedModel.mainDelegate = self
@@ -378,6 +381,7 @@ class MainMapViewController: BaseViewController {
                           options: [.curveEaseInOut, .transitionCrossDissolve],
                           animations: {
                             self.recordImageView?.image = recording ? #imageLiteral(resourceName: "records-button-recording-icon") : #imageLiteral(resourceName: "record-button-icon")
+                            self.recordingView?.setState(recording ? .recording : .notRecording)
                           },
                           completion: nil)
     }
