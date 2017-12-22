@@ -84,6 +84,8 @@
 		E2AA86C91FDA868200C1C262 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86C81FDA868200C1C262 /* FilterViewController.swift */; };
 		E2AA86CC1FDA936600C1C262 /* BorderSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */; };
 		E2B344371FCEBA8F001FC5FD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B344361FCEBA8F001FC5FD /* R.generated.swift */; };
+		E2BCEA221FED4E5700D2431F /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BCEA211FED4E5700D2431F /* RecordingView.swift */; };
+		E2BCEA231FED550300D2431F /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BCEA211FED4E5700D2431F /* RecordingView.swift */; };
 		E2D61EED1FD8234500A6AA85 /* SingleDistanceValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEC1FD8234500A6AA85 /* SingleDistanceValue.swift */; };
 		E2D61EEF1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */; };
 		E2D61EF31FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D61EF21FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift */; };
@@ -150,6 +152,7 @@
 		E2AA86C81FDA868200C1C262 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		E2AA86CB1FDA936600C1C262 /* BorderSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderSwitch.swift; sourceTree = "<group>"; };
 		E2B344361FCEBA8F001FC5FD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		E2BCEA211FED4E5700D2431F /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		E2D61EEC1FD8234500A6AA85 /* SingleDistanceValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDistanceValue.swift; sourceTree = "<group>"; };
 		E2D61EEE1FD843B400A6AA85 /* InteractionLockingContentControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionLockingContentControllerView.swift; sourceTree = "<group>"; };
 		E2D61EF21FD84F0D00A6AA85 /* KaminoUIView+HiddenAnimations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KaminoUIView+HiddenAnimations.swift"; sourceTree = "<group>"; };
@@ -222,6 +225,7 @@
 			children = (
 				CC09974E1FE3D85500E06279 /* ProgressBarView.swift */,
 				CC09974F1FE3D85500E06279 /* ProgressBarView.xib */,
+				E2BCEA211FED4E5700D2431F /* RecordingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -941,6 +945,7 @@
 				E26912A51FE7B8FD001AC806 /* APIJSONTools.swift in Sources */,
 				E26912A61FE7B8FD001AC806 /* FilterManager.swift in Sources */,
 				E26912A71FE7B8FD001AC806 /* LoginViewController.swift in Sources */,
+				E2BCEA231FED550300D2431F /* RecordingView.swift in Sources */,
 				E26912A81FE7B8FD001AC806 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -993,6 +998,7 @@
 				E2EBF5991FCFFC5300AAFBC1 /* APIJSONTools.swift in Sources */,
 				E25AF4DE1FDA9C5000D7BEA2 /* FilterManager.swift in Sources */,
 				E2E551041FD54AC800BAE27E /* LoginViewController.swift in Sources */,
+				E2BCEA221FED4E5700D2431F /* RecordingView.swift in Sources */,
 				E2EBF58E1FCEF3BD00AAFBC1 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
