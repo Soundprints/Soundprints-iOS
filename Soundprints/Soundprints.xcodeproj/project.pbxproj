@@ -1163,11 +1163,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 4RJ9D66P45;
+				DEVELOPMENT_TEAM = 2Y6RNKG8XJ;
 				INFOPLIST_FILE = Soundprints/Source/Main/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kamino.Soundprints;
+				PRODUCT_BUNDLE_IDENTIFIER = com.korp.Soundprints;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "Soundprints/Source/Main/Soundprints-Bridging-Header.h";
@@ -1184,11 +1184,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4RJ9D66P45;
+				DEVELOPMENT_TEAM = 2Y6RNKG8XJ;
 				INFOPLIST_FILE = Soundprints/Source/Main/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kamino.Soundprints;
+				PRODUCT_BUNDLE_IDENTIFIER = com.korp.Soundprints;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soundprints/Source/Main/Soundprints-Bridging-Header.h";
